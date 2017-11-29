@@ -46,10 +46,9 @@ public class Fenetre extends JFrame implements Observer {
 			this.remove(image);
 			image = new JLabel(new ImageIcon(str));
 			this.add(image);
-			this.repaint();
 			
-			// On force la maj, à améliorer
-    		this.setVisible(true);
+			// sert a reconstruire les composants au sein d'un layoutmanager en cas de modification "majeure"
+			this.validate();
 		}
 	}
 
