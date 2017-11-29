@@ -1,15 +1,16 @@
-package contronleur;
+package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import application.Application;
+import controller.Controller;
 
 public class Menu extends JMenuBar {
 	/**
@@ -24,14 +25,15 @@ public class Menu extends JMenuBar {
 	protected JMenu mode;
 	protected JMenuItem debug;
 	
-	protected Application app;
+	//protected Application app;
+	protected Controller controler;
 
 	
-	public Menu(Application appli) {		
-		app = appli;
+	public Menu(Controller c) {		
+		controler = c;
 		
-		
-	//MENU
+		// --------------------
+		// MENU
 		menu = new JMenu("Menu") ;
 		menu.setMnemonic(KeyEvent.VK_M);
 
@@ -42,8 +44,8 @@ public class Menu extends JMenuBar {
 		choisir.setActionCommand("Choisir une image");
 		choisir.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				choisir();				
-				app.maj();
+				choisir();		
+				//app.maj();
 			}
 		});
 		
@@ -56,15 +58,14 @@ public class Menu extends JMenuBar {
 				System.exit(0);
 			}
 		});
-
 		
 		// Intégration des items au menu
 		menu.add(choisir);
 		menu.add(quitter);
 		
 		
-		
-	// MODE
+		// --------------------
+		// MODE
 		mode = new JMenu("Mode");
 		mode.setMnemonic(KeyEvent.VK_M);
 		
@@ -74,13 +75,15 @@ public class Menu extends JMenuBar {
 		debug.setActionCommand("Débuger");
 		debug.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-
+				
 			}
 		});
 		
+		// Intégration des items au mode
 		mode.add(debug);
 		
-		// Intégration du menu à la bar
+		// --------------------
+		// Intégration des menus à la bar
 		this.add(menu);
 		this.add(mode);		
 	}
@@ -90,8 +93,8 @@ public class Menu extends JMenuBar {
 			JFileChooser jf = new JFileChooser();
 			int reponse = jf.showSaveDialog(getParent());
 			if (reponse == JFileChooser.APPROVE_OPTION) {
-				//File fichier = jf.getSelectedFile();
-				app.setChemin(jf.getSelectedFile().toString());
+				// On donne on controler le nouveau nom de fichier
+				controler.setChemin(jf.getSelectedFile().toString());
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
