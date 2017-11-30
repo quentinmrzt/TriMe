@@ -53,7 +53,6 @@ public class Modelisation implements Observable {
 		largeurImage=0;
 		hauteurImage=0;
 		
-		
 		// notification pour les observeurs que le chemin a changé
 		notifyObserver(chemin);
 	}
