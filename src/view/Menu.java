@@ -3,7 +3,6 @@ package view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -23,6 +22,7 @@ public class Menu extends JMenuBar {
 	protected JMenuItem choisir;
 	
 	protected JMenu mode;
+	protected JMenuItem suppression;
 	protected JMenuItem debug;
 	
 	//protected Application app;
@@ -69,17 +69,29 @@ public class Menu extends JMenuBar {
 		mode = new JMenu("Mode");
 		mode.setMnemonic(KeyEvent.VK_M);
 		
+		// Item pour lancer la suppresion de pixel
+		suppression = new JMenuItem("Supprimer pixel");
+		suppression.setMnemonic(KeyEvent.VK_B);
+		suppression.setActionCommand("Supprimer pixel");
+		suppression.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				// On demande au controleur de supprimer des pixels
+				controler.controlDelete();
+			}
+		});
+		
 		// Item pour débuger
 		debug = new JMenuItem("Débuger");
 		debug.setMnemonic(KeyEvent.VK_B);
 		debug.setActionCommand("Débuger");
 		debug.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				
+				System.out.println("Débuger");
 			}
 		});
 		
 		// Intégration des items au mode
+		mode.add(suppression);
 		mode.add(debug);
 		
 		// --------------------

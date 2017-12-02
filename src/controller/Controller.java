@@ -20,15 +20,22 @@ public class Controller {
 	// SETTEUR
 	public void setChemin(String chemin) {
 		this.chemin = chemin;
-		control();
+		controlChemin();
 	}
 
-
 	// On notifie le modèle d'une action si le contrôle est bon
-	public void control() {
+	public void controlChemin() {
 		// Test de controle sur le chemin
 		// ??
 		// puis on l'implemente dans le model
 		model.setChemin(this.getChemin());
+	}
+	
+	// On notifie le modèle d'une action si le contrôle est bon
+	public void controlDelete() {
+		// Test de controle sur le chemin
+		// ??
+		// puis on l'implemente dans le model
+		model.deletePXs();
 	}
 }
