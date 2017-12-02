@@ -21,11 +21,13 @@ public class Modelisation implements Observable {
 
 	// Concernant l'image
 	private String chemin = "";
-	private int[][] pixels;
+	private int[][] pixels; // sauvegarde sous forme de tableau de notre image
 	private int largeurImage=0, hauteurImage=0;
 
 	// Concernant le traitement de l'image
-	private int[][] pixelsCourant;
+	private int[][] pixelsCourant; // image qui est modifiée
+	
+	// Pas utile pour l'instant
 	private int nbDelete = 2;
 	private boolean[][] zonePxl; 
 	private boolean prioriteSuppression=true, usageSelecPix=false, grapheImplicite=true;
@@ -46,15 +48,14 @@ public class Modelisation implements Observable {
 
 			// On place le tableau à une dimension dans une matrice
 			pixels = new int[largeurImage][hauteurImage];
+			pixelsCourant = new int[largeurImage][hauteurImage];
 			for (int y=0 ; y<hauteurImage ; y++) {
 				for (int x=0 ; x<largeurImage ; x++) {
 					pixels[x][y] = tmp[x+y*largeurImage];
-					pixels[x][y] = (getRouge(x,y)+getVert(x,y)+getBleu(x,y))/3;
+					// L'image courante est identique au départ (en N&B pour le moment)
+					pixelsCourant[x][y] = getGris(x,y);
 				}
-			}
-			
-			tableauToImage(pixels);
-
+			}			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -146,6 +147,10 @@ public class Modelisation implements Observable {
 	public int getBleu(int x, int y) {		
 		return pixels[x][y] & 0xff;		
 	}
+	
+	public int getGris(int x, int y) {
+		return (getRouge(x,y)+getVert(x,y)+getBleu(x,y))/3;
+	}
 
 	// Setteur
 	public void setChemin(String chemin) {
@@ -166,81 +171,51 @@ public class Modelisation implements Observable {
 	}
 
 	// ------------------------------------------------------------------------------------------
-	public void deletePXs() {
-		Graph g;
-		ArrayList<Integer> ordre;
-		ArrayList<Integer> cheminMin;
-
-
-		int largeur = largeurImage;
-		int hauteur = hauteurImage;
-
-		int[][] tabImage = pixels; // on copie pixels
-
-		// Copie tabImage (copie de pixels)
-		int[][] tmpImage = new int[largeur][hauteur];
-		for (int y=0 ; y<hauteur ; y++) {
-			for (int x=0 ; x<largeur ; x++) {
-				tmpImage[x][y] = tabImage[x][y];
-			}
-		}
-		
-		System.out.println("tmpImage:");
-		affichageTableau(tmpImage);
+	public void deletePX() {
+		// Copie du tableau courant car il sera modifié par la suite
+		int[][] tmpImage = pixelsCourant;
+		int largeur = pixelsCourant.length;
+		int hauteur = pixelsCourant[0].length;
 
 		// Création et ini du tableau d'intérêt
-		int[][] tmpInterImage = new int[largeur][hauteur];
-		tmpInterImage = interestVertical(tmpImage);
-		
-		System.out.println("TmpInterImage:");
-		affichageTableau(tmpInterImage);
+		int[][] interImage = new int[largeur][hauteur];
+		interImage = interestVertical(tmpImage);
 
-		// Algo implicite et tritopo: 
-		g = new GraphImplicit(tmpInterImage,largeur,hauteur);
-		ordre = tritopo(g);
+		// Algo implicite: ?
+		Graph g = new GraphImplicit(interImage, largeur, hauteur);
 		
-		System.out.println("Ordre (de taille:"+ordre.size()+"):");
-		for (int i: ordre) {
-			System.out.print(i+" ");
-		}
-		System.out.println(" ");
-		
-		// Bellman ?
-		cheminMin = Bellman(g, g.vertices()-1, g.vertices()-2, ordre);
-		
-		System.out.println("Bellman (de taille:"+cheminMin.size()+"):");
-		for (int i: cheminMin) {
-			System.out.print(i+" ");
-		}
-		System.out.println(" ");
+		// Tritopo: ?
+		ArrayList<Integer> ordre = tritopo(g);
+
+		// Bellman: ?
+		ArrayList<Integer> cheminMin = Bellman(g, g.vertices()-1, g.vertices()-2, ordre);
 		
 		/* Parcours et suppression des pixels inutiles */
 		for (int y=0 ; y<hauteur ; y++) {
 			int j=0;
 			for (int x=0 ; x<largeur ; x++) {
-				// Position
+				// Position sur une dimension
 				int position = x + largeur*y;
 
 				// Si la position actuelle est différente de la position du cheminMin
 				if (position != cheminMin.get(y+1)) {
-					// On efface le cheminMin
-					tabImage[j][y]=tabImage[x][y];
+					// On recouvre le cheminMin
+					tmpImage[j][y] = tmpImage[x][y];
 					j++;
 				} 
 			}
 		}
-		
-		affichageTableau(tabImage);
-		
-		/* On transfere l'image dans un tableau au bonne dimension */
-		int[][] nouvelleImage = new int[largeur-1][hauteur];
+				
+		// On transfere l'image dans le tableau courant bonne dimension
+		pixelsCourant = new int[largeur-1][hauteur];
 		for (int y=0 ; y<hauteur ; y++) {
 			for (int x=0 ; x<largeur-1 ; x++) {
-				nouvelleImage[x][y] = tabImage[x][y];
+				pixelsCourant[x][y] = tmpImage[x][y];
 			}
 		}
 
-		tableauToImage(nouvelleImage);
+		// On enregistre l'image
+		tableauToImage(pixelsCourant);
 	}
 
 	// Fonction nécessaire pour deletePX -------------------------------------------------------------------
@@ -403,23 +378,10 @@ public class Modelisation implements Observable {
 	}
 
 	public static ArrayList<Integer> Bellman(Graph g, int s, int t, ArrayList<Integer> order) {
-		ArrayList<Integer> ccm = new ArrayList<>();
-
 		int[] chemin = creerTabChemin(g,s,order);
 		
-		System.out.println("Dans Bellman 1 ("+chemin.length+"):");
-		for (int i:chemin) {
-			System.out.print(i+" ");
-		}
-		System.out.println("");
-		
+		ArrayList<Integer> ccm = new ArrayList<>();
 		ccm = creerListChemin(chemin,s,t);
-		
-		System.out.println("Dans Bellman 2 ("+ccm.size()+"):");
-		for (int i:ccm) {
-			System.out.print(i+" ");
-		}
-		System.out.println("");
 		
 		return ccm;
 	}

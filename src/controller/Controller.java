@@ -36,6 +36,6 @@ public class Controller {
 		// Test de controle sur le chemin
 		// ??
 		// puis on l'implemente dans le model
-		model.deletePXs();
+		model.deletePX();
 	}
 }
