@@ -34,8 +34,9 @@ public class Controller {
 	// On notifie le modèle d'une action si le contrôle est bon
 	public void controlDelete() {
 		// Test de controle sur le chemin
-		// ??
+		
+		
 		// puis on l'implemente dans le model
-		model.deletePX();
+		model.deletePXs();
 	}
 }
