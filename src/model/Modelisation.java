@@ -27,7 +27,7 @@ public class Modelisation implements Observable {
 	// Concernant le traitement de l'image
 	private int[][] pixelsCourant; // image qui est modifiée
 	private boolean[][] chemins; // les chemins emprinté
-	private int nbDelete = 500;
+	private int nbDelete = 200;
 
 	// Pas utile pour l'instant
 	// private boolean[][] zonePxl; 
@@ -58,15 +58,15 @@ public class Modelisation implements Observable {
 	}
 
 	public int getRouge(int x, int y) {
-		return (pixels[x][y] & 0xff0000) >> 16;		
+		return (pixelsCourant[x][y] & 0xff0000) >> 16;
 	}
 
 	public int getVert(int x, int y) {
-		return (pixels[x][y] & 0xff00) >> 8;		
+		return (pixelsCourant[x][y] & 0xff00) >> 8;
 	}
 
 	public int getBleu(int x, int y) {
-		return pixels[x][y] & 0xff;		
+		return pixelsCourant[x][y] & 0xff;	
 	}
 
 	private int getGris(int x, int y) {
@@ -95,10 +95,29 @@ public class Modelisation implements Observable {
 
 	// ----------------------------------------
 	// Affichage
-	public void affichageTableau(int[][] tab) {
+	public void afficherTableau(int[][] tab) {
 		for (int y=0 ; y<tab[0].length ; y++) {
 			for (int x=0 ; x<tab.length ; x++) {
-				System.out.print(tab[x][y]+" ");
+				if (tab[x][y]<10) {
+					System.out.print("  "+tab[x][y]+" ");
+				} else if (tab[x][y]<100) {
+					System.out.print(" "+tab[x][y]+" ");
+				} else {
+					System.out.print(tab[x][y]+" ");
+				}
+			}
+			System.out.println(" ");
+		}
+	}
+
+	public void afficherTableau(boolean[][] tab) {
+		for (int y=0 ; y<tab[0].length ; y++) {
+			for (int x=0 ; x<tab.length ; x++) {
+				if (tab[x][y]) {
+					System.out.print("V ");
+				} else {
+					System.out.print("F ");
+				}
 			}
 			System.out.println(" ");
 		}
@@ -128,9 +147,9 @@ public class Modelisation implements Observable {
 				for (int x=0 ; x<largeurImage ; x++) {
 					// L'image de départ en n&b
 					pixels[x][y] = tmp[x+y*largeurImage];
-					pixels[x][y] = getGris(x,y);
 					// L'image courante est identique au départ
 					pixelsCourant[x][y] = pixels[x][y];
+					//pixelsCourant[x][y] = getGris(x,y);
 					// Il n'y a aucun chemin au départ
 					chemins[x][y] = false;
 				}
@@ -163,7 +182,7 @@ public class Modelisation implements Observable {
 				}
 			}
 		}
-		
+
 		// On enregistre notre image
 		try {
 			ImageIO.write(img, "png", new File(nom));
@@ -180,7 +199,7 @@ public class Modelisation implements Observable {
 	// DeletePXs
 	public void deletePXs() {
 		// On enregistre l'image initiale
-		tableauToImage(pixelsCourant,"Ini"+nbDelete+"px.png", false);
+		tableauToImage(pixels,"Ini"+nbDelete+"px.png", true);
 
 		for (int nbPixDel=1 ; nbPixDel<=nbDelete ; nbPixDel++) {
 			System.out.println("Suppression "+nbPixDel+".");
@@ -188,9 +207,9 @@ public class Modelisation implements Observable {
 		} 
 
 		// On enregistre l'image finale
-		tableauToImage(pixelsCourant,"Finale"+nbDelete+"px.png", false);
+		tableauToImage(pixelsCourant,"Finale"+nbDelete+"px.png", true);
 		// On enregistre l'image avec les chemins empruntés
-		tableauToImage(masqueChemins(),"Chemins"+nbDelete+"px.png", false);
+		tableauToImage(masqueChemins(),"Chemins"+nbDelete+"px.png", true);
 	}
 
 	public void deletePX() {
@@ -201,8 +220,9 @@ public class Modelisation implements Observable {
 
 		// Création et ini du tableau d'intérêt
 		int[][] interImage = new int[largeur][hauteur];
-		interImage = interestVertical(tmpImage);
-
+		//interImage = interestVertical(tmpImage);
+		interImage = interestVertical();
+		
 		// Algo implicite: ?
 		Graph g = new GraphImplicit(interImage, largeur, hauteur);
 
@@ -253,24 +273,30 @@ public class Modelisation implements Observable {
 		return imageChemins;
 	}
 
-	public static int[][] interestVertical(int[][] image) {
-		// on part du principe qu'une image d'un pixel, ça ne sert à rien
-		assert(image.length>1):"tableau trop petit";
+	// Pour de la couleur
+	public int[][] interestVertical() {
+		// On part du principe qu'une image d'un pixel, ça ne sert à rien
+		assert(pixelsCourant.length>1):"tableau trop petit";
 
-		int tailleX = image.length;
-		int tailleY = image[0].length;
+		int tailleX = pixelsCourant.length;
+		int tailleY = pixelsCourant[0].length;
 
 		// on crée un nouveau tableau[x][y] tab
 		int[][] tab = new int[tailleX][tailleY];
 
-		for (int y=0 ; y<tailleY ; y++) {
-			// Cas particulier: on parcours la première case 
+		for (int y=0 ; y<tailleY ; y++) {			
+			// Cas particulier: on parcours la première colonne 
 			// On fait la différence entre le pixel courant et son voisin de droite
-			tab[0][y] = Math.abs(image[0][y] - image[1][y]);
+			tab[0][y] = Math.abs(getRouge(0,y) - getRouge(1,y));
+			tab[0][y] += Math.abs(getVert(0,y) - getVert(1,y));
+			tab[0][y] += Math.abs(getBleu(0,y) - getBleu(1,y));
 
-			// On parcours la ligne en ignorant la première et la dernière case
+			// On parcours la ligne en ignorant la première et la dernière colonne
 			for (int x=1 ; x<tailleX-1 ; x++){
-				int somme = image[x-1][y] + image[x+1][y];
+				int somme = getRouge(x-1,y) + getRouge(x+1,y);
+				somme += getVert(x-1,y) + getVert(x+1,y);
+				somme += getBleu(x-1,y) + getBleu(x+1,y);				
+				
 				int moyenne = 0;
 				// On fait la moyenne du pixel voisin: avant et après
 				if (somme != 0) {
@@ -278,12 +304,15 @@ public class Modelisation implements Observable {
 				}
 
 				// On fait la différence de cette moyenne avec le pixel courant
-				tab[x][y] = Math.abs(moyenne - image[x][y]);
+				somme = getRouge(x,y) + getVert(x,y) + getBleu(x,y);
+				tab[x][y] = Math.abs(moyenne - somme);
 			}
 
-			// Cas particulier: on parcours la dernière case 
-			// On fait la différence entre le pixel courant et son voisin de gauche
-			tab[tailleX-1][y] = Math.abs(image[tailleX-1][y] - image[tailleX-2][y]);
+			// Cas particulier: on parcours la dernière colonne 
+			// On fait la différence entre le pixel courant et son voisin de gauche			
+			tab[tailleX-1][y] = Math.abs(getRouge(tailleX-1,y) - getRouge(tailleX-2,y));
+			tab[tailleX-1][y] += Math.abs(getVert(tailleX-1,y) - getVert(tailleX-2,y));
+			tab[tailleX-1][y] += Math.abs(getBleu(tailleX-1,y) - getBleu(tailleX-2,y));
 		}
 
 		return tab;
