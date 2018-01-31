@@ -4,7 +4,7 @@ Logiciel permettant de diminuer la taille d'une image de maniere plus intelligen
 
 Ce programme est la suite d'un [projet](https://github.com/loicmolina/Modelisation) realise en L3 au sein de la Faculte des Sciences et Technologies de Nancy.
 
-## Auteurs
+## Auteur
 
 **Quentin Morizot** - [quentinmrzt](https://github.com/quentinmrzt)
 
