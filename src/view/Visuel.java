@@ -6,8 +6,6 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import controller.Controller;
-
 public class Visuel extends JLabel {
 	private Image img;
 

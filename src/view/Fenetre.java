@@ -1,54 +1,58 @@
 package view;
 
-import javax.swing.ImageIcon;
+import static java.awt.Color.WHITE;
+
+import java.awt.Dimension;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import controller.Controller;
-import observer.Observer;
-
+import model.Modelisation;
 
 public class Fenetre extends JFrame implements Observer {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
+	private JLabel chemin, extension, hauteur, largeur;
 	
-	protected JLabel image;
-	protected Menu menu;
-	protected Controller controler;
-	
-	public Fenetre(Controller c) {
-	    this.setSize(800, 450);
-	    this.setTitle("Trim-Me");
-	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    this.setLocationRelativeTo(null);
-	    this.setResizable(false);
-	    
-	    this.controler = c;
-	    
-	    // Menu
-	    menu = new Menu(controler);
-		this.setJMenuBar(menu);
+
+	public Fenetre(Controller controller) {
+		setMinimumSize(new Dimension(800, 400));
+		setTitle("Trim-Me");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setResizable(false);
+
+		setJMenuBar(new Menu(controller));
 		
-		// L'image
-		image = new JLabel();
-		this.add(image);
-	    
-	    //pack();
-	    this.setVisible(true);
+		JPanel pannel = new JPanel(); 
+		pannel.setBackground(WHITE);
+		chemin = new JLabel("Chemin: ");
+		extension = new JLabel("Extension: ");
+		hauteur = new JLabel("Hauteur: ");
+		largeur = new JLabel("Largeur: ");
+		pannel.add(chemin);
+		pannel.add(extension);
+		pannel.add(hauteur);
+		pannel.add(largeur);
+
+		add(pannel);
+
+		pack();
+		setVisible(true);
 	}
 
-	// Observer
-	public void update(String str) {
-		this.remove(image);
-		// On affiche la nouvelle image
-		if(!str.equals("")) {
-			image = new JLabel(new ImageIcon(str));
-			this.add(image);
+	@Override
+	public void update(Observable obs, Object obj) {
+		// TODO: à voir si c'est la bonne méthode
+		if(obs instanceof Modelisation) {
+			Modelisation modelisation = (Modelisation) obs;
+			chemin.setText("Chemin: "+modelisation.getImage().getChemin());
+			extension.setText("Extension: "+modelisation.getImage().getExtension());
+			hauteur.setText("Hauteur: "+modelisation.getImage().getHauteur());
+			largeur.setText("Largeur: "+modelisation.getImage().getLargeur());
 		}
-		// sert a reconstruire les composants au sein d'un layoutmanager en cas de modification "majeure"
-		this.validate();
 	}
-
 }

@@ -1,8 +1,10 @@
 package view;
 
+import static javax.swing.JFileChooser.APPROVE_OPTION;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -12,101 +14,64 @@ import javax.swing.JMenuItem;
 import controller.Controller;
 
 public class Menu extends JMenuBar {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	
-	protected JMenu menu;
-	protected JMenuItem quitter;
-	protected JMenuItem choisir;
+	private Controller controlleur;
 	
-	protected JMenu mode;
-	protected JMenuItem suppression;
-	protected JMenuItem debug;
-	
-	//protected Application app;
-	protected Controller controler;
-
-	
-	public Menu(Controller c) {		
-		controler = c;
+	public Menu(Controller controlleur) {
+		this.controlleur = controlleur;
 		
-		// --------------------
-		// MENU
-		menu = new JMenu("Menu") ;
-		menu.setMnemonic(KeyEvent.VK_M);
+		JMenu menu = new JMenu("Menu");
 
-		
-		// Item pour choisir une image
-		choisir = new JMenuItem("Choisir une image");
-		choisir.setMnemonic(KeyEvent.VK_B);
+		JMenuItem choisir = new JMenuItem("Choisir une image");
 		choisir.setActionCommand("Choisir une image");
-		choisir.addActionListener(new ActionListener(){
+		choisir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				choisir();		
-				//app.maj();
+				choisir();
 			}
 		});
-		
-		// Item pour quitter
-		quitter = new JMenuItem("Quitter");
-		quitter.setMnemonic(KeyEvent.VK_B);
+		menu.add(choisir);
+
+		JMenuItem quitter = new JMenuItem("Quitter");
 		quitter.setActionCommand("Quitter");
-		quitter.addActionListener(new ActionListener(){
+		quitter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		
-		// Intégration des items au menu
-		menu.add(choisir);
 		menu.add(quitter);
 		
-		
-		// --------------------
-		// MODE
-		mode = new JMenu("Mode");
-		mode.setMnemonic(KeyEvent.VK_M);
-		
-		// Item pour lancer la suppresion de pixel
-		suppression = new JMenuItem("Supprimer pixel");
-		suppression.setMnemonic(KeyEvent.VK_B);
+		add(menu);
+
+		JMenu mode = new JMenu("Mode");
+
+		JMenuItem suppression = new JMenuItem("Supprimer pixel");
 		suppression.setActionCommand("Supprimer pixel");
-		suppression.addActionListener(new ActionListener(){
+		suppression.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// On demande au controleur de supprimer des pixels
-				controler.controlDelete();
+				controlleur.controleDelete();
 			}
 		});
-		
-		// Item pour débuger
-		debug = new JMenuItem("Débuger");
-		debug.setMnemonic(KeyEvent.VK_B);
+		mode.add(suppression);
+
+		JMenuItem debug = new JMenuItem("Débuger");
 		debug.setActionCommand("Débuger");
-		debug.addActionListener(new ActionListener(){
+		debug.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Débuger");
 			}
 		});
-		
-		// Intégration des items au mode
-		mode.add(suppression);
 		mode.add(debug);
 		
-		// --------------------
-		// Intégration des menus à la bar
-		this.add(menu);
-		this.add(mode);		
+		add(mode);
 	}
-	
-	public void choisir() {
+
+	private void choisir() {
 		try {
 			JFileChooser jf = new JFileChooser();
+			jf.setCurrentDirectory(new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Pictures"));
 			int reponse = jf.showSaveDialog(getParent());
-			if (reponse == JFileChooser.APPROVE_OPTION) {
-				// On donne on controler le nouveau nom de fichier
-				controler.setChemin(jf.getSelectedFile().toString());
+			if (reponse == APPROVE_OPTION) {
+				controlleur.controleCheminImage(jf.getSelectedFile());
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();

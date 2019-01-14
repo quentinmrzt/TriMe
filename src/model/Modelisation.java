@@ -7,16 +7,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Stack;
 
 import javax.imageio.ImageIO;
 
-import observer.Observable;
-import observer.Observer;
 
-public class Modelisation implements Observable {
+public class Modelisation extends Observable {
 	// ----------------------------------------
 	// Donnée du model
+	private Image image;
+	
 	private ArrayList<Observer> listObserver = new ArrayList<Observer>();   
 
 	// Concernant l'image
@@ -47,7 +49,7 @@ public class Modelisation implements Observable {
 	public void notifyObserver(String str) {
 		// On maj tout les observeur
 		for(Observer obs : listObserver) {
-			obs.update(str);
+			obs.update(this, str);
 		}
 	}
 
@@ -482,5 +484,14 @@ public class Modelisation implements Observable {
 		}
 
 		return graph;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+	
+	public void setImage(File fichier) {
+		this.image = new Image(fichier);
+		notifyObserver(null);
 	}
 }

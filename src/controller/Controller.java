@@ -1,42 +1,37 @@
 package controller;
 
+import java.io.File;
+
 import model.*;
 
 public class Controller {
-	protected Modelisation model;
-	protected String chemin;
-	
-	public Controller(Modelisation m) {
-		model = m;
-		chemin = "";
-	}
-	
-	
-	// GETTEUR
-	public String getChemin() {
-		return chemin;
+	private Modelisation modelisation;
+
+	public Controller(Modelisation modelisation) {
+		this.modelisation = modelisation;
 	}
 
-	// SETTEUR
-	public void setChemin(String chemin) {
-		this.chemin = chemin;
-		controlChemin();
+	public void controleCheminImage(File image) {
+		String chemin = image.getAbsolutePath();
+		if (extensionValide(chemin)) {
+			//modelisation.setChemin(chemin);
+			modelisation.setImage(image);
+		}
 	}
 
-	// On notifie le modèle d'une action si le contrôle est bon
-	public void controlChemin() {
-		// Test de controle sur le chemin
-		// ??
-		// puis on l'implemente dans le model
-		model.setChemin(this.getChemin());
+	private String leDernier(String[] str) {
+		if (str == null || str.length == 0) {
+			return "";
+		}
+		return str[str.length - 1];
 	}
-	
-	// On notifie le modèle d'une action si le contrôle est bon
-	public void controlDelete() {
-		// Test de controle sur le chemin
-		
-		
-		// puis on l'implemente dans le model
-		model.deletePXs();
+
+	private boolean extensionValide(String chemin) {
+		String extension = leDernier(chemin.split("\\."));
+		return extension.equals("png") || extension.equals("jpg") || extension.equals("bmp");
+	}
+
+	public void controleDelete() {
+		modelisation.deletePXs();
 	}
 }
