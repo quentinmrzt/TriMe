@@ -3,11 +3,13 @@ package graphe;
 
 public class Graphe {
 	private int taille;
+	private int profondeur;
 	private Noeud depart;
 	private Noeud courant;
 	
 	public Graphe(Noeud noeud) {
 		taille = 1;
+		profondeur = 1;
 		depart = noeud;
 		courant = noeud;
 	}
@@ -25,9 +27,9 @@ public class Graphe {
 	}
 	
 	public void addNoeud(Noeud noeud) {
-		courant.setBrancheB(new Branche(courant, noeud));
+		/*courant.setBrancheB(new Branche(courant, noeud));
 		noeud.setBrancheA(new Branche(noeud, courant));
 		courant = noeud;
-		taille++;
+		taille++;*/
 	}
 }
