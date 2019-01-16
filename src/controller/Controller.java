@@ -14,7 +14,6 @@ public class Controller {
 	public void controleCheminImage(File image) {
 		String chemin = image.getAbsolutePath();
 		if (extensionValide(chemin)) {
-			//modelisation.setChemin(chemin);
 			modelisation.setImage(image);
 		}
 	}
@@ -32,6 +31,6 @@ public class Controller {
 	}
 
 	public void controleDelete() {
-		modelisation.deletePXs();
+		//modelisation.deletePXs();
 	}
 }

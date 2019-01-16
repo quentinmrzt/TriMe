@@ -1,9 +1,6 @@
 package model;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -11,20 +8,13 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Stack;
 
-import javax.imageio.ImageIO;
-
 
 public class Modelisation extends Observable {
-	// ----------------------------------------
-	// Donnée du model
 	private Image image;
 	
 	private ArrayList<Observer> listObserver = new ArrayList<Observer>();   
 
-	// Concernant l'image
-	private String chemin = "";
-	private int[][] pixels; // sauvegarde sous forme de tableau de notre image
-	private int largeurImage=0, hauteurImage=0;
+
 
 	// Concernant le traitement de l'image
 	private int[][] pixelsCourant; // image qui est modifiée
@@ -54,152 +44,8 @@ public class Modelisation extends Observable {
 	}
 
 	// ----------------------------------------
-	// Getteur
-	public String getChemin() {
-		return chemin;
-	}
-
-	public int getRouge(int x, int y) {
-		return (pixelsCourant[x][y] & 0xff0000) >> 16;
-	}
-
-	public int getVert(int x, int y) {
-		return (pixelsCourant[x][y] & 0xff00) >> 8;
-	}
-
-	public int getBleu(int x, int y) {
-		return pixelsCourant[x][y] & 0xff;	
-	}
-
-	private int getGris(int x, int y) {
-		return (getRouge(x,y)+getVert(x,y)+getBleu(x,y))/3;
-	}
-
-	// ----------------------------------------
-	// Setteur
-	public void setChemin(String chemin) {
-		this.chemin = chemin;
-		imageToTableau();
-
-		// notification pour les observeurs que le chemin a changé
-		notifyObserver(chemin);
-	}
-
-	public void reset() {
-		chemin = "";
-		pixels = null;
-		largeurImage=0;
-		hauteurImage=0;
-
-		// notification pour les observeurs que le chemin a changé
-		notifyObserver(chemin);
-	}
-
-	// ----------------------------------------
-	// Affichage
-	public void afficherTableau(int[][] tab) {
-		for (int y=0 ; y<tab[0].length ; y++) {
-			for (int x=0 ; x<tab.length ; x++) {
-				if (tab[x][y]<10) {
-					System.out.print("  "+tab[x][y]+" ");
-				} else if (tab[x][y]<100) {
-					System.out.print(" "+tab[x][y]+" ");
-				} else {
-					System.out.print(tab[x][y]+" ");
-				}
-			}
-			System.out.println(" ");
-		}
-	}
-
-	public void afficherTableau(boolean[][] tab) {
-		for (int y=0 ; y<tab[0].length ; y++) {
-			for (int x=0 ; x<tab.length ; x++) {
-				if (tab[x][y]) {
-					System.out.print("V ");
-				} else {
-					System.out.print("F ");
-				}
-			}
-			System.out.println(" ");
-		}
-	}
-
-	// ----------------------------------------
-	// Tableau
-	public void imageToTableau() {
-		try {
-			// On charge l'image
-			BufferedImage image = ImageIO.read(new File(chemin));
-
-			// On recupère les infos sur l'image
-			largeurImage = image.getWidth();
-			hauteurImage = image.getHeight();
-
-			// On charge l'image dans un tableau de pixel provisoire
-			int[] tmp = new int[largeurImage*hauteurImage];
-			tmp = image.getRGB(0, 0, largeurImage, hauteurImage, tmp, 0, largeurImage);
-
-			// On place le tableau à une dimension dans une matrice
-			pixels = new int[largeurImage][hauteurImage];
-			pixelsCourant = new int[largeurImage][hauteurImage];
-			chemins = new boolean[largeurImage][hauteurImage];
-
-			for (int y=0 ; y<hauteurImage ; y++) {
-				for (int x=0 ; x<largeurImage ; x++) {
-					// L'image de départ en n&b
-					pixels[x][y] = tmp[x+y*largeurImage];
-					// L'image courante est identique au départ
-					pixelsCourant[x][y] = pixels[x][y];
-					//pixelsCourant[x][y] = getGris(x,y);
-					// Il n'y a aucun chemin au départ
-					chemins[x][y] = false;
-				}
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}	    
-	}
-
-	public void tableauToImage(int[][] tab, String nom, boolean couleur) {
-		int tailleX = tab.length;
-		int tailleY = tab[0].length;
-
-		// On créer une image couleur
-		BufferedImage img = new BufferedImage(tailleX, tailleY, BufferedImage.TYPE_INT_RGB);
-
-		// On place une matrice dans un tableau à une dimension
-		for (int y=0 ; y<tailleY ; y++) {
-			for (int x=0 ; x<tailleX ; x++) {
-				if (couleur) {
-					img.setRGB(x, y, tab[x][y]); 
-				} else {
-					// Si c'est du n&b, on triche on le transformant en rgb 
-					int gris = (tab[x][y]<<16)+(tab[x][y]<<8)+(tab[x][y]);
-					img.setRGB(x, y, gris);
-				}
-			}
-		}
-
-		// On enregistre notre image
-		try {
-			ImageIO.write(img, "png", new File(nom));
-		} catch (IOException e) {
-			System.out.println(e);
-		}
-	}
-
-	public int posPixel(int x, int y) {
-		return x+y*largeurImage;
-	}
-
-	// ----------------------------------------
 	// DeletePXs
-	public void deletePXs() {
+	/*public void deletePXs() {
 		// On enregistre l'image initiale
 		tableauToImage(pixels,"Ini"+nbDelete+"px.png", true);
 
@@ -234,7 +80,7 @@ public class Modelisation extends Observable {
 		// Bellman: ?
 		ArrayList<Integer> cheminMin = Bellman(g, g.vertices()-1, g.vertices()-2, ordre);
 
-		/* Parcours et suppression des pixels inutiles */
+		// Parcours et suppression des pixels inutiles
 		pixelsCourant = new int[largeur-1][hauteur];
 		for (int y=0 ; y<hauteur ; y++) {
 			int decalPxl = 0;
@@ -273,53 +119,9 @@ public class Modelisation extends Observable {
 		}
 
 		return imageChemins;
-	}
+	}*/
 
 	// Pour de la couleur
-	public int[][] interestVertical() {
-		// On part du principe qu'une image d'un pixel, ça ne sert à rien
-		assert(pixelsCourant.length>1):"tableau trop petit";
-
-		int tailleX = pixelsCourant.length;
-		int tailleY = pixelsCourant[0].length;
-
-		// on crée un nouveau tableau[x][y] tab
-		int[][] tab = new int[tailleX][tailleY];
-
-		for (int y=0 ; y<tailleY ; y++) {			
-			// Cas particulier: on parcours la première colonne 
-			// On fait la différence entre le pixel courant et son voisin de droite
-			tab[0][y] = Math.abs(getRouge(0,y) - getRouge(1,y));
-			tab[0][y] += Math.abs(getVert(0,y) - getVert(1,y));
-			tab[0][y] += Math.abs(getBleu(0,y) - getBleu(1,y));
-
-			// On parcours la ligne en ignorant la première et la dernière colonne
-			for (int x=1 ; x<tailleX-1 ; x++){
-				int somme = getRouge(x-1,y) + getRouge(x+1,y);
-				somme += getVert(x-1,y) + getVert(x+1,y);
-				somme += getBleu(x-1,y) + getBleu(x+1,y);				
-				
-				int moyenne = 0;
-				// On fait la moyenne du pixel voisin: avant et après
-				if (somme != 0) {
-					moyenne = somme/2;
-				}
-
-				// On fait la différence de cette moyenne avec le pixel courant
-				somme = getRouge(x,y) + getVert(x,y) + getBleu(x,y);
-				tab[x][y] = Math.abs(moyenne - somme);
-			}
-
-			// Cas particulier: on parcours la dernière colonne 
-			// On fait la différence entre le pixel courant et son voisin de gauche			
-			tab[tailleX-1][y] = Math.abs(getRouge(tailleX-1,y) - getRouge(tailleX-2,y));
-			tab[tailleX-1][y] += Math.abs(getVert(tailleX-1,y) - getVert(tailleX-2,y));
-			tab[tailleX-1][y] += Math.abs(getBleu(tailleX-1,y) - getBleu(tailleX-2,y));
-		}
-
-		return tab;
-	}
-
 	public static ArrayList<Integer> tritopo(Graph g) {
 		// Pile d'entier
 		Stack<Integer> uStack = new Stack<Integer>();
@@ -420,21 +222,7 @@ public class Modelisation extends Observable {
 
 	// ----------------------------------------
 	// Pas utile pour l'instant
-	public static int[][] interestHorizontal(int[][] image) {
-		assert(image.length>1):"tableau trop petit";
-		int[][]tab=new int[image.length][image[0].length];
-		for (int i=0;i<image[0].length;i++){
-			tab[0][i]=Math.abs(image[0][i]-image[1][i]);
-			for (int j=1;j<image.length-1;j++){
 
-				int moyenne = (image[j-1][i] + image[j+1][i])/2;
-				tab[j][i]=Math.abs(moyenne-image[j][i]);
-			}
-			tab[image.length-1][i]=Math.abs(image[image.length-1][i]-image[image.length-2][i]);
-		}
-
-		return tab;
-	}
 
 	public static void prioriteSuppression(int[][] tab, boolean[][] zonePxl, boolean priorite) {
 		for (int y=0 ; y<tab.length ; y++) {
