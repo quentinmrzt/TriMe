@@ -1,24 +1,29 @@
 package graphe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Noeud {
-	int x, y;
-	private Branche brancheGauche;
-	private Branche brancheBas;
-	private Branche brancheDroite;
-	
+	int x, y, valeur;
+	private List<Branche> fils;
+
 	public Noeud() {
-		brancheGauche = null;
-		brancheBas = null;
-		brancheDroite = null;
+		fils = new ArrayList<Branche>();
+		valeur = 0;
+
+		this.x = -1;
+		this.y = -1;
 	}
-	
+
 	public Noeud(int x, int y) {
+		this();
 		this.x = x;
 		this.y = y;
-		
-		brancheGauche = null;
-		brancheBas = null;
-		brancheDroite = null;
+	}
+
+	public Noeud(int x, int y, int valeur) {
+		this(x, y);
+		this.valeur = valeur;
 	}
 
 	public int getX() {
@@ -29,64 +34,27 @@ public class Noeud {
 		return y;
 	}
 
-	public Noeud getNoeudGauche() {
-		if (existeBrancheGauche()) {
-			return brancheGauche.getNoeudB();
-		} else {
-			return null;
+	public int getValeur() {
+		return valeur;
+	}
+
+	public Noeud getNoeud(int index) {
+		if (existeBranche(index)) {
+			return fils.get(index).getNoeudB();
 		}
+		return null;
 	}
 
-	public Noeud getNoeudBas() {
-		if (existeBrancheBas()) {
-			return brancheBas.getNoeudB();
-		} else {
-			return null;
-		}
+	public boolean existeBranche(int index) {
+		return (index>=0 || index<fils.size()) && (fils.get(index) != null);
 	}
 	
-	public Noeud getNoeudDroite() {
-		if (existeBrancheDroite()) {
-			return brancheDroite.getNoeudB();
-		} else {
-			return null;
-		}
+	private void addBranche(Branche branche) {
+		fils.add(branche);
 	}
 
-	public Branche getBrancheGauche() {
-		return brancheGauche;
-	}
-
-	public Branche getBranchBas() {
-		return brancheBas;
-	}
-	
-	public Branche getBranchDroite() {
-		return brancheDroite;
-	}
-	
-	public boolean existeBrancheGauche() {
-		return (brancheGauche != null);
-	}
-
-	public boolean existeBrancheBas() {
-		return (brancheBas != null);
-	}
-	
-	public boolean existeBrancheDroite() {
-		return (brancheDroite != null);
-	}
-
-	public void setBrancheGauche(Branche branche) {
-		this.brancheGauche = branche;
-	}
-
-	public void setBrancheBas(Branche branche) {
-		this.brancheBas = branche;
-	}
-	
-	public void setBrancheDroite(Branche branche) {
-		this.brancheDroite = branche;
+	public void addNoeud(Noeud noeud) {
+		addBranche(new Branche(this, noeud));
 	}
 
 	@Override
@@ -102,9 +70,9 @@ public class Noeud {
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		str.append("Noeud[" + x + "/" + y + "] ");
-		str.append("BrancheGauche[" + existeBrancheGauche() + "] ");
-		str.append("BrancheBas[" + existeBrancheBas() + "] ");
-		str.append("BrancheDroite[" + existeBrancheDroite() + "] ");
+		for(Branche branche: fils) {
+			str.append("Branche[" + branche.toString() + "] ");
+		}
 		return str.toString();
 	}
 }
