@@ -37,6 +37,10 @@ public class Noeud {
 	public int getValeur() {
 		return valeur;
 	}
+	
+	public int nombreFils() {
+		return fils.size();
+	}
 
 	public Noeud getNoeud(int index) {
 		if (existeBranche(index)) {
@@ -46,7 +50,7 @@ public class Noeud {
 	}
 
 	public boolean existeBranche(int index) {
-		return (index>=0 || index<fils.size()) && (fils.get(index) != null);
+		return (index>=0 && index<fils.size()) && (fils.get(index) != null);
 	}
 	
 	private void addBranche(Branche branche) {
@@ -69,10 +73,10 @@ public class Noeud {
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder();
-		str.append("Noeud[" + x + "/" + y + "] ");
-		for(Branche branche: fils) {
+		str.append("Noeud[" + x + "/" + y + "/" + valeur + "] ");
+		/*for(Branche branche: fils) {
 			str.append("Branche[" + branche.toString() + "] ");
-		}
+		}*/
 		return str.toString();
 	}
 }

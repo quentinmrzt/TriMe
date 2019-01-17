@@ -12,7 +12,9 @@ public class CreationGraphe {
 		for (int y = 0; y < image.getHauteur(); y++) {
 			for (int x = 0; x < image.getLargeur(); x++) {
 				noeuds[x][y] = new Noeud(x, y, interet[x][y]);
+				System.out.print(interet[x][y]+" ");
 			}
+			System.out.println();
 		}
 
 		Noeud depart = new Noeud();
