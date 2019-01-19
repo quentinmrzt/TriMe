@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Noeud {
+	public final static Noeud DEPART = new Noeud(-1,-1);
+	public final static Noeud ARRIVE = new Noeud(-2,-2);
+	
 	int x, y, valeur;
 	private List<Branche> fils;
 
-	public Noeud() {
+	public Noeud(int x, int y) {
+		if (x<-2 || y<-2) {
+			throw new IllegalArgumentException();
+		}
+		
 		fils = new ArrayList<Branche>();
 		valeur = 0;
-
-		this.x = -1;
-		this.y = -1;
-	}
-
-	public Noeud(int x, int y) {
-		this();
 		this.x = x;
 		this.y = y;
 	}
@@ -47,6 +47,14 @@ public class Noeud {
 			return fils.get(index).getNoeudB();
 		}
 		return null;
+	}
+	
+	public List<Noeud> getFils() {
+		List<Noeud> tmp = new ArrayList<Noeud>();
+		for(Branche branche: fils) {
+			tmp.add(branche.getNoeudB());
+		}
+		return tmp;
 	}
 
 	public boolean existeBranche(int index) {

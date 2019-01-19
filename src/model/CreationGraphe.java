@@ -17,7 +17,7 @@ public class CreationGraphe {
 			System.out.println();
 		}
 
-		Noeud depart = new Noeud();
+		Noeud depart = Noeud.DEPART;
 		for (int x = 0; x < image.getLargeur(); x++) {
 			depart.addNoeud(noeuds[x][0]);
 		}
@@ -33,7 +33,7 @@ public class CreationGraphe {
 			}
 		}
 		
-		Noeud arrive = new Noeud();
+		Noeud arrive = Noeud.ARRIVE;
 		for (int x = 0; x < image.getLargeur(); x++) {
 			noeuds[x][image.getHauteur()-1].addNoeud(arrive);
 		}

@@ -11,9 +11,11 @@ public class TestCreationGraphe {
 
 	@Test
 	public void doit_passer() {
-		File fichier = new File("D:\\Images\\1.jpg");
+		File fichier = new File("images\\test_obstacle.png");
+		fichier.getAbsolutePath();
 		Image image = new Image(fichier);
 		Graphe graphe = CreationGraphe.executer(image);
+		
 		Noeud noeud = graphe.getNoeudDepart();
 				
 		while(noeud != null) {
@@ -27,6 +29,10 @@ public class TestCreationGraphe {
 			
 			System.out.println("");
 			noeud = noeud.getNoeud(1);
-		}		
+		}
+		
+		Dijkstra.executer(graphe);
+		
+		System.out.println("GG PUTAIN");
 	}
 }
