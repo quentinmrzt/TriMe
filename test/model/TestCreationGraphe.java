@@ -1,6 +1,8 @@
 package model;
 
+import java.awt.Color;
 import java.io.File;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -11,7 +13,7 @@ public class TestCreationGraphe {
 
 	@Test
 	public void doit_passer() {
-		File fichier = new File("images\\test_obstacle.png");
+		File fichier = new File("images\\test_obstacle_5.png");
 		fichier.getAbsolutePath();
 		Image image = new Image(fichier);
 		Graphe graphe = CreationGraphe.executer(image);
@@ -31,7 +33,18 @@ public class TestCreationGraphe {
 			noeud = noeud.getNoeud(1);
 		}
 		
-		Dijkstra.executer(graphe);
+		List<Noeud> chemin = Dijkstra.executer(graphe);
+		int[][] tableau = new int[image.getLargeur()][image.getHauteur()];
+		for (int y=0 ; y<image.getHauteur() ; y++) {
+			for (int x=0 ; x<image.getLargeur() ; x++) {
+				if(chemin.get(y).getX() == x && chemin.get(y).getY() == y) {
+					tableau[x][y] = Color.RED.getRGB();
+				} else {
+					tableau[x][y] = image.getCouleur(x, y).getRGB();
+				}
+			}
+		}
+		Image.tableauToImage(tableau, "images/resultats/"+image.getNom()+"_resultat."+image.getExtension());
 		
 		System.out.println("GG PUTAIN");
 	}

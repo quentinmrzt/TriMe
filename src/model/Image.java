@@ -12,14 +12,15 @@ import javax.imageio.ImageIO;
 public class Image {
 
 	private File fichier;
-	private String chemin, extension;
+	private String chemin, nom, extension;
 	private int largeur, hauteur;
 	private int[][] pixels;
-
+	
 	public Image(File file) {
 		fichier = file;
 		chemin = fichier.getAbsolutePath();
-		extension = leDernier(chemin.split("\\."));
+		nom = rechercheNom(file.getName());
+		extension = rechercheExtension(file.getName());		
 		imageToTableau();
 	}
 	
@@ -33,6 +34,10 @@ public class Image {
 	
 	public String getChemin() {
 		return chemin;
+	}
+	
+	public String getNom() {
+		return nom;
 	}
 
 	public String getExtension() {
@@ -51,11 +56,20 @@ public class Image {
 		return new Color(pixels[x][y]).getBlue();
 	}
 
-	private String leDernier(String[] str) {
+	private String rechercheNom(String chemin) {
+		String[] str = chemin.split("\\.");
 		if (str == null || str.length == 0) {
 			return "";
 		}
-		return str[str.length - 1];
+		return str[str.length - 2];				
+	}
+	
+	private String rechercheExtension(String chemin) {
+		String[] str = chemin.split("\\.");
+		if (str == null || str.length == 0) {
+			return "";
+		}
+		return str[str.length - 1];		
 	}
 
 	public void imageToTableau() {
@@ -79,7 +93,7 @@ public class Image {
 		return x + y * largeur;
 	}
 
-	public void tableauToImage(int[][] tab, String nom) {
+	public static void tableauToImage(int[][] tab, String nom) {
 		int tailleX = tab.length;
 		int tailleY = tab[0].length;
 		BufferedImage image = new BufferedImage(tailleX, tailleY, TYPE_INT_RGB);
@@ -91,7 +105,7 @@ public class Image {
 		enregistrementImage(image, nom, "png");
 	}
 
-	private void enregistrementImage(BufferedImage image, String nom, String extension) {
+	private static void enregistrementImage(BufferedImage image, String nom, String extension) {
 		try {
 			ImageIO.write(image, "png", new File(nom));
 		} catch (IOException e) {

@@ -10,7 +10,7 @@ public class TestCreationTableauInteret {
 	public void doit_passer() {
 		File fichier = new File("C:\\Users\\Quentin\\Pictures\\testVertical.png");
 		Image image = new Image(fichier);
-		int[][] tableau = CreationTableauInteret.vertical(image);
+		int[][] tableau = CreationTableauInteret.executer(image);
 		
 		for(int y=0 ; y<tableau[0].length ; y++) {
 			for(int x=0 ; x<tableau.length ; x++) {

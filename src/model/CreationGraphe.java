@@ -6,7 +6,7 @@ import graphe.Noeud;
 public class CreationGraphe {
 
 	public static Graphe executer(Image image) {
-		int[][] interet = CreationTableauInteret.vertical(image);
+		int[][] interet = CreationTableauInteret.executer(image);
 		Noeud[][] noeuds = new Noeud[image.getLargeur()][image.getHauteur()];
 
 		for (int y = 0; y < image.getHauteur(); y++) {

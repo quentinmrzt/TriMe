@@ -1,10 +1,12 @@
 package model;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreationTableauInteret {
 
-	public static int[][] vertical(Image image) {
+	public static int[][] executer(Image image) {
 		Boolean parLaMoyenne = true;
 		int[][] tableauInteret = new int[image.getLargeur()][image.getHauteur()];
 		
@@ -23,7 +25,7 @@ public class CreationTableauInteret {
 	
 	/** Plus le chiffre est grand, plus le pixel "choque" */
 	private static int getImportanceParLaMoyenne(Image image, int x, int y) {
-		Color moyenne = couleurMoyenneVerticale(image, x, y);
+		Color moyenne = couleurMoyenne(image, x, y);
 		Color reel = image.getCouleur(x, y);
 
 		int poidsRouge = Math.abs(moyenne.getRed() - reel.getRed());
@@ -33,29 +35,40 @@ public class CreationTableauInteret {
 		return poidsRouge + poidsVert + poidsBleu;
 	}
 
-	private static Color couleurMoyenneVerticale(Image image, int x, int y) {
-		if (x < 0 || x >= image.getLargeur()) {
+	private static Color couleurMoyenne(Image image, int x, int y) {
+		if (x < 0 || x >= image.getLargeur() || y < 0 || y >= image.getHauteur()) {
 			throw new IllegalArgumentException();
 		}
-
-		if (x == 0) {
-			return image.getCouleur(x + 1, y);
+		
+		List<Color> couleurs = new ArrayList<Color>();
+		
+		boolean haut = (y != 0);
+		boolean droite = (x != image.getLargeur() - 1);
+		boolean bas = (y != image.getHauteur() - 1);
+		boolean gauche = (x != 0);
+		
+		if (gauche) { couleurs.add(image.getCouleur(x - 1, y)); }
+		if (droite) { couleurs.add(image.getCouleur(x + 1, y)); }
+		if (haut) { couleurs.add(image.getCouleur(x, y - 1)); }
+		if (bas) { couleurs.add(image.getCouleur(x, y + 1)); }
+		if (haut && gauche) { couleurs.add(image.getCouleur(x - 1, y - 1)); }
+		if (haut && droite) { couleurs.add(image.getCouleur(x + 1, y - 1)); }
+		if (bas && gauche) { couleurs.add(image.getCouleur(x - 1, y + 1)); }
+		if (bas && droite) { couleurs.add(image.getCouleur(x + 1, y + 1)); }
+		
+		int rouge=0, vert=0, bleu=0;
+		for (Color couleur: couleurs) {
+			rouge += couleur.getRed();
+			vert += couleur.getGreen();
+			bleu += couleur.getBlue();
 		}
-
-		if(x == image.getLargeur() - 1) {
-			return image.getCouleur(x - 1, y);
-		}
-
-		Color gauche = image.getCouleur(x - 1, y);
-		Color droite = image.getCouleur(x + 1, y);
-
-		int rouge = (gauche.getRed() + droite.getRed()) / 2;
-		int vert = (gauche.getGreen() + droite.getGreen()) / 2;
-		int bleu = (gauche.getBlue() + droite.getBlue()) / 2;
-
+		rouge = rouge / couleurs.size();
+		vert =  vert / couleurs.size();
+		bleu = bleu / couleurs.size();
+		
 		return new Color(rouge, vert, bleu);
 	}
-
+	
 	/** Plus la valeur est grande, plus le pixel est important */
 	private static int getImportanceParLaDifference(Image image, int x, int y) {
 		int rougeG = 0, vertG = 0, bleuG = 0;

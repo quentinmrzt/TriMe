@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import graphe.Graphe;
@@ -8,8 +9,7 @@ import graphe.Noeud;
 
 public class Dijkstra {
 
-	public static void executer(Graphe graphe) {
-
+	public static List<Noeud> executer(Graphe graphe) {
 		List<Element> aTraiter = new ArrayList<Element>();
 		List<Element> estFini = new ArrayList<Element>();
 
@@ -38,9 +38,13 @@ public class Dijkstra {
 		
 		System.out.println("------------------------");
 		
+		Collections.reverse(chemin);
+		
 		for (Noeud noeud: chemin) {
 			System.out.println(noeud);
 		}
+		
+		return chemin;
 	}
 	
 	private static boolean estDejaTraite(List<Element> estFini, Element element) {
