@@ -69,8 +69,9 @@ public class Menu extends JMenuBar {
 		try {
 			JFileChooser jf = new JFileChooser();
 			jf.setCurrentDirectory(new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Pictures"));
-			int reponse = jf.showSaveDialog(getParent());
-			if (reponse == APPROVE_OPTION) {
+			jf.setApproveButtonText("Ouvrir");
+			jf.setDialogTitle("Choisir une image");
+			if (jf.showSaveDialog(getParent()) == APPROVE_OPTION) {
 				controlleur.controleCheminImage(jf.getSelectedFile());
 			}
 		} catch (Exception ex) {
