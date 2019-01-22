@@ -19,7 +19,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
 
 import controller.Controller;
 import model.Modelisation;
@@ -28,6 +27,8 @@ public class Fenetre extends JFrame implements Observer {
 
 	private final int LARGEURFENETRE = 1000;
 	private final int HAUTEURFENETRE = 600;
+	private final int LARGEURIMAGEMAX = 650;
+	private final int HAUTEURIMAGEMAX = 500;
 
 	private JPanel zoneImage, zoneInformations;
 	private JLabel chemin, extension, hauteur, largeur;
@@ -47,10 +48,19 @@ public class Fenetre extends JFrame implements Observer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		int largeurVoulu = 650;
-		int hauteurVariable = (largeurVoulu * img.getHeight()) / img.getWidth();
-		Image dimg = img.getScaledInstance(largeurVoulu, hauteurVariable, Image.SCALE_SMOOTH);
-		return new ImageIcon(dimg);
+		
+		int largeur = 0;
+		int hauteur = 0;
+		
+		if (img.getWidth() > img.getHeight()) {
+			largeur = LARGEURIMAGEMAX;
+			hauteur = (LARGEURIMAGEMAX * img.getHeight()) / img.getWidth();
+		} else {
+			largeur = (HAUTEURIMAGEMAX * img.getWidth()) / img.getHeight();
+			hauteur = HAUTEURIMAGEMAX;
+		}
+		
+		return new ImageIcon(img.getScaledInstance(largeur, hauteur, Image.SCALE_SMOOTH));
 	}
 
 	private void build() {
