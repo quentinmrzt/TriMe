@@ -2,7 +2,6 @@ package view;
 
 import static java.awt.Color.WHITE;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -20,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import controller.Controller;
 import model.Modelisation;
@@ -35,18 +35,9 @@ public class Fenetre extends JFrame implements Observer {
 
 	public Fenetre(Controller controller) {
 		super();
-
-		chemin = new JLabel("Chemin: ");
-		extension = new JLabel("Extension: ");
-		hauteur = new JLabel("Hauteur: ");
-		largeur = new JLabel("Largeur: ");
-
-		image = new JLabel();
-
+		setJMenuBar(new Menu(controller));
 		build();
 		setVisible(true);
-
-		setJMenuBar(new Menu(controller));
 	}
 
 	private ImageIcon resize(String chemin) {
@@ -65,6 +56,7 @@ public class Fenetre extends JFrame implements Observer {
 	private void build() {
 		setTitle("Trim-Me");
 		setSize(LARGEURFENETRE, HAUTEURFENETRE);
+		setIconImage(new ImageIcon("icon.png").getImage());
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,10 +94,14 @@ public class Fenetre extends JFrame implements Observer {
 
 	private JPanel getPanelInformation() {
 		zoneInformations = new JPanel(new GridBagLayout());
-
-		zoneInformations.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		zoneInformations.setBorder(BorderFactory.createTitledBorder("Informations"));
 		zoneInformations.setBackground(WHITE);
-
+		
+		chemin = new JLabel("(chemin)");
+		extension = new JLabel("(extension)");
+		hauteur = new JLabel("(hauteur)");
+		largeur = new JLabel("(largeur)");
+		
 		zoneInformations.add(chemin, 		contrainte(0, 0, 1, 1, 0.0, 0.0));
 		zoneInformations.add(extension, contrainte(0, 1, 1, 1, 0.0, 0.0));
 		zoneInformations.add(hauteur, 	contrainte(0, 2, 1, 1, 0.0, 0.0));
@@ -117,7 +113,9 @@ public class Fenetre extends JFrame implements Observer {
 	private JPanel getPanelImage() {
 		zoneImage = new JPanel(new GridBagLayout());
 		zoneImage.setPreferredSize(new Dimension(650, 0));
+		zoneImage.setBorder(BorderFactory.createTitledBorder("Image"));
 		zoneImage.setBackground(WHITE);
+		image = new JLabel();
 		zoneImage.add(image, contrainte(0, 0, 1, 1, 1.0, 1.0));
 		return zoneImage;
 	}
