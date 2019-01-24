@@ -44,7 +44,8 @@ public class TestCreationGraphe {
 				}
 			}
 		}
-		Image.tableauToImage(tableau, "images/resultats/"+image.getNom()+"_resultat."+image.getExtension());
+		String cheminImage = "images/resultats/"+image.getNom()+"_resultat."+image.getExtension();
+		Image.tableauEnImage(tableau, cheminImage, image.getExtension());
 		
 		System.out.println("GG PUTAIN");
 	}

@@ -11,31 +11,29 @@ import javax.imageio.ImageIO;
 
 public class Image {
 
-	private File fichier;
 	private String chemin, nom, extension;
 	private int largeur, hauteur;
 	private int[][] pixels;
-	
-	public Image(File file) {
-		fichier = file;
+
+	public Image(File fichier) {
 		chemin = fichier.getAbsolutePath();
-		nom = rechercheNom(file.getName());
-		extension = rechercheExtension(file.getName());		
-		imageToTableau();
+		nom = rechercheNom(fichier.getName());
+		extension = rechercheExtension(fichier.getName());
+		fichierEnTableauDePixels(fichier);
 	}
-	
+
 	public int getLargeur() {
 		return largeur;
 	}
-	
+
 	public int getHauteur() {
 		return hauteur;
 	}
-	
+
 	public String getChemin() {
 		return chemin;
 	}
-	
+
 	public String getNom() {
 		return nom;
 	}
@@ -44,35 +42,39 @@ public class Image {
 		return extension;
 	}
 
-	public int getRed(int x, int y) {
-		return new Color(pixels[x][y]).getRed();
+	public Color getCouleur(int x, int y) {
+		return new Color(pixels[x][y]);
 	}
 
-	public int getGreen(int x, int y) {
-		return new Color(pixels[x][y]).getGreen();
+	public int getRouge(int x, int y) {
+		return getCouleur(x, y).getRed();
 	}
 
-	public int getBlue(int x, int y) {
-		return new Color(pixels[x][y]).getBlue();
+	public int getVert(int x, int y) {
+		return getCouleur(x, y).getGreen();
 	}
 
-	private String rechercheNom(String chemin) {
+	public int getBleu(int x, int y) {
+		return getCouleur(x, y).getBlue();
+	}
+
+	private String rechercheNom(String nomComplet) {
+		String[] str = nomComplet.split("\\.");
+		if (str == null || str.length == 0) {
+			return "";
+		}
+		return str[str.length - 2];
+	}
+
+	private String rechercheExtension(String nomComplet) {
 		String[] str = chemin.split("\\.");
 		if (str == null || str.length == 0) {
 			return "";
 		}
-		return str[str.length - 2];				
-	}
-	
-	private String rechercheExtension(String chemin) {
-		String[] str = chemin.split("\\.");
-		if (str == null || str.length == 0) {
-			return "";
-		}
-		return str[str.length - 1];		
+		return str[str.length - 1];
 	}
 
-	public void imageToTableau() {
+	public void fichierEnTableauDePixels(File fichier) {
 		try {
 			BufferedImage image = ImageIO.read(fichier);
 			largeur = image.getWidth();
@@ -93,27 +95,23 @@ public class Image {
 		return x + y * largeur;
 	}
 
-	public static void tableauToImage(int[][] tab, String nom) {
-		int tailleX = tab.length;
-		int tailleY = tab[0].length;
-		BufferedImage image = new BufferedImage(tailleX, tailleY, TYPE_INT_RGB);
-		for (int y = 0; y < tailleY; y++) {
-			for (int x = 0; x < tailleX; x++) {
+	public static void tableauEnImage(int[][] tab, String nom, String extension) {
+		int largeur = tab.length;
+		int hauteur = tab[0].length;
+		BufferedImage image = new BufferedImage(largeur, hauteur, TYPE_INT_RGB);
+		for (int y = 0; y < hauteur; y++) {
+			for (int x = 0; x < largeur; x++) {
 				image.setRGB(x, y, tab[x][y]);
 			}
 		}
-		enregistrementImage(image, nom, "png");
+		enregistrementImage(image, nom, extension);
 	}
 
 	private static void enregistrementImage(BufferedImage image, String nom, String extension) {
 		try {
-			ImageIO.write(image, "png", new File(nom));
+			ImageIO.write(image, extension, new File(nom));
 		} catch (IOException e) {
 			System.out.println(e);
 		}
-	}
-
-	public Color getCouleur(int x, int y) {
-		return new Color(pixels[x][y]);
 	}
 }

@@ -18,19 +18,12 @@ public class Controller {
 		}
 	}
 
-	private String leDernier(String[] str) {
-		if (str == null || str.length == 0) {
-			return "";
-		}
-		return str[str.length - 1];
-	}
-
 	private boolean extensionValide(String chemin) {
-		String extension = leDernier(chemin.split("\\."));
+		String[] str = chemin.split("\\.");
+		if (str == null || str.length == 0) {
+			return false;
+		}
+		String extension = str[str.length - 1];
 		return extension.equals("png") || extension.equals("jpg") || extension.equals("bmp");
-	}
-
-	public void controleDelete() {
-		//modelisation.deletePXs();
 	}
 }

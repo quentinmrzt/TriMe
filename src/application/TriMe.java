@@ -10,6 +10,8 @@ public class TriMe {
 		Modelisation modelisation = new Modelisation();
 		Controller controller = new Controller(modelisation);
 		Fenetre fenetre = new Fenetre(controller);
-		modelisation.addObserver(fenetre);
+		
+		modelisation.addObserver(fenetre.getZoneImage());
+		modelisation.addObserver(fenetre.getScrollInformations().getZoneInformations());
 	}
 }
