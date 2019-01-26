@@ -28,7 +28,6 @@ public class Image {
 		this.extension = extension;
 		largeur = tableau.length;
 		hauteur = tableau[0].length;
-		System.out.println(largeur+"/"+hauteur);
 		pixels = tableau;
 	}
 

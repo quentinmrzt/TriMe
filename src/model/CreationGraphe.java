@@ -18,10 +18,7 @@ public class CreationGraphe {
 		ajoutNoeudDepart(depart, noeuds);
 		creationDesLiens(noeuds);
 		ajoutNoeudArrive(arrive, noeuds);
-		
-		System.out.println("-> "+interets.length + "/" + interets[0].length);
-		System.out.println("-> "+noeuds.length + "/" + noeuds[0].length);
-		System.out.println("-> "+image.getLargeur() + "/" + image.getHauteur());
+
 		return new Graphe(depart, arrive, noeuds);
 	}
 

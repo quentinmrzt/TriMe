@@ -27,11 +27,31 @@ public class Controller {
 		return extension.equals("png") || extension.equals("jpg") || extension.equals("bmp");
 	}
 
-	public void supprimerDesPixels(int nombresPixels) {
+	public void supprimerDesPixels(String nombresPixels) {
+		int nombre = nombreValide(nombresPixels);
 		if(modelisation.getImage() != null) {
-			if(nombresPixels > 0 && nombresPixels < modelisation.getImage().getLargeur()) {
-				modelisation.suppressionDePixels(nombresPixels);
+			if(nombre > 0 && nombre < modelisation.getImage().getLargeur()) {
+				modelisation.suppressionDePixels(nombre);
 			}
 		}
+	}
+	
+	public void dessinerDesPixels(String nombresPixels) {
+		int nombre = nombreValide(nombresPixels);
+		if(modelisation.getImage() != null) {
+			if(nombre > 0 && nombre < modelisation.getImage().getLargeur()) {
+				modelisation.dessinDePixels(nombre);
+			}
+		}
+	}
+	
+	private int nombreValide(String nombresPixels) {
+		int nombre = 0;
+		try {
+			nombre = Integer.parseInt(nombresPixels);
+		} catch (Exception e) {
+			System.out.println("Mauvais nombre !");
+		}
+		return nombre;
 	}
 }

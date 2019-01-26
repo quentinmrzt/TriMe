@@ -2,6 +2,8 @@ package model;
 
 import org.junit.Test;
 
+import algorithme.Elements;
+
 public class TestDijkstra {
 
 	@Test

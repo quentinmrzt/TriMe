@@ -11,6 +11,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import controller.Controller;
 
@@ -25,17 +26,17 @@ public class Menu extends JMenuBar {
 		setBackground(BACKGROUNDCOLOR);
 
 		JMenu menu = new JMenu("Menu");
-		creationMenuChoisir(menu);
-		creationMenuQuitter(menu);
+		menu.add(creationMenuChoisir());
+		menu.add(creationMenuQuitter());
 		add(menu);
 
 		JMenu mode = new JMenu("Mode");
-		creationMenuSuppresion(mode);
-		creationMenuDebug(mode);
+		mode.add(creationMenuSuppresion());
+		mode.add(creationMenuDessiner());
 		add(mode);
 	}
 
-	private void creationMenuChoisir(JMenu menu) {
+	private JMenuItem creationMenuChoisir() {
 		JMenuItem choisir = new JMenuItem("Choisir une image");
 		choisir.setBackground(BACKGROUNDCOLOR);
 		choisir.setActionCommand("Choisir une image");
@@ -44,7 +45,7 @@ public class Menu extends JMenuBar {
 				choisir();
 			}
 		});
-		menu.add(choisir);
+		return choisir;
 	}
 
 	private void choisir() {
@@ -62,7 +63,7 @@ public class Menu extends JMenuBar {
 		}
 	}
 
-	private void creationMenuQuitter(JMenu menu) {
+	private JMenuItem creationMenuQuitter() {
 		JMenuItem quitter = new JMenuItem("<HTML><U>Q</U>uitter</HTML>");
 		quitter.setBackground(BACKGROUNDCOLOR);
 		quitter.setActionCommand("Quitter");
@@ -71,32 +72,32 @@ public class Menu extends JMenuBar {
 				System.exit(0);
 			}
 		});
-		menu.add(quitter);
+		return quitter;
 	}
 
-	private void creationMenuSuppresion(JMenu mode) {
-		JMenuItem suppression = new JMenuItem("Supprimer pixel");
+	private JMenuItem creationMenuSuppresion() {
+		JMenuItem suppression = new JMenuItem("Supprimer pixel(s)");
 		suppression.setBackground(BACKGROUNDCOLOR);
 		suppression.setActionCommand("Supprimer pixel");
 		suppression.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Supprimer pixel");
-				controlleur.supprimerDesPixels(2);
+		    String nombre = JOptionPane.showInputDialog(null, "Combien de pixel(s) voulez-vous supprimer ?", "Supprimer pixel(s)", JOptionPane.QUESTION_MESSAGE);				
+				controlleur.supprimerDesPixels(nombre);
 			}
 		});
-		mode.add(suppression);
+		return suppression;
 	}
-
-	private void creationMenuDebug(JMenu mode) {
-		JMenuItem debug = new JMenuItem("Débuger");
-		debug.setBackground(BACKGROUNDCOLOR);
-		debug.setActionCommand("Débuger");
-		debug.addActionListener(new ActionListener() {
+	
+	private JMenuItem creationMenuDessiner() {
+		JMenuItem dessin = new JMenuItem("Dessiner pixel(s)");
+		dessin.setBackground(BACKGROUNDCOLOR);
+		dessin.setActionCommand("Dessiner pixel(s)");
+		dessin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Débuger");
+		    String nombre = JOptionPane.showInputDialog(null, "Combien de pixel(s) voulez-vous dessiner ?", "Dessiner pixel(s)", JOptionPane.QUESTION_MESSAGE);				
+				controlleur.dessinerDesPixels(nombre);
 			}
 		});
-		mode.add(debug);
+		return dessin;
 	}
-
 }

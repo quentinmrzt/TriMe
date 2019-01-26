@@ -1,4 +1,4 @@
-package model;
+package algorithme;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,16 +25,8 @@ public class Dijkstra {
 		elements.add(parent);
 
 		while (parent != null) {
-			//long l1 = System.currentTimeMillis();
 			ajoutDesFilsATraiter(parent, elements);
-			//long l2 = System.currentTimeMillis();
 			parent = elements.lePlusPetit();
-			//long l3 = System.currentTimeMillis();
-			
-			//long dureeAjoutDesFils = l2 - l1;
-			//long dureeLePlusPetit = l3 - l2;
-
-			//System.out.println(dureeAjoutDesFils + " / " + dureeLePlusPetit);
 		}
 
 		return elements.getArrive();

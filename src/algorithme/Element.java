@@ -1,4 +1,4 @@
-package model;
+package algorithme;
 
 import graphe.Noeud;
 

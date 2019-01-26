@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import algorithme.AlgoPerso;
 import graphe.Graphe;
 import graphe.Noeud;
 
