@@ -9,75 +9,57 @@ import graphe.Noeud;
 
 public class Dijkstra {
 
-	public static List<Noeud> executer(Graphe graphe) {
-		List<Element> estFini = new ArrayList<Element>();
-		algorithmeDijkstra(graphe.getNoeudDepart(), estFini);
-		Element arrive = rechercheArrive(estFini);
-		return rechercheChemin(arrive);
+	public static List<Noeud> executer(Graphe graphe) {		
+		Element arrive = algorithmeDijkstra(graphe);
+
+		List<Noeud> chemin = rechercheChemin(arrive);
+
+		return chemin;
 	}
 
-	private static void algorithmeDijkstra(Noeud depart, List<Element> estFini) {
-		List<Element> aTraiter = new ArrayList<Element>();
+	private static Element algorithmeDijkstra(Graphe graphe) {
+		Elements elements = new Elements(graphe.getLargeur(), graphe.getHauteur());
 
-		Element parent = new Element(null, depart);
-		aTraiter.add(parent);
+		Element parent = new Element(null, graphe.getNoeudDepart());
+
+		elements.add(parent);
 
 		while (parent != null) {
-			ajoutDesFilsATraiter(aTraiter, estFini, parent);
-			parent = rechercheDuPlusPetit(aTraiter);
+			ajoutDesFilsATraiter(parent, elements);
+			parent = elements.lePlusPetit();
 		}
+
+		return elements.getArrive();
 	}
 
-	private static void ajoutDesFilsATraiter(List<Element> aTraiter, List<Element> estFini, Element parent) {
+	private static void ajoutDesFilsATraiter(Element parent, Elements elements) {
 		Noeud noeudParent = parent.getNoeudCourant();
 		for (Noeud noeudFils : noeudParent.getFils()) {
-			Element element = new Element(parent, noeudFils);
-			if (!estDejaTraite(estFini, element)) {
-				int index = aTraiter.indexOf(element);
-				if (index != -1) {
-					Element elementIdentique = aTraiter.get(index);
-					if (element.getValeur() < elementIdentique.getValeur()) {
-						aTraiter.remove(index);
-						aTraiter.add(element);
+			int x = noeudFils.getX();
+			int y = noeudFils.getY();
+			
+			if (elements.existe(x, y)) {
+				if (!elements.getElement(x, y).estFini()) {
+					Element nouvelleElement = new Element(parent, noeudFils);
+					Element elementDejaExistant = elements.getElement(x, y);
+
+					if (nouvelleElement.getValeur() < elementDejaExistant.getValeur()) {
+						elements.add(nouvelleElement);
 					}
-				} else {
-					aTraiter.add(element);
 				}
+			} else {
+				elements.add(new Element(parent, noeudFils));
 			}
 		}
-		aTraiter.remove(parent);
-		estFini.add(parent);
+
+		parent.setFini();
 	}
 
-	private static boolean estDejaTraite(List<Element> estFini, Element element) {
-		return estFini.contains(element);
-	}
-
-	private static Element rechercheDuPlusPetit(List<Element> elements) {
-		int min = Integer.MAX_VALUE;
-		Element plusPetit = null;
-		for (Element element : elements) {
-			if (element.getValeur() < min) {
-				min = element.getValeur();
-				plusPetit = element;
-			}
-		}
-		return plusPetit;
-	}
-
-	private static Element rechercheArrive(List<Element> estFini) {
-		for (Element element : estFini) {
-			if (element.getNoeudCourant().equals(Noeud.ARRIVE)) {
-				return element;
-			}
-		}
-		return null;
-	}
 
 	private static List<Noeud> rechercheChemin(Element arrive) {
 		List<Noeud> chemin = new ArrayList<Noeud>();
 		Element courant = arrive.getParent();
-		while (!courant.getNoeudCourant().equals(Noeud.DEPART)) {
+		while (!courant.getNoeudCourant().equals(Noeud.getNoeudDepart())) {
 			chemin.add(courant.getNoeudCourant());
 			courant = courant.getParent();
 		}

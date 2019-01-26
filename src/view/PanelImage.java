@@ -63,10 +63,6 @@ public class PanelImage extends JPanel implements Observer {
 		if (obs instanceof Modelisation) {
 			Modelisation modelisation = (Modelisation) obs;
 			image.setIcon(resize(modelisation.getImage().getChemin()));
-
-			System.out.println("PANEL IMAGE: "+getWidth()+" / "+getHeight());
-			System.out.println("LABEL IMAGE: "+image.getWidth()+" / "+image.getHeight());
-			System.out.println("IMAGE: "+image.getIcon().getIconWidth()+" / "+image.getIcon().getIconHeight());
 		}
 	}
 

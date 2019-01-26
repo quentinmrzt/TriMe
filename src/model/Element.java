@@ -3,12 +3,15 @@ package model;
 import graphe.Noeud;
 
 public class Element {
+		
 	private Element parent;
 	private Noeud courant;
+	private boolean estFini;
 
 	public Element(Element element, Noeud noeud) {
 		parent = element;
 		courant = noeud;
+		estFini = false;
 	}
 
 	public Element getParent() {
@@ -22,6 +25,14 @@ public class Element {
 	public int getValeur() {
 		int valeurParent = (parent != null) ? parent.getValeur() : 0;
 		return valeurParent + courant.getValeur();
+	}
+	
+	public boolean estFini() {
+		return estFini;
+	}
+
+	public void setFini() {
+		estFini = true;
 	}
 
 	@Override

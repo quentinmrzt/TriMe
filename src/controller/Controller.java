@@ -26,4 +26,12 @@ public class Controller {
 		String extension = str[str.length - 1];
 		return extension.equals("png") || extension.equals("jpg") || extension.equals("bmp");
 	}
+
+	public void supprimerDesPixels(int nombresPixels) {
+		if(modelisation.getImage() != null) {
+			if(nombresPixels > 0 && nombresPixels < modelisation.getImage().getLargeur()) {
+				modelisation.suppressionDePixels(nombresPixels);
+			}
+		}
+	}
 }

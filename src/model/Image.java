@@ -21,6 +21,16 @@ public class Image {
 		extension = rechercheExtension(fichier.getName());
 		fichierEnTableauDePixels(fichier);
 	}
+	
+	public Image(String nom, String extension, int[][] tableau) {
+		chemin = "";
+		this.nom = nom;
+		this.extension = extension;
+		largeur = tableau.length;
+		hauteur = tableau[0].length;
+		System.out.println(largeur+"/"+hauteur);
+		pixels = tableau;
+	}
 
 	public int getLargeur() {
 		return largeur;
@@ -40,6 +50,10 @@ public class Image {
 
 	public String getExtension() {
 		return extension;
+	}
+
+	public int getPixel(int x, int y) {
+		return pixels[x][y];
 	}
 
 	public Color getCouleur(int x, int y) {
@@ -105,6 +119,18 @@ public class Image {
 			}
 		}
 		enregistrementImage(image, nom, extension);
+	}
+	
+	public static void ImageEnImage(Image image, String nom, String extension) {
+		int largeur = image.getLargeur();
+		int hauteur = image.getHauteur();
+		BufferedImage bufferedImage = new BufferedImage(largeur, hauteur, TYPE_INT_RGB);
+		for (int y = 0; y < hauteur; y++) {
+			for (int x = 0; x < largeur; x++) {
+				bufferedImage.setRGB(x, y, image.getPixel(x, y));
+			}
+		}
+		enregistrementImage(bufferedImage, nom, extension);
 	}
 
 	private static void enregistrementImage(BufferedImage image, String nom, String extension) {

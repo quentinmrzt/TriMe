@@ -18,7 +18,7 @@ public class CreationTableauInteret {
 				tableauInteret[x][y] = getImportanceParLaMoyenne(image, x, y);
 			}
 		}
-
+		
 		return tableauInteret;
 	}
 

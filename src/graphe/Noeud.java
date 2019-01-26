@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Noeud {
-	public final static Noeud DEPART = new Noeud(-1,-1);
-	public final static Noeud ARRIVE = new Noeud(-2,-2);
+	//public final static Noeud DEPART = new Noeud(-1,-1);
+	//public final static Noeud ARRIVE = new Noeud(-2,-2);
 	
 	int x, y, valeur;
 	private List<Branche> fils;
@@ -24,6 +24,14 @@ public class Noeud {
 	public Noeud(int x, int y, int valeur) {
 		this(x, y);
 		this.valeur = valeur;
+	}
+	
+	public static Noeud getNoeudDepart() {
+		return new Noeud(-1,-1);
+	}
+	
+	public static Noeud getNoeudArrive() {
+		return new Noeud(-2,-2);
 	}
 
 	public int getX() {

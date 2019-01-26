@@ -12,15 +12,17 @@ public class CreationGraphe {
 	public static Graphe executer(Image image) {
 		int[][] interets = CreationTableauInteret.executer(image);
 		Noeud[][] noeuds = creationTableauNoeuds(interets);
-
-		Noeud depart = Noeud.DEPART;
-		Noeud arrive = Noeud.ARRIVE;
+		Noeud depart = Noeud.getNoeudDepart();
+		Noeud arrive = Noeud.getNoeudArrive();
 
 		ajoutNoeudDepart(depart, noeuds);
 		creationDesLiens(noeuds);
 		ajoutNoeudArrive(arrive, noeuds);
-
-		return new Graphe(depart, arrive);
+		
+		System.out.println("-> "+interets.length + "/" + interets[0].length);
+		System.out.println("-> "+noeuds.length + "/" + noeuds[0].length);
+		System.out.println("-> "+image.getLargeur() + "/" + image.getHauteur());
+		return new Graphe(depart, arrive, image.getLargeur(), image.getHauteur());
 	}
 
 	private static Noeud[][] creationTableauNoeuds(int[][] interet) {

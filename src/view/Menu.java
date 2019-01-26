@@ -81,6 +81,7 @@ public class Menu extends JMenuBar {
 		suppression.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Supprimer pixel");
+				controlleur.supprimerDesPixels(2);
 			}
 		});
 		mode.add(suppression);

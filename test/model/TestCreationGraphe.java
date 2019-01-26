@@ -34,6 +34,8 @@ public class TestCreationGraphe {
 		}
 		
 		List<Noeud> chemin = Dijkstra.executer(graphe);
+		
+		// On dessine le chemin
 		int[][] tableau = new int[image.getLargeur()][image.getHauteur()];
 		for (int y=0 ; y<image.getHauteur() ; y++) {
 			for (int x=0 ; x<image.getLargeur() ; x++) {
@@ -44,9 +46,9 @@ public class TestCreationGraphe {
 				}
 			}
 		}
+		
+		// Puis on l'enregistre
 		String cheminImage = "images/resultats/"+image.getNom()+"_resultat."+image.getExtension();
 		Image.tableauEnImage(tableau, cheminImage, image.getExtension());
-		
-		System.out.println("GG PUTAIN");
 	}
 }
