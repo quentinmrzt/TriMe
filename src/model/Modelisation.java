@@ -25,7 +25,7 @@ public class Modelisation extends Observable {
 		
 		for (int i=0; i<nombrePixels; i++) {
 			Graphe graphe = CreationGraphe.executer(tmp);
-			List<Noeud> chemin = Dijkstra.executer(graphe);
+			List<Noeud> chemin = AlgoPerso.executer(graphe);
 			tmp = CreationImageAvecSuppresionUnPixel.executer(tmp, chemin);
 		}
 		

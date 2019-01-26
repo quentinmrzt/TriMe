@@ -9,11 +9,11 @@ import graphe.Noeud;
 
 public class Dijkstra {
 
-	public static List<Noeud> executer(Graphe graphe) {		
+	private static List<Noeud> executer(Graphe graphe) {		
 		Element arrive = algorithmeDijkstra(graphe);
 
 		List<Noeud> chemin = rechercheChemin(arrive);
-
+		
 		return chemin;
 	}
 
@@ -25,22 +25,30 @@ public class Dijkstra {
 		elements.add(parent);
 
 		while (parent != null) {
+			//long l1 = System.currentTimeMillis();
 			ajoutDesFilsATraiter(parent, elements);
+			//long l2 = System.currentTimeMillis();
 			parent = elements.lePlusPetit();
+			//long l3 = System.currentTimeMillis();
+			
+			//long dureeAjoutDesFils = l2 - l1;
+			//long dureeLePlusPetit = l3 - l2;
+
+			//System.out.println(dureeAjoutDesFils + " / " + dureeLePlusPetit);
 		}
 
 		return elements.getArrive();
 	}
 
-	private static void ajoutDesFilsATraiter(Element parent, Elements elements) {
-		Noeud noeudParent = parent.getNoeudCourant();
+	private static void ajoutDesFilsATraiter(Element elementATraiter, Elements elements) {
+		Noeud noeudParent = elementATraiter.getNoeudCourant();
 		for (Noeud noeudFils : noeudParent.getFils()) {
 			int x = noeudFils.getX();
 			int y = noeudFils.getY();
 			
 			if (elements.existe(x, y)) {
 				if (!elements.getElement(x, y).estFini()) {
-					Element nouvelleElement = new Element(parent, noeudFils);
+					Element nouvelleElement = new Element(elementATraiter, noeudFils);
 					Element elementDejaExistant = elements.getElement(x, y);
 
 					if (nouvelleElement.getValeur() < elementDejaExistant.getValeur()) {
@@ -48,11 +56,11 @@ public class Dijkstra {
 					}
 				}
 			} else {
-				elements.add(new Element(parent, noeudFils));
+				elements.add(new Element(elementATraiter, noeudFils));
 			}
 		}
-
-		parent.setFini();
+		
+		elementATraiter.setFini();
 	}
 
 

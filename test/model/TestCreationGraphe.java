@@ -33,7 +33,7 @@ public class TestCreationGraphe {
 			noeud = noeud.getNoeud(1);
 		}
 		
-		List<Noeud> chemin = Dijkstra.executer(graphe);
+		List<Noeud> chemin = AlgoPerso.executer(graphe);
 		
 		// On dessine le chemin
 		int[][] tableau = new int[image.getLargeur()][image.getHauteur()];

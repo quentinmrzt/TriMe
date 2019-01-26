@@ -6,11 +6,13 @@ public class Element {
 		
 	private Element parent;
 	private Noeud courant;
+	private int valeur;
 	private boolean estFini;
 
 	public Element(Element element, Noeud noeud) {
 		parent = element;
 		courant = noeud;
+		valeur = calculValeur();
 		estFini = false;
 	}
 
@@ -21,10 +23,9 @@ public class Element {
 	public Noeud getNoeudCourant() {
 		return courant;
 	}
-
+	
 	public int getValeur() {
-		int valeurParent = (parent != null) ? parent.getValeur() : 0;
-		return valeurParent + courant.getValeur();
+		return valeur;
 	}
 	
 	public boolean estFini() {
@@ -33,6 +34,11 @@ public class Element {
 
 	public void setFini() {
 		estFini = true;
+	}
+	
+	private int calculValeur() {
+		int valeurParent = (parent != null) ? parent.getValeur() : 0;
+		return valeurParent + courant.getValeur();
 	}
 
 	@Override

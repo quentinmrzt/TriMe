@@ -1,20 +1,44 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import graphe.Noeud;
 
 public class Elements {
 	private Element depart, arrive;
 	private Element[][] tableau;
+	private List<Element> liste;
 	private int largeur, hauteur;
+	private int taille, nombreVisite, nombreArrive;
 
 	public Elements(int largeur, int hauteur) {
 		tableau = new Element[largeur][hauteur];
+		liste = new ArrayList<Element>();
 		this.largeur = largeur;
 		this.hauteur = hauteur;
+		taille = largeur * hauteur + 2; // pour depart et arrive
+		nombreVisite = 0;
 		depart = null;
 		arrive = null;
 	}
-
+	
+	public int getLargeur() {
+		return largeur;
+	}
+	
+	public int getHauteur() {
+		return hauteur;
+	}
+	
+	public int getNombreElements() {
+		return taille;
+	}
+	
+	public int getNombreVisite() {
+		return nombreVisite;
+	}
+	
 	public Element getDepart() {
 		return depart;
 	}
@@ -24,11 +48,11 @@ public class Elements {
 	}
 	
 	public boolean estDepart(int x, int y) {
-		return (x == Noeud.getNoeudDepart().getX() && y == Noeud.getNoeudDepart().getY());
+		return (x == -1 && y == -1);
 	}
 	
 	public boolean estArrive(int x, int y) {
-		return (x == Noeud.getNoeudArrive().getX() && y == Noeud.getNoeudArrive().getY());
+		return (x == -2 && y == -2);
 	}
 
 	public Element getElement(int x, int y) {
@@ -45,14 +69,18 @@ public class Elements {
 	}
 
 	public void add(Element element) {
-		if(element.getNoeudCourant().equals(Noeud.getNoeudDepart())) {
+		int x = element.getNoeudCourant().getX();
+		int y = element.getNoeudCourant().getY();
+		if (!existe(x, y)) {
+			nombreVisite++;
+		}
+		if(-1 == element.getNoeudCourant().getX() && -1 == element.getNoeudCourant().getY()) {
 			depart = element;
-		} else if(element.getNoeudCourant().equals(Noeud.getNoeudArrive())) {
+		} else if(-2 == element.getNoeudCourant().getX() && -2 == element.getNoeudCourant().getY()) {
 			arrive = element;
 		} else {
-			int x = element.getNoeudCourant().getX();
-			int y = element.getNoeudCourant().getY();
 			tableau[x][y] = element;
+			liste.add(element);
 		}
 	}
 
