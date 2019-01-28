@@ -1,53 +1,41 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import graphe.Noeud;
 
 public class Historique {
 
-	private int taille, hauteur;
-	private Noeud[][] noeuds;
+	private List<List<Noeud>> noeuds;
 
-	public Historique(int nombreSupprime, int y) {
-		taille = nombreSupprime;
-		hauteur = y;
-		noeuds = new Noeud[taille][hauteur];
+	public Historique() {
+		noeuds = new ArrayList<List<Noeud>>();	
 	}
 
-	public int getTaille() {
-		return taille;
+	public void add(List<Noeud> liste) {
+		noeuds.add(liste);
 	}
 	
-	public int getHauteur() {
-		return hauteur;
-	}
-	
-	public Noeud getNoeud(int iteration, int y) {
-		return noeuds[iteration][y];
-	}
-
-	public void add(int iteration, List<Noeud> liste) {
-		if (iteration < taille ) {
-			int y = 0;
+	private void parcours() {
+		for (List<Noeud> liste: noeuds) {
 			for (Noeud noeud: liste) {
-				noeuds[iteration][y] = noeud;
-				y++;
+				
 			}
 		}
 	}
-	
-	public int positionX(int iteration, int y) {
+
+	/*public int positionX(int iteration, int y) {
 		int positionAvantDecalage = noeuds[iteration][y].getX();
 		int decalage = 0;
-		
+
 		for (int i=iteration - 1; i>=0; i--) {
 			if (getNoeud(i, y).getX() <= positionAvantDecalage) {
 				iteration++;
 			}
 		}
-		
+
 		int positionX = positionAvantDecalage + decalage;
 		return positionX;
-	}
+	}*/
 }

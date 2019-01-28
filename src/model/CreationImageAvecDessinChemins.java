@@ -1,7 +1,5 @@
 package model;
 
-import java.awt.Color;
-
 public class CreationImageAvecDessinChemins {
 
 	public static Image executer(Image image, Historique historique) {
@@ -11,9 +9,9 @@ public class CreationImageAvecDessinChemins {
 			for (int x=0; x<image.getLargeur(); x++) {
 				if(true) {
 					tableau[x][y] = image.getPixel(x, y);
-				} else {
+				} /*else {
 					tableau[historique.positionX(iteration, y)][y] = Color.RED.getRGB();
-				}
+				}*/
 			}
 		}
 
@@ -32,10 +30,10 @@ public class CreationImageAvecDessinChemins {
 	}
 
 	private static void dessin(int[][] tableau, Historique historique) {
-		for (int iteration=0; iteration<historique.getTaille(); iteration++) {
+		/*for (int iteration=0; iteration<historique.getTaille(); iteration++) {
 			for (int y=0; y<historique.getHauteur(); y++) {
 				tableau[historique.positionX(iteration, y)][y] = Color.RED.getRGB();
 			}
-		}
+		}*/
 	}
 }

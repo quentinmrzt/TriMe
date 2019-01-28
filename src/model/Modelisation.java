@@ -44,13 +44,13 @@ public class Modelisation extends Observable {
 	}
 	
 	public void dessinDePixels(int nombrePixels) {
-		Historique historique = new Historique(nombrePixels, image.getHauteur());
+		Historique historique = new Historique();
 		Image image = this.image;
 		
 		for (int i=0; i<nombrePixels; i++) {
 			Graphe graphe = CreationGraphe.executer(image);
 			List<Noeud> chemin = AlgoPerso.executer(graphe);
-			historique.add(i, chemin);
+			//historique.add(i, chemin);
 			image = CreationImageAvecSuppresionUnPixel.executer(image, chemin);
 		}
 		
