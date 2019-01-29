@@ -21,7 +21,7 @@ public class Image {
 		extension = rechercheExtension(fichier.getName());
 		fichierEnTableauDePixels(fichier);
 	}
-	
+
 	public Image(String nom, String extension, int[][] tableau) {
 		chemin = "";
 		this.nom = nom;
@@ -119,7 +119,7 @@ public class Image {
 		}
 		enregistrementImage(image, nom, extension);
 	}
-	
+
 	public static void ImageEnImage(Image image, String nom, String extension) {
 		int largeur = image.getLargeur();
 		int hauteur = image.getHauteur();
