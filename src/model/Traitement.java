@@ -1,6 +1,6 @@
 package model;
 
-import process.ExecutionDessinDePixels;
+import execution.ExecutionDessinDePixels;
 
 public class Traitement {
 	private Thread thread;

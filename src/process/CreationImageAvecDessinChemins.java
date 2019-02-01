@@ -10,7 +10,7 @@ import model.Image;
  */
 public class CreationImageAvecDessinChemins {
 
-	private final static Color COULEURDESSIN = Color.WHITE;
+	private final static Color COULEURDESSIN = Color.RED;
 	
 	/**
 	 * Retourne une image avec l'historique dessiné dessus.
@@ -33,7 +33,7 @@ public class CreationImageAvecDessinChemins {
 
 	private static void dessin(int[][] tableau, Historique historique) {
 		for (int y = 0; y < historique.getHauteur(); y++) {
-			for (int x : historique.getPosition(y)) {
+			for (int x : historique.getPositionsDeLaLigne(y)) {
 				System.out.print(x+"/"+y+" ");
 				tableau[x][y] = COULEURDESSIN.getRGB();
 			}

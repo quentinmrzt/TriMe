@@ -1,8 +1,6 @@
 /application/
-/controller/
-/graphe/
 /model/
-/view/
 /algorithme/
 /execution/
 /process/
+/view/

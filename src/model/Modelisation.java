@@ -4,10 +4,10 @@ import java.io.File;
 import java.util.Observable;
 
 import algorithme.AlgoPerso;
+import execution.ExecutionDessinDePixels;
 import graphe.Graphe;
 import process.CreationImageAvecSuppresionUnPixel;
 import process.CreationTableauInteret;
-import process.ExecutionDessinDePixels;
 
 public class Modelisation extends Observable {
 	private Traitement traitement;

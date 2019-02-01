@@ -1,4 +1,4 @@
-package process;
+package execution;
 
 import java.util.Observable;
 
@@ -7,6 +7,9 @@ import graphe.Graphe;
 import model.Chemin;
 import model.Historique;
 import model.Image;
+import process.CreationImageAvecDessinChemins;
+import process.CreationImageAvecSuppresionUnPixel;
+import process.CreationTableauInteret;
 
 public class ExecutionDessinDePixels extends Observable implements Runnable {
 
@@ -39,10 +42,16 @@ public class ExecutionDessinDePixels extends Observable implements Runnable {
 			int[][] interets = CreationTableauInteret.executer(nouvelleImage);
 			Graphe graphe = new Graphe(interets);
 			Chemin chemin = AlgoPerso.executer(graphe);
+			for(int index=0; index<chemin.getTaille(); index++) {
+				System.out.print(chemin.getX(index)+" ");
+			}
+			System.out.println();
 			historique.add(chemin);
 			nouvelleImage = CreationImageAvecSuppresionUnPixel.executer(nouvelleImage, chemin);
 			ajoutIteration();
 		}
+		
+		System.out.println("-----------------------------------------------------------------------");
 
 		historique.recalculDeLaPosition();
 		nouvelleImage = CreationImageAvecDessinChemins.executer(this.image, historique);
