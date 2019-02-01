@@ -26,10 +26,12 @@ public class Noeud {
 		this.valeur = valeur;
 	}
 	
+	@Deprecated
 	public static Noeud getNoeudDepart() {
 		return new Noeud(-1,-1);
 	}
 	
+	@Deprecated
 	public static Noeud getNoeudArrive() {
 		return new Noeud(-2,-2);
 	}

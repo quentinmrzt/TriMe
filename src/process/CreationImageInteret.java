@@ -1,6 +1,8 @@
-package model;
+package process;
 
 import java.awt.Color;
+
+import model.Image;
 
 /**
  * Création et enregistrement d'une image en noir et blanc montrant l'importance d'un pixel.
@@ -8,7 +10,7 @@ import java.awt.Color;
 public class CreationImageInteret {
 
 	/** Un pixel noir est un pixel peu important à l'inverse d'un pixel blanc. */
-	public static void executer(Image image) {
+	public static Image executer(Image image) {
 		int[][] interets = CreationTableauInteret.executer(image);
 
 		int max = Integer.MIN_VALUE;
@@ -23,10 +25,11 @@ public class CreationImageInteret {
 				}
 			}
 		}
-
+		
 		int[][] pixels = normalisation(interets, min, max);
-		String chemin = "images/resultats/" + image.getNom() + "_interet." + image.getExtension();
-		Image.tableauEnImage(pixels, chemin, image.getExtension());
+		//String chemin = "images/resultats/" + image.getNom() + "_interet." + image.getExtension();
+		
+		return new Image(image.getNom(), image.getExtension(), pixels);
 	}
 
 	private static int[][] normalisation(int[][] interets, int min, int max) {

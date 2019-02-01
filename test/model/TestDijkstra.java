@@ -8,6 +8,11 @@ public class TestDijkstra {
 
 	@Test
 	public void doit_passer() {
+		
+	}
+	
+	@Test
+	public void a_supprimer() {
 		Elements elements = new Elements(10,10);
 		System.out.println(elements.existe(5, 5));
 

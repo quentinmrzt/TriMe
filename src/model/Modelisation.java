@@ -1,18 +1,24 @@
 package model;
 
 import java.io.File;
-import java.util.List;
 import java.util.Observable;
 
 import algorithme.AlgoPerso;
 import graphe.Graphe;
-import graphe.Noeud;
+import process.CreationImageAvecSuppresionUnPixel;
+import process.CreationTableauInteret;
+import process.ExecutionDessinDePixels;
 
 public class Modelisation extends Observable {
+	private Traitement traitement;
 	private Image image;
 
 	public Image getImage() {
 		return image;
+	}
+
+	public Traitement getTraitement() {
+		return traitement;
 	}
 
 	public void setImage(File fichier) {
@@ -28,36 +34,60 @@ public class Modelisation extends Observable {
 	}
 
 	public void suppressionDePixels(int nombrePixels) {
-		Image image = this.image;
+		Image nouvelleImage = this.image;
 
 		for (int i = 0; i < nombrePixels; i++) {
-			Graphe graphe = CreationGraphe.executer(image);
-			List<Noeud> chemin = AlgoPerso.executer(graphe);
-			image = CreationImageAvecSuppresionUnPixel.executer(image, chemin);
+			int[][] interets = CreationTableauInteret.executer(nouvelleImage);
+			Graphe graphe = new Graphe(interets);
+			Chemin chemin = AlgoPerso.executer(graphe);
+			nouvelleImage = CreationImageAvecSuppresionUnPixel.executer(nouvelleImage, chemin);
 		}
 
 		String cheminImage = "images/resultats/" + image.getNom() + "_resultat_suppr" + nombrePixels + "." + image.getExtension();
-		Image.ImageEnImage(image, cheminImage, image.getExtension());
-
+		nouvelleImage.enregistrementImage(cheminImage);
 		// setImage(image);
 	}
 
 	public void dessinDePixels(int nombrePixels) {
-		Historique historique = new Historique(nombrePixels, image.getHauteur());
-		Image image = this.image;
+		traitement = new Traitement(new ExecutionDessinDePixels(image, nombrePixels));
+	}
 
-		for (int i = 0; i < nombrePixels; i++) {
-			Graphe graphe = CreationGraphe.executer(image);
-			List<Noeud> chemin = AlgoPerso.executer(graphe);
-			historique.add(chemin);
-			image = CreationImageAvecSuppresionUnPixel.executer(image, chemin);
+	public void rotation(int degre) {
+		int largeur = image.getLargeur();
+		int hauteur = image.getHauteur();
+
+		// Rotation
+		double angle_radian = -degre * Math.PI / 180.0;
+		double tcos = Math.cos(angle_radian);
+		double tsin = Math.sin(angle_radian);
+
+		/* calcul de la taille de l'image de destination */
+		int largeurdest = (int) Math.ceil(largeur * Math.abs(tcos) + largeur * Math.abs(tsin));
+		int hauteurdest = (int) Math.ceil(hauteur * Math.abs(tsin) + hauteur * Math.abs(tcos));
+
+		/* on redimensionne l'image */
+		int[][] destination = new int[largeurdest][hauteurdest];
+
+		/* calcul du centre des images */
+		int mxdest = largeurdest / 2;
+		int mydest = hauteurdest / 2;
+		int mx = largeur / 2;
+		int my = hauteur / 2;
+
+		for (int j = 0; j < hauteurdest; j++) {
+			for (int i = 0; i < largeurdest; i++) {
+				int bx = (int) (Math.ceil(tcos * (i - mxdest) + tsin * (j - mydest) + mx));
+				int by = (int) (Math.ceil(-tsin * (i - mxdest) + tcos * (j - mydest) + my));
+
+				if (bx >= 0 && bx < largeur && by >= 0 && by < hauteur) {
+					destination[i][j] = image.getCouleur(bx, by).getRGB();
+				}
+			}
 		}
 
-		historique.recalculDeLaPosition();
-
-		image = CreationImageAvecDessinChemins.executer(this.image, historique);
-
-		String cheminImage = "images/resultats/" + image.getNom() + "_resultat_dess" + nombrePixels + "." + image.getExtension();
-		Image.ImageEnImage(image, cheminImage, image.getExtension());
+		Image nouvelleImage = new Image(image.getNom(), image.getExtension(), destination);
+		
+		String cheminImage = "images/resultats/" + nouvelleImage.getNom() + "_resultat_rota" + degre + "." + nouvelleImage.getExtension();		
+		nouvelleImage.enregistrementImage(cheminImage);
 	}
 }

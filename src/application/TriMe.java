@@ -13,5 +13,6 @@ public class TriMe {
 		
 		modelisation.addObserver(fenetre.getZoneImage());
 		modelisation.addObserver(fenetre.getScrollInformations().getZoneInformations());
+		//modelisation.getTraitement().getExecutionDessinDePixels().addObserver(fenetre.getBarreDeChargement());
 	}
 }

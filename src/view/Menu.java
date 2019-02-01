@@ -34,6 +34,10 @@ public class Menu extends JMenuBar {
 		mode.add(creationMenuSuppresion());
 		mode.add(creationMenuDessiner());
 		add(mode);
+		
+		JMenu basique = new JMenu("Basique");
+		basique.add(creationMenuRotation());
+		add(basique);
 	}
 
 	private JMenuItem creationMenuChoisir() {
@@ -100,4 +104,19 @@ public class Menu extends JMenuBar {
 		});
 		return dessin;
 	}
+	
+
+	private JMenuItem creationMenuRotation() {
+		JMenuItem rotation = new JMenuItem("Faire une rotation");
+		rotation.setBackground(BACKGROUNDCOLOR);
+		rotation.setActionCommand("Faire une rotation");
+		rotation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		    String nombre = JOptionPane.showInputDialog(null, "Une rotation de combien de degré(s) ?", "Faire une rotation", JOptionPane.QUESTION_MESSAGE);				
+				controlleur.rotation(nombre);
+			}
+		});
+		return rotation;
+	}
+
 }

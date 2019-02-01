@@ -19,6 +19,7 @@ public class Fenetre extends JFrame {
 
 	private PanelImage zoneImage;
 	private ScrollInformations zoneScrollInformations;
+	private PanelPiedDePage zonePiedDePage;
 
 	public Fenetre(Controller controller) {
 		super();
@@ -35,6 +36,10 @@ public class Fenetre extends JFrame {
 	public ScrollInformations getScrollInformations() {
 		return zoneScrollInformations;
 	}
+	
+	public BarreDeChargement getBarreDeChargement() {
+		return zonePiedDePage.getBarreDeChargement();
+	}
 
 	private void build() {
 		setTitle("Trim-Me");
@@ -47,17 +52,17 @@ public class Fenetre extends JFrame {
 		setContentPane(buildContentPane());
 	}
 
-	private GridBagConstraints contrainte(int positionX, double poidsX) {
+	private GridBagConstraints contrainte(int positionX, int positionY, int tailleX, double poidsX, double poidsY) {
 		GridBagConstraints contrainte = new GridBagConstraints();
 		contrainte.gridx = positionX;
-		contrainte.gridy = 0;
-		contrainte.gridwidth = 1;
+		contrainte.gridy = positionY;
+		contrainte.gridwidth = tailleX;
 		contrainte.gridheight = 1;
 		contrainte.insets = new Insets(10, 10, 10, 10);
 		contrainte.fill = GridBagConstraints.BOTH;
 		contrainte.anchor = GridBagConstraints.WEST;
 		contrainte.weightx = poidsX;
-		contrainte.weighty = 1.0;
+		contrainte.weighty = poidsY;
 		return contrainte;
 	}
 
@@ -66,9 +71,11 @@ public class Fenetre extends JFrame {
 		panel.setBackground(WHITE);
 
 		zoneImage = new PanelImage();
-		panel.add(zoneImage, contrainte(0, 1.0));
+		panel.add(zoneImage, contrainte(0, 0, 1, 1.0, 1.0));
 		zoneScrollInformations = new ScrollInformations();
-		panel.add(zoneScrollInformations, contrainte(1, 1.0));
+		panel.add(zoneScrollInformations, contrainte(1, 0, 1, 1.0, 1.0));
+		zonePiedDePage = new PanelPiedDePage();
+		panel.add(zonePiedDePage, contrainte(0, 1, 2, 1.0, 0.0));
 
 		return panel;
 	}

@@ -1,8 +1,10 @@
-package model;
+package process;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+
+import model.Image;
 
 /**
  * Création d'un tableau d'intérêt par rapport à une image.

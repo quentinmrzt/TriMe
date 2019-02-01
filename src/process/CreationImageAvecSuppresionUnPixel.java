@@ -1,18 +1,17 @@
-package model;
+package process;
 
-import java.util.List;
-
-import graphe.Noeud;
+import model.Chemin;
+import model.Image;
 
 public class CreationImageAvecSuppresionUnPixel {
 
-	public static Image executer(Image image, List<Noeud> chemin) {
+	public static Image executer(Image image, Chemin chemin) {
 		int[][] pixels = new int[image.getLargeur()-1][image.getHauteur()];
 
 		for (int y = 0; y < image.getHauteur(); y++) {
 			int decalage = 0;
 			for (int x = 0; x < image.getLargeur() - 1; x++) {
-				if (chemin.get(y).getX() == x) {
+				if (chemin.getX(y) == x) {
 					decalage++;
 				}
 				pixels[x][y] = image.getPixel(x + decalage, y);

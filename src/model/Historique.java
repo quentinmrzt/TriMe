@@ -3,8 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-import graphe.Noeud;
-
 public class Historique {
 
 	private int nombrePixelSupprime, hauteur, iteration;
@@ -29,14 +27,12 @@ public class Historique {
 		return liste;
 	}
 
-	public void add(List<Noeud> liste) {
-		if (iteration < nombrePixelSupprime && liste.size() == hauteur) {
-			int y = 0;
-			for (Noeud noeud : liste) {
-				position[iteration][y] = noeud.getX();
+	public void add(Chemin chemin) {
+		if (iteration < nombrePixelSupprime && chemin.getTaille() == hauteur) {
+			for (int y=0; y<chemin.getTaille(); y++) {
+				position[iteration][y] = chemin.getX(y);
 				y++;
 			}
-			iteration++;
 		}
 	}
 

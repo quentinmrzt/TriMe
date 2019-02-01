@@ -4,10 +4,17 @@ import java.io.File;
 
 import org.junit.Test;
 
+import process.CreationTableauInteret;
+
 public class TestCreationTableauInteret {
 	
 	@Test
 	public void doit_passer() {
+		
+	}
+	
+	@Test
+	public void a_supprimer() {
 		File fichier = new File("C:\\Users\\Quentin\\Pictures\\testVertical.png");
 		Image image = new Image(fichier);
 		int[][] tableau = CreationTableauInteret.executer(image);

@@ -6,14 +6,13 @@ import java.util.List;
 
 import graphe.Graphe;
 import graphe.Noeud;
+import model.Chemin;
 
 public class AlgoPerso {
 
-	public static List<Noeud> executer(Graphe graphe) {		
+	public static Chemin executer(Graphe graphe) {		
 		Element arrive = algorithme(graphe);
-
-		List<Noeud> chemin = rechercheChemin(arrive);
-
+		Chemin chemin = rechercheChemin(arrive);
 		return chemin;
 	}
 
@@ -50,7 +49,7 @@ public class AlgoPerso {
 		}
 	}
 
-	private static List<Noeud> rechercheChemin(Element arrive) {
+	private static Chemin rechercheChemin(Element arrive) {
 		List<Noeud> chemin = new ArrayList<Noeud>();
 		Element courant = arrive.getParent();
 		while (!courant.getNoeudCourant().equals(Noeud.getNoeudDepart())) {
@@ -58,6 +57,6 @@ public class AlgoPerso {
 			courant = courant.getParent();
 		}
 		Collections.reverse(chemin);
-		return chemin;
+		return new Chemin(chemin);
 	}
 }

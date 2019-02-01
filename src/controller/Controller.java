@@ -2,7 +2,7 @@ package controller;
 
 import java.io.File;
 
-import model.*;
+import model.Modelisation;
 
 public class Controller {
 	private Modelisation modelisation;
@@ -35,7 +35,7 @@ public class Controller {
 			}
 		}
 	}
-	
+
 	public void dessinerDesPixels(String nombresPixels) {
 		int nombre = nombreValide(nombresPixels);
 		if(modelisation.getImage() != null) {
@@ -44,14 +44,24 @@ public class Controller {
 			}
 		}
 	}
-	
-	private int nombreValide(String nombresPixels) {
-		int nombre = 0;
-		try {
-			nombre = Integer.parseInt(nombresPixels);
-		} catch (Exception e) {
-			System.out.println("Mauvais nombre !");
+
+	public void rotation(String nombresPixels) {
+		int nombre = nombreValide(nombresPixels);
+		if(modelisation.getImage() != null) {
+			if(nombre >= 0 && nombre <= 360) {
+				modelisation.rotation(nombre);
+			}
 		}
-		return nombre;
 	}
+
+	private int nombreValide(String nombresPixels) {
+		try {
+			return Integer.parseInt(nombresPixels);
+		} catch (Exception e) {
+			System.out.println("nombreValide(): Mauvais nombre !");
+			return 0;
+		}
+	}
+
+
 }

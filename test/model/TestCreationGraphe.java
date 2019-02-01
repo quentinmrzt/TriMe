@@ -2,54 +2,60 @@ package model;
 
 import java.awt.Color;
 import java.io.File;
-import java.util.List;
 
 import org.junit.Test;
 
 import algorithme.AlgoPerso;
 import graphe.Graphe;
 import graphe.Noeud;
+import process.CreationTableauInteret;
 
 public class TestCreationGraphe {
 
 	@Test
 	public void doit_passer() {
+		
+	}
+	
+	@Test
+	public void a_supprimer() {
 		File fichier = new File("images\\test_obstacle_5.png");
 		fichier.getAbsolutePath();
 		Image image = new Image(fichier);
-		Graphe graphe = CreationGraphe.executer(image);
-		
+		int[][] tableau = CreationTableauInteret.executer(image);
+		Graphe graphe = new Graphe(tableau);
+
 		Noeud noeud = graphe.getNoeudDepart();
-				
+
 		while(noeud != null) {
 			System.out.print(noeud.toString()+"- ");
-			
+
 			int index = 0;
 			while(noeud.getNoeud(index) != null) {
 				System.out.print(noeud.getNoeud(index).toString()+" ");
 				index++;
 			}
-			
+
 			System.out.println("");
 			noeud = noeud.getNoeud(1);
 		}
-		
-		List<Noeud> chemin = AlgoPerso.executer(graphe);
-		
+
+		Chemin chemin = AlgoPerso.executer(graphe);
+
 		// On dessine le chemin
-		int[][] tableau = new int[image.getLargeur()][image.getHauteur()];
+		int[][] dessin = new int[image.getLargeur()][image.getHauteur()];
 		for (int y=0 ; y<image.getHauteur() ; y++) {
 			for (int x=0 ; x<image.getLargeur() ; x++) {
-				if(chemin.get(y).getX() == x && chemin.get(y).getY() == y) {
-					tableau[x][y] = Color.RED.getRGB();
+				if(chemin.getX(y) == x) {
+					dessin[x][y] = Color.RED.getRGB();
 				} else {
-					tableau[x][y] = image.getCouleur(x, y).getRGB();
+					dessin[x][y] = image.getCouleur(x, y).getRGB();
 				}
 			}
 		}
-		
+
 		// Puis on l'enregistre
-		String cheminImage = "images/resultats/"+image.getNom()+"_resultat."+image.getExtension();
-		Image.tableauEnImage(tableau, cheminImage, image.getExtension());
+		//String cheminImage = "images/resultats/"+image.getNom()+"_resultat."+image.getExtension();
+		new Image(image.getNom(), image.getExtension(), dessin);
 	}
 }
