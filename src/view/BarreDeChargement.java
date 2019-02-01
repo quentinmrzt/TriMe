@@ -10,8 +10,8 @@ import model.Modelisation;
 
 public class BarreDeChargement extends JProgressBar implements Observer {
 
-	private final int LARGEUR = 200;
-	private final int HAUTEUR = 0;
+	private final int LARGEUR = 100;
+	private final int HAUTEUR = 200;
 	
 	private int taille;
 	
@@ -26,6 +26,7 @@ public class BarreDeChargement extends JProgressBar implements Observer {
 		setMinimum(0);
     setMaximum(taille);
     //setStringPainted(true);
+    setValue(150);
 	}
 
 	@Override

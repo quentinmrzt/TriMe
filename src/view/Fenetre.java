@@ -44,7 +44,7 @@ public class Fenetre extends JFrame {
 	private void build() {
 		setTitle("Trim-Me");
 		setSize(LARGEURFENETRE, HAUTEURFENETRE);
-		setIconImage(new ImageIcon("icon.png").getImage());
+		setIconImage(new ImageIcon("images/icon.png").getImage());
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

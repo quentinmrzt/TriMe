@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 
 import javax.swing.JPanel;
 
@@ -24,7 +23,7 @@ public class PanelPiedDePage extends JPanel {
 	private void build() {
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(LARGEURPANEL, HAUTEURPANEL));
-		setBackground(Color.RED);
+		setBackground(Color.WHITE);
 	}
 
 	private GridBagConstraints contrainte() {
@@ -33,9 +32,8 @@ public class PanelPiedDePage extends JPanel {
 		contrainte.gridy = 0;
 		contrainte.gridwidth = 1;
 		contrainte.gridheight = 1;
-		contrainte.insets = new Insets(10, 10, 10, 10);
-		//contrainte.fill = GridBagConstraints.BOTH;
-		contrainte.anchor = GridBagConstraints.CENTER;
+		contrainte.fill = GridBagConstraints.BOTH;
+		contrainte.anchor = GridBagConstraints.LINE_END;
 		contrainte.weightx = 1.0;
 		contrainte.weighty = 1.0;
 		return contrainte;
