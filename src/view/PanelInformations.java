@@ -5,15 +5,13 @@ import static java.awt.Color.WHITE;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Modelisation;
 
-public class PanelInformations extends JPanel implements Observer {
+public class PanelInformations extends JPanel {
 
 	private JLabel chemin, extension, hauteur, largeur;
 
@@ -51,15 +49,10 @@ public class PanelInformations extends JPanel implements Observer {
 		return contrainte;
 	}
 
-	@Override
-	public void update(Observable obs, Object obj) {
-		if (obs instanceof Modelisation) {
-			Modelisation modelisation = (Modelisation) obs;
-
-			chemin.setText("Chemin: " + modelisation.getImage().getChemin());
-			extension.setText("Extension: " + modelisation.getImage().getExtension());
-			hauteur.setText("Hauteur: " + modelisation.getImage().getHauteur());
-			largeur.setText("Largeur: " + modelisation.getImage().getLargeur());
-		}
+	public void miseAjour(Modelisation modelisation) {
+		chemin.setText("Chemin: " + modelisation.getImage().getChemin());
+		extension.setText("Extension: " + modelisation.getImage().getExtension());
+		hauteur.setText("Hauteur: " + modelisation.getImage().getHauteur());
+		largeur.setText("Largeur: " + modelisation.getImage().getLargeur());
 	}
 }

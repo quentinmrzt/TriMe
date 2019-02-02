@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Observable;
 
 import algorithme.AlgoPerso;
+import execution.Execution;
 import execution.ExecutionDessinDePixels;
 import graphe.Graphe;
 import process.CreationImageAvecSuppresionUnPixel;
@@ -12,6 +13,11 @@ import process.CreationTableauInteret;
 public class Modelisation extends Observable {
 	private Traitement traitement;
 	private Image image;
+	
+	public Modelisation() {
+		traitement = new Traitement();
+		image = null;
+	}
 
 	public Image getImage() {
 		return image;
@@ -24,13 +30,13 @@ public class Modelisation extends Observable {
 	public void setImage(File fichier) {
 		this.image = new Image(fichier);
 		setChanged();
-		notifyObservers();
+		notifyObservers(image);
 	}
 
 	public void setImage(Image image) {
 		this.image = image;
 		setChanged();
-		notifyObservers();
+		notifyObservers(image);
 	}
 
 	public void suppressionDePixels(int nombrePixels) {
@@ -49,7 +55,9 @@ public class Modelisation extends Observable {
 	}
 
 	public void dessinDePixels(int nombrePixels) {
-		traitement = new Traitement(new ExecutionDessinDePixels(image, nombrePixels));
+		Execution execution = new ExecutionDessinDePixels(image, nombrePixels);
+		traitement.ajoutExecution(execution);
+		traitement.lancerExecution();
 	}
 
 	public void rotation(int degre) {

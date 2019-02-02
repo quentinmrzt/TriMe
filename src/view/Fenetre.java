@@ -5,40 +5,34 @@ import static java.awt.Color.WHITE;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import controller.Controller;
+import model.Image;
+import model.Modelisation;
 
-public class Fenetre extends JFrame {
+public class Fenetre extends JFrame implements Observer {
 
 	private final int LARGEURFENETRE = 1000;
 	private final int HAUTEURFENETRE = 600;
 
+	private Modelisation modelisation;
 	private PanelImage zoneImage;
 	private ScrollInformations zoneScrollInformations;
 	private PanelPiedDePage zonePiedDePage;
 
-	public Fenetre(Controller controller) {
+	public Fenetre(Modelisation modelisation, Controller controller) {
 		super();
+		this.modelisation = modelisation;
 		setJMenuBar(new Menu(controller));
 		build();
 		setVisible(true);
 
-	}
-
-	public PanelImage getZoneImage() {
-		return zoneImage;
-	}
-
-	public ScrollInformations getScrollInformations() {
-		return zoneScrollInformations;
-	}
-	
-	public BarreDeChargement getBarreDeChargement() {
-		return zonePiedDePage.getBarreDeChargement();
 	}
 
 	private void build() {
@@ -74,9 +68,27 @@ public class Fenetre extends JFrame {
 		panel.add(zoneImage, contrainte(0, 0, 1, 1.0, 1.0));
 		zoneScrollInformations = new ScrollInformations();
 		panel.add(zoneScrollInformations, contrainte(1, 0, 1, 1.0, 1.0));
+
+
 		zonePiedDePage = new PanelPiedDePage();
 		panel.add(zonePiedDePage, contrainte(0, 1, 2, 1.0, 0.0));
 
 		return panel;
+	}
+
+	@Override
+	public void update(Observable obs, Object obj) {
+		if (obs instanceof Modelisation) {
+			// maj photo
+			if (obj instanceof Image) {
+				zoneScrollInformations.miseAJour(modelisation);
+				zoneImage.miseAJour(modelisation);
+			}
+		// maj dessin
+					zonePiedDePage.miseAJour(modelisation);
+		} else {
+			System.err.println("AIE");
+		
+		}
 	}
 }

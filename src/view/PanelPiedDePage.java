@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
 
+import model.Modelisation;
+
 public class PanelPiedDePage extends JPanel {
 	private final int LARGEURPANEL = 0;
 	private final int HAUTEURPANEL = 30;
@@ -41,5 +43,9 @@ public class PanelPiedDePage extends JPanel {
 
 	public BarreDeChargement getBarreDeChargement() {
 		return barreDeChargement;
+	}
+	
+	public void miseAJour(Modelisation modelisation) {
+		barreDeChargement.miseAJour(modelisation);
 	}
 }

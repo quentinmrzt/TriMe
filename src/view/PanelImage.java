@@ -9,8 +9,6 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -20,7 +18,7 @@ import javax.swing.JPanel;
 
 import model.Modelisation;
 
-public class PanelImage extends JPanel implements Observer {
+public class PanelImage extends JPanel {
 
 	private final int LARGEURPANEL = 700;
 	private final int HAUTEURPANEL = 0;
@@ -58,12 +56,8 @@ public class PanelImage extends JPanel implements Observer {
 		return contrainte;
 	}
 
-	@Override
-	public void update(Observable obs, Object obj) {
-		if (obs instanceof Modelisation) {
-			Modelisation modelisation = (Modelisation) obs;
-			image.setIcon(resize(modelisation.getImage().getChemin()));
-		}
+	public void miseAJour(Modelisation modelisation) {
+		image.setIcon(resize(modelisation.getImage().getChemin()));
 	}
 
 	private ImageIcon resize(String chemin) {

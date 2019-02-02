@@ -9,10 +9,9 @@ public class TriMe {
 	public static void main(String[] args) {
 		Modelisation modelisation = new Modelisation();
 		Controller controller = new Controller(modelisation);
-		Fenetre fenetre = new Fenetre(controller);
+		Fenetre fenetre = new Fenetre(modelisation, controller);
 		
-		modelisation.addObserver(fenetre.getZoneImage());
-		modelisation.addObserver(fenetre.getScrollInformations().getZoneInformations());
-		//modelisation.getTraitement().getExecutionDessinDePixels().addObserver(fenetre.getBarreDeChargement());
+		modelisation.addObserver(fenetre);
+		modelisation.getTraitement().addObserver(fenetre);
 	}
 }
