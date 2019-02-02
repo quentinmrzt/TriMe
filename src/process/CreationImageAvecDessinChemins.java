@@ -18,7 +18,7 @@ public class CreationImageAvecDessinChemins {
 	public static Image executer(Image image, Historique historique) {
 		int[][] tableau = copieDuTableauDepuisUneImage(image);
 		dessin(tableau, historique);
-		return new Image(image.getNom(), image.getExtension(), tableau);
+		return new Image(image.getNom(), image.getExtension(), image.getChemin(), tableau);
 	}
 
 	private static int[][] copieDuTableauDepuisUneImage(Image image) {
@@ -34,10 +34,8 @@ public class CreationImageAvecDessinChemins {
 	private static void dessin(int[][] tableau, Historique historique) {
 		for (int y = 0; y < historique.getHauteur(); y++) {
 			for (int x : historique.getPositionsDeLaLigne(y)) {
-				System.out.print(x+"/"+y+" ");
 				tableau[x][y] = COULEURDESSIN.getRGB();
 			}
-			System.out.println();
 		}
 	}
 }

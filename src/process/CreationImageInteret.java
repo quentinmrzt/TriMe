@@ -29,7 +29,7 @@ public class CreationImageInteret {
 		int[][] pixels = normalisation(interets, min, max);
 		//String chemin = "images/resultats/" + image.getNom() + "_interet." + image.getExtension();
 		
-		return new Image(image.getNom(), image.getExtension(), pixels);
+		return new Image(image.getNom(), image.getExtension(), image.getChemin(), pixels);
 	}
 
 	private static int[][] normalisation(int[][] interets, int min, int max) {

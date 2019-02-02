@@ -18,6 +18,6 @@ public class CreationImageAvecSuppresionUnPixel {
 			}
 		}
 		
-		return new Image(image.getNom(), image.getExtension(), pixels);
+		return new Image(image.getNom(), image.getExtension(), image.getChemin(), pixels);
 	}
 }

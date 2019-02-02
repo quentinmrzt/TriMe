@@ -56,6 +56,6 @@ public class TestCreationGraphe {
 
 		// Puis on l'enregistre
 		//String cheminImage = "images/resultats/"+image.getNom()+"_resultat."+image.getExtension();
-		new Image(image.getNom(), image.getExtension(), dessin);
+		new Image(image.getNom(), image.getExtension(), image.getChemin(), dessin);
 	}
 }

@@ -34,10 +34,6 @@ public class Menu extends JMenuBar {
 		mode.add(creationMenuSuppresion());
 		mode.add(creationMenuDessiner());
 		add(mode);
-		
-		JMenu basique = new JMenu("Basique");
-		basique.add(creationMenuRotation());
-		add(basique);
 	}
 
 	private JMenuItem creationMenuChoisir() {
@@ -93,12 +89,12 @@ public class Menu extends JMenuBar {
 	}
 	
 	private JMenuItem creationMenuDessiner() {
-		JMenuItem dessin = new JMenuItem("Dessiner pixel(s)");
+		JMenuItem dessin = new JMenuItem("Supprimer/dessiner pixel(s)");
 		dessin.setBackground(BACKGROUNDCOLOR);
-		dessin.setActionCommand("Dessiner pixel(s)");
+		dessin.setActionCommand("Supprimer/dessiner pixel(s)");
 		dessin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		    String nombre = JOptionPane.showInputDialog(null, "Combien de pixel(s) voulez-vous dessiner ?", "Dessiner pixel(s)", JOptionPane.QUESTION_MESSAGE);				
+		    String nombre = JOptionPane.showInputDialog(null, "Combien de pixel(s) voulez-vous supprimer/dessiner ?", "Supprimer/dessiner pixel(s)", JOptionPane.QUESTION_MESSAGE);				
 				controlleur.dessinerDesPixels(nombre);
 			}
 		});

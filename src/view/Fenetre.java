@@ -84,11 +84,9 @@ public class Fenetre extends JFrame implements Observer {
 				zoneScrollInformations.miseAJour(modelisation);
 				zoneImage.miseAJour(modelisation);
 			}
-		// maj dessin
-					zonePiedDePage.miseAJour(modelisation);
 		} else {
-			System.err.println("AIE");
-		
+			// maj dessin
+			zonePiedDePage.miseAJour(modelisation);
 		}
 	}
 }

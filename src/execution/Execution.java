@@ -4,15 +4,15 @@ import java.util.Observable;
 
 public abstract class Execution extends Observable implements Runnable {
 
-	private int iteration;
-
-	public Execution() {
+	private Traitement traitement;
+	
+	public Execution(Traitement traitement) {
 		super();
-		iteration = 0;
+		this.traitement = traitement;
 	}
-
-	public int getIteration() {
-		return iteration;
+	
+	public Traitement getTraitement() {
+		return traitement;
 	}
 
 	@Override

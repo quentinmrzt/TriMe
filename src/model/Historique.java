@@ -37,27 +37,9 @@ public class Historique {
 	}
 
 	public void recalculDeLaPosition() {
-		System.out.println("=======================");
-		for(int y=0; y<position[0].length; y++) {
-			for (int x=0; x<position.length; x++) {
-				System.out.print(position[x][y] + " ");
-			}
-			System.out.println();
-		}
-		System.out.println("=======================");
-
 		for (int y = 0; y < hauteur; y++) {
 			recalculDeLaPosition(y);
 		}
-
-		System.out.println("=======================");
-		for(int y=0; y<position[0].length; y++) {
-			for (int x=0; x<position.length; x++) {
-				System.out.print(position[x][y] + " ");
-			}
-			System.out.println();
-		}
-		System.out.println("=======================");
 	}
 
 	private void recalculDeLaPosition(int y) {

@@ -57,7 +57,8 @@ public class PanelImage extends JPanel {
 	}
 
 	public void miseAJour(Modelisation modelisation) {
-		image.setIcon(resize(modelisation.getImage().getChemin()));
+		String chemin = modelisation.getImage().getChemin()+"/"+modelisation.getImage().getNom()+"."+modelisation.getImage().getExtension();
+		image.setIcon(resize(chemin));
 	}
 
 	private ImageIcon resize(String chemin) {

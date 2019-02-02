@@ -18,7 +18,7 @@ public class Image {
 
 	public Image(File fichier) {
 		try {
-			chemin = fichier.getAbsolutePath();
+			chemin = fichier.getParent();
 			rechercheNomEtExtension(fichier);
 			image = ImageIO.read(fichier);
 			largeur = image.getWidth();
@@ -53,8 +53,8 @@ public class Image {
 		return x + y * largeur;
 	}
 
-	public Image(String nom, String extension, int[][] tableau) {
-		chemin = "";
+	public Image(String nom, String extension, String chemin, int[][] tableau) {
+		this.chemin = chemin;
 		this.nom = nom;
 		this.extension = extension;
 		largeur = tableau.length;

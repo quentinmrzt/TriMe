@@ -13,12 +13,9 @@ public class ExecutionDessinDePixels extends Execution {
 
 	private Image image;
 	private int nombrePixels;
-	
-	public ExecutionDessinDePixels() {
-		super();
-	}
 
-	public ExecutionDessinDePixels(Image image, int nombrePixels) {
+	public ExecutionDessinDePixels(Traitement traitement, Image image, int nombrePixels) {
+		super(traitement);
 		this.image = image;
 		this.nombrePixels = nombrePixels;
 	}
@@ -26,28 +23,30 @@ public class ExecutionDessinDePixels extends Execution {
 	@Override
 	public void run() {
 		Historique historique = new Historique(nombrePixels, image.getHauteur());
-		Image nouvelleImage = this.image;
+		Image imageReduite = image;
 
 		for (int i = 0; i < nombrePixels; i++) {
-			int[][] interets = CreationTableauInteret.executer(nouvelleImage);
+			int[][] interets = CreationTableauInteret.executer(imageReduite);
 			Graphe graphe = new Graphe(interets);
 			Chemin chemin = AlgoPerso.executer(graphe);
-			for (int index = 0; index < chemin.getTaille(); index++) {
-				System.out.print(chemin.getX(index) + " ");
-			}
-			System.out.println();
 			historique.add(chemin);
-			nouvelleImage = CreationImageAvecSuppresionUnPixel.executer(nouvelleImage, chemin);
-			//ajoutIteration();
+			imageReduite = CreationImageAvecSuppresionUnPixel.executer(imageReduite, chemin);
+
+			double numerateur = i;
+			double denominateur = nombrePixels;
+			int normalisation = (int) ((numerateur / denominateur) * Traitement.MAXIMUM);
+			getTraitement().setPourcentage(normalisation);
 		}
 
-		System.out.println("-----------------------------------------------------------------------");
-
 		historique.recalculDeLaPosition();
-		nouvelleImage = CreationImageAvecDessinChemins.executer(this.image, historique);
+		Image imageDessin = CreationImageAvecDessinChemins.executer(this.image, historique);
 
-		String cheminImage = "images/resultats/" + image.getNom() + "_resultat_dess" + nombrePixels + "." + image.getExtension();
-		nouvelleImage.enregistrementImage(cheminImage);
+		String cheminImageDessin = imageDessin.getChemin()+ "/" + image.getNom() + "_resultat_dess" + nombrePixels + "." + image.getExtension();
+		imageDessin.enregistrementImage(cheminImageDessin);
+		
+		String cheminImageReduite = imageReduite.getChemin()+ "/" + image.getNom() + "_resultat_suppr" + nombrePixels + "." + image.getExtension();
+		imageReduite.enregistrementImage(cheminImageReduite);
+
+		getTraitement().setFini(true);
 	}
-
 }

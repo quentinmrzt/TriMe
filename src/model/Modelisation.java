@@ -3,17 +3,15 @@ package model;
 import java.io.File;
 import java.util.Observable;
 
-import algorithme.AlgoPerso;
 import execution.Execution;
 import execution.ExecutionDessinDePixels;
-import graphe.Graphe;
-import process.CreationImageAvecSuppresionUnPixel;
-import process.CreationTableauInteret;
+import execution.ExecutionSuppressionPixels;
+import execution.Traitement;
 
 public class Modelisation extends Observable {
 	private Traitement traitement;
 	private Image image;
-	
+
 	public Modelisation() {
 		traitement = new Traitement();
 		image = null;
@@ -40,22 +38,13 @@ public class Modelisation extends Observable {
 	}
 
 	public void suppressionDePixels(int nombrePixels) {
-		Image nouvelleImage = this.image;
-
-		for (int i = 0; i < nombrePixels; i++) {
-			int[][] interets = CreationTableauInteret.executer(nouvelleImage);
-			Graphe graphe = new Graphe(interets);
-			Chemin chemin = AlgoPerso.executer(graphe);
-			nouvelleImage = CreationImageAvecSuppresionUnPixel.executer(nouvelleImage, chemin);
-		}
-
-		String cheminImage = "images/resultats/" + image.getNom() + "_resultat_suppr" + nombrePixels + "." + image.getExtension();
-		nouvelleImage.enregistrementImage(cheminImage);
-		// setImage(image);
+		Execution execution = new ExecutionSuppressionPixels(traitement, image, nombrePixels);
+		traitement.ajoutExecution(execution);
+		traitement.lancerExecution();
 	}
 
 	public void dessinDePixels(int nombrePixels) {
-		Execution execution = new ExecutionDessinDePixels(image, nombrePixels);
+		Execution execution = new ExecutionDessinDePixels(traitement, image, nombrePixels);
 		traitement.ajoutExecution(execution);
 		traitement.lancerExecution();
 	}
@@ -93,9 +82,9 @@ public class Modelisation extends Observable {
 			}
 		}
 
-		Image nouvelleImage = new Image(image.getNom(), image.getExtension(), destination);
-		
-		String cheminImage = "images/resultats/" + nouvelleImage.getNom() + "_resultat_rota" + degre + "." + nouvelleImage.getExtension();		
+		Image nouvelleImage = new Image(image.getNom(), image.getExtension(), image.getChemin(), destination);
+
+		String cheminImage = "images/resultats/" + nouvelleImage.getNom() + "_resultat_rota" + degre + "." + nouvelleImage.getExtension();
 		nouvelleImage.enregistrementImage(cheminImage);
 	}
 }
