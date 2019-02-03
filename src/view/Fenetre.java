@@ -40,7 +40,7 @@ public class Fenetre extends JFrame implements Observer {
 	private void build() {
 		setTitle("Trim-Me");
 		setSize(LARGEURFENETRE, HAUTEURFENETRE);
-		setIconImage(new ImageIcon("images/icon.png").getImage());
+		setIconImage(new ImageIcon("images/icon.png").getImage()); // https://www.flaticon.com/
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

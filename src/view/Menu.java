@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -35,20 +36,24 @@ public class Menu extends JMenuBar {
 
 		boiteChargement = null;
 		
-		JMenu menu = new JMenu("Menu");
-		menu.add(creationMenuChoisir());
-		menu.add(creationMenuQuitter());
-		add(menu);
+		JMenu fichier = new JMenu("Fichier");
+		fichier.add(creationMenuChoisir());
+		fichier.add(creationMenuQuitter());
+		add(fichier);
 
-		JMenu mode = new JMenu("Mode");
-		mode.add(creationMenuSuppresion());
-		mode.add(creationMenuDessiner());
-		add(mode);
+		JMenu edition = new JMenu("Edition");
+		edition.add(creationMenuSuppresion());
+		edition.add(creationMenuDessiner());
+		add(edition);
+		
+		JMenu aide = new JMenu("Aide");
+		add(aide);
 	}
 
 	private JMenuItem creationMenuChoisir() {
 		JMenuItem choisir = new JMenuItem("Choisir une image");
 		choisir.setBackground(BACKGROUNDCOLOR);
+		choisir.setIcon(new ImageIcon("images/open-archive.png"));
 		choisir.setActionCommand("Choisir une image");
 		choisir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -88,6 +93,7 @@ public class Menu extends JMenuBar {
 		String nom = "Supprimer pixel(s)";
 		JMenuItem suppression = new JMenuItem(nom);
 		suppression.setBackground(BACKGROUNDCOLOR);
+		suppression.setIcon(new ImageIcon("images/crop.png"));
 		suppression.setActionCommand(nom);
 		suppression.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -103,6 +109,7 @@ public class Menu extends JMenuBar {
 		String nom = "Supprimer/dessiner pixel(s)";
 		JMenuItem dessin = new JMenuItem(nom);
 		dessin.setBackground(BACKGROUNDCOLOR);
+		dessin.setIcon(new ImageIcon("images/pencil-edit-button.png"));
 		dessin.setActionCommand(nom);
 		dessin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

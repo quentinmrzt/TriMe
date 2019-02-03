@@ -41,10 +41,10 @@ public class ExecutionDessinDePixels extends Execution {
 		historique.recalculDeLaPosition();
 		Image imageDessin = CreationImageAvecDessinChemins.executer(this.image, historique);
 
-		String cheminImageDessin = imageDessin.getChemin()+ "/" + image.getNom() + "_resultat_dess" + nombrePixels + "." + image.getExtension();
+		String cheminImageDessin = imageDessin.getChemin() + "/" + image.getNom() + "_resultat_dess" + nombrePixels + "." + image.getExtension();
 		imageDessin.enregistrementImage(cheminImageDessin);
-		
-		String cheminImageReduite = imageReduite.getChemin()+ "/" + image.getNom() + "_resultat_suppr" + nombrePixels + "." + image.getExtension();
+
+		String cheminImageReduite = imageReduite.getChemin() + "/" + image.getNom() + "_resultat_suppr" + nombrePixels + "." + image.getExtension();
 		imageReduite.enregistrementImage(cheminImageReduite);
 
 		getTraitement().setFini(true);
