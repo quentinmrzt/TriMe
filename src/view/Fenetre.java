@@ -22,6 +22,7 @@ public class Fenetre extends JFrame implements Observer {
 	private final int HAUTEURFENETRE = 600;
 
 	private Modelisation modelisation;
+	private Menu menu;
 	private PanelImage zoneImage;
 	private ScrollInformations zoneScrollInformations;
 	private PanelPiedDePage zonePiedDePage;
@@ -29,7 +30,8 @@ public class Fenetre extends JFrame implements Observer {
 	public Fenetre(Modelisation modelisation, Controller controller) {
 		super();
 		this.modelisation = modelisation;
-		setJMenuBar(new Menu(controller));
+		menu = new Menu(controller);
+		setJMenuBar(menu);
 		build();
 		setVisible(true);
 
@@ -71,7 +73,7 @@ public class Fenetre extends JFrame implements Observer {
 
 
 		zonePiedDePage = new PanelPiedDePage();
-		panel.add(zonePiedDePage, contrainte(0, 1, 2, 1.0, 0.0));
+		//panel.add(zonePiedDePage, contrainte(0, 1, 2, 1.0, 0.0));
 
 		return panel;
 	}
@@ -86,7 +88,7 @@ public class Fenetre extends JFrame implements Observer {
 			}
 		} else {
 			// maj dessin
-			zonePiedDePage.miseAJour(modelisation);
+			menu.miseAJour(modelisation);
 		}
 	}
 }

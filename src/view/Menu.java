@@ -3,20 +3,28 @@ package view;
 import static javax.swing.JFileChooser.APPROVE_OPTION;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
 import controller.Controller;
+import model.Modelisation;
+import view.boite.BoiteChargement;
 
 public class Menu extends JMenuBar {
 
+	private BoiteChargement boiteChargement;
 	private Controller controlleur;
 	private final Color BACKGROUNDCOLOR = Color.WHITE;
 
@@ -25,6 +33,8 @@ public class Menu extends JMenuBar {
 
 		setBackground(BACKGROUNDCOLOR);
 
+		boiteChargement = null;
+		
 		JMenu menu = new JMenu("Menu");
 		menu.add(creationMenuChoisir());
 		menu.add(creationMenuQuitter());
@@ -51,8 +61,7 @@ public class Menu extends JMenuBar {
 	private void choisir() {
 		try {
 			JFileChooser jf = new JFileChooser();
-			jf.setCurrentDirectory(
-					new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Pictures"));
+			jf.setCurrentDirectory(new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Pictures"));
 			jf.setApproveButtonText("Ouvrir");
 			jf.setDialogTitle("Choisir une image");
 			if (jf.showSaveDialog(getParent()) == APPROVE_OPTION) {
@@ -76,43 +85,51 @@ public class Menu extends JMenuBar {
 	}
 
 	private JMenuItem creationMenuSuppresion() {
-		JMenuItem suppression = new JMenuItem("Supprimer pixel(s)");
+		String nom = "Supprimer pixel(s)";
+		JMenuItem suppression = new JMenuItem(nom);
 		suppression.setBackground(BACKGROUNDCOLOR);
-		suppression.setActionCommand("Supprimer pixel");
+		suppression.setActionCommand(nom);
 		suppression.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		    String nombre = JOptionPane.showInputDialog(null, "Combien de pixel(s) voulez-vous supprimer ?", "Supprimer pixel(s)", JOptionPane.QUESTION_MESSAGE);				
+				String nombre = JOptionPane.showInputDialog(null, "Combien de pixel(s) voulez-vous supprimer ?", nom, JOptionPane.QUESTION_MESSAGE);
+				boiteChargement = new BoiteChargement(getJFrame(suppression), nom);
 				controlleur.supprimerDesPixels(nombre);
 			}
 		});
 		return suppression;
 	}
-	
+
 	private JMenuItem creationMenuDessiner() {
-		JMenuItem dessin = new JMenuItem("Supprimer/dessiner pixel(s)");
+		String nom = "Supprimer/dessiner pixel(s)";
+		JMenuItem dessin = new JMenuItem(nom);
 		dessin.setBackground(BACKGROUNDCOLOR);
-		dessin.setActionCommand("Supprimer/dessiner pixel(s)");
+		dessin.setActionCommand(nom);
 		dessin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		    String nombre = JOptionPane.showInputDialog(null, "Combien de pixel(s) voulez-vous supprimer/dessiner ?", "Supprimer/dessiner pixel(s)", JOptionPane.QUESTION_MESSAGE);				
+				String nombre = JOptionPane.showInputDialog(null, "Combien de pixel(s) voulez-vous supprimer/dessiner ?", nom, JOptionPane.QUESTION_MESSAGE);
+				boiteChargement = new BoiteChargement(getJFrame(dessin), nom);
 				controlleur.dessinerDesPixels(nombre);
 			}
 		});
 		return dessin;
 	}
-	
 
-	private JMenuItem creationMenuRotation() {
-		JMenuItem rotation = new JMenuItem("Faire une rotation");
-		rotation.setBackground(BACKGROUNDCOLOR);
-		rotation.setActionCommand("Faire une rotation");
-		rotation.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-		    String nombre = JOptionPane.showInputDialog(null, "Une rotation de combien de degré(s) ?", "Faire une rotation", JOptionPane.QUESTION_MESSAGE);				
-				controlleur.rotation(nombre);
-			}
-		});
-		return rotation;
+	private JFrame getJFrame(Component e) throws ClassCastException {
+		if (e instanceof JMenuItem) {
+			while (null != e && !(e instanceof JFrame))
+				if (e instanceof JPopupMenu)
+					e = ((JPopupMenu) e).getInvoker();
+				else
+					e = ((JComponent) e).getParent();
+		} else {
+			e = SwingUtilities.getWindowAncestor(e);
+		}
+		return (JFrame) e;
 	}
 
+	public void miseAJour(Modelisation modelisation) {
+		if (boiteChargement != null) {
+			boiteChargement.miseAJour(modelisation);
+		}
+	}
 }
