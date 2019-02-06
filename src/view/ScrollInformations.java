@@ -33,6 +33,6 @@ public class ScrollInformations extends JScrollPane {
 	}
 	
 	public void miseAJour(Modelisation modelisation) {
-		zoneInformations.miseAjour(modelisation);
+		zoneInformations.miseAJour(modelisation);
 	}
 }

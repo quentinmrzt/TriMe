@@ -2,9 +2,10 @@ package view;
 
 import static java.awt.Color.WHITE;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,14 +19,14 @@ import model.Modelisation;
 
 public class Fenetre extends JFrame implements Observer {
 
-	private final int LARGEURFENETRE = 1000;
-	private final int HAUTEURFENETRE = 600;
+	private final Color BACKGROUNDCOLOR = Color.WHITE;
+	private final String NOMAPPLICATION = "Trim-Me";
 
 	private Modelisation modelisation;
 	private Menu menu;
 	private PanelImage zoneImage;
-	private ScrollInformations zoneScrollInformations;
-	private PanelPiedDePage zonePiedDePage;
+	private PanelInformations zoneInformations;
+	private BarreActions barreActions;
 
 	public Fenetre(Modelisation modelisation, Controller controller) {
 		super();
@@ -33,47 +34,71 @@ public class Fenetre extends JFrame implements Observer {
 		menu = new Menu(controller);
 		setJMenuBar(menu);
 		build();
+		setContentPane(buildContentPane(controller));
 		setVisible(true);
-
 	}
 
 	private void build() {
-		setTitle("Trim-Me");
-		setSize(LARGEURFENETRE, HAUTEURFENETRE);
+		setTitle(NOMAPPLICATION);
+		setBackground(BACKGROUNDCOLOR);
+		setMinimumSize(new Dimension(500, 300));
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setIconImage(new ImageIcon("images/icon.png").getImage()); // https://www.flaticon.com/
 		setLocationRelativeTo(null);
-		setResizable(false);
+		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addKeyListener(new ControleClavier());
-		setContentPane(buildContentPane());
 	}
 
-	private GridBagConstraints contrainte(int positionX, int positionY, int tailleX, double poidsX, double poidsY) {
+	private GridBagConstraints contrainteBarre() {
 		GridBagConstraints contrainte = new GridBagConstraints();
-		contrainte.gridx = positionX;
-		contrainte.gridy = positionY;
-		contrainte.gridwidth = tailleX;
+		contrainte.gridx = 0;
+		contrainte.gridy = 0;
+		contrainte.gridwidth = 1;
 		contrainte.gridheight = 1;
-		contrainte.insets = new Insets(10, 10, 10, 10);
+		contrainte.fill = GridBagConstraints.HORIZONTAL;
+		contrainte.anchor = GridBagConstraints.CENTER;
+		contrainte.weightx = 1;
+		contrainte.weighty = 0;
+		return contrainte;
+	}
+	
+	private GridBagConstraints contrainteImage() {
+		GridBagConstraints contrainte = new GridBagConstraints();
+		contrainte.gridx = 0;
+		contrainte.gridy = 1;
+		contrainte.gridwidth = 1;
+		contrainte.gridheight = 1;
 		contrainte.fill = GridBagConstraints.BOTH;
-		contrainte.anchor = GridBagConstraints.WEST;
-		contrainte.weightx = poidsX;
-		contrainte.weighty = poidsY;
+		contrainte.anchor = GridBagConstraints.CENTER;
+		contrainte.weightx = 1;
+		contrainte.weighty = 1;
 		return contrainte;
 	}
 
-	private JPanel buildContentPane() {
+	private GridBagConstraints contrainteInformations() {
+		GridBagConstraints contrainte = new GridBagConstraints();
+		contrainte.gridx = 0;
+		contrainte.gridy = 2;
+		contrainte.gridwidth = 1;
+		contrainte.gridheight = 1;
+		contrainte.fill = GridBagConstraints.HORIZONTAL;
+		contrainte.anchor = GridBagConstraints.CENTER;
+		contrainte.weightx = 1;
+		contrainte.weighty = 0;
+		return contrainte;
+	}
+
+	private JPanel buildContentPane(Controller controller) {
 		JPanel panel = new JPanel(new GridBagLayout());
 		panel.setBackground(WHITE);
-
+		
+		barreActions = new BarreActions(controller);
+		panel.add(barreActions, contrainteBarre());
 		zoneImage = new PanelImage();
-		panel.add(zoneImage, contrainte(0, 0, 1, 1.0, 1.0));
-		zoneScrollInformations = new ScrollInformations();
-		panel.add(zoneScrollInformations, contrainte(1, 0, 1, 1.0, 1.0));
-
-
-		zonePiedDePage = new PanelPiedDePage();
-		//panel.add(zonePiedDePage, contrainte(0, 1, 2, 1.0, 0.0));
+		panel.add(zoneImage, contrainteImage());
+		zoneInformations = new PanelInformations();
+		panel.add(zoneInformations, contrainteInformations());
 
 		return panel;
 	}
@@ -83,7 +108,10 @@ public class Fenetre extends JFrame implements Observer {
 		if (obs instanceof Modelisation) {
 			// maj photo
 			if (obj instanceof Image) {
-				zoneScrollInformations.miseAJour(modelisation);
+				Image image = (Image) obj;
+				setTitle(image.getNomFichier() + " - " + NOMAPPLICATION);
+
+				zoneInformations.miseAJour(modelisation);
 				zoneImage.miseAJour(modelisation);
 			}
 		} else {

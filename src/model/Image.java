@@ -91,6 +91,10 @@ public class Image {
 	public String getExtension() {
 		return extension;
 	}
+	
+	public String getNomFichier() {
+		return getNom() + "." + getExtension();
+	}
 
 	public int getPixel(int x, int y) {
 		return pixels[x][y];

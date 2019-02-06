@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -18,6 +19,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Controller;
 import model.Modelisation;
@@ -33,6 +35,8 @@ public class Menu extends JMenuBar {
 		this.controlleur = controlleur;
 
 		setBackground(BACKGROUNDCOLOR);
+		System.out.println(getBorder());
+		setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(180, 180, 180)));
 
 		boiteChargement = null;
 		
@@ -66,10 +70,10 @@ public class Menu extends JMenuBar {
 	private void choisir() {
 		try {
 			JFileChooser jf = new JFileChooser();
+			jf.setFileFilter(new FileNameExtensionFilter("Fichier image", "png", "jpg", "bmp"));
 			jf.setCurrentDirectory(new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Pictures"));
-			jf.setApproveButtonText("Ouvrir");
 			jf.setDialogTitle("Choisir une image");
-			if (jf.showSaveDialog(getParent()) == APPROVE_OPTION) {
+			if (jf.showOpenDialog(getParent()) == APPROVE_OPTION) {
 				controlleur.controleCheminImage(jf.getSelectedFile());
 			}
 		} catch (Exception ex) {
