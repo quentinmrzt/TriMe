@@ -18,29 +18,22 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Controller;
-import model.Modelisation;
 
 public class BarreActions extends JPanel {
 
 	private final int LARGEURPANEL = 0;
-	private final int HAUTEURPANEL = 25;
+	private final int HAUTEURPANEL = 30;
 	private final Color BACKGROUNDCOLOR = Color.WHITE;
-	
+
 	private Controller controlleur;
-	private JButton sauvegarder;
 
 	public BarreActions(Controller controlleur) {
 		super();
 		this.controlleur = controlleur;
 		build();
-		
-		sauvegarder = new JButton(new ImageIcon("images/save.png"));
-		sauvegarder.setSize(5, 25);
-		sauvegarder.setFocusPainted(false);
-		sauvegarder.setContentAreaFilled(false);
 
 		add(creationBoutonOuvrir(), contrainteOuvrir());
-		add(sauvegarder, contrainteSauvegarder());
+		add(creationBoutonSauvegarder(), contrainteSauvegarder());
 	}
 
 	private void build() {
@@ -49,13 +42,14 @@ public class BarreActions extends JPanel {
 		setPreferredSize(new Dimension(LARGEURPANEL, HAUTEURPANEL));
 		setBackground(BACKGROUNDCOLOR);
 	}
-	
+
 	private JButton creationBoutonOuvrir() {
 		JButton ouvrir = new JButton(new ImageIcon("images/open-archive.png"));
-		ouvrir.setSize(new Dimension(50,50));
-		//ouvrir.setPreferredSize(new Dimension(50,50));
-		//ouvrir.setFocusPainted(false);
-		ouvrir.setContentAreaFilled(false);
+		ouvrir.addMouseListener(new ControleSourisBouton(ouvrir));
+		ouvrir.setPreferredSize(new Dimension(25, 25));
+		ouvrir.setBorder(null);
+		ouvrir.setFocusPainted(false);
+		ouvrir.setBackground(Color.WHITE);
 		ouvrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				choisir();
@@ -63,7 +57,7 @@ public class BarreActions extends JPanel {
 		});
 		return ouvrir;
 	}
-	
+
 	private void choisir() {
 		try {
 			JFileChooser jf = new JFileChooser();
@@ -78,7 +72,6 @@ public class BarreActions extends JPanel {
 		}
 	}
 
-
 	private GridBagConstraints contrainteOuvrir() {
 		GridBagConstraints contrainte = new GridBagConstraints();
 		contrainte.gridx = 0;
@@ -86,10 +79,20 @@ public class BarreActions extends JPanel {
 		contrainte.gridwidth = 1;
 		contrainte.gridheight = 1;
 		contrainte.weightx = 0.0;
-		contrainte.weighty = 1.0;
+		contrainte.weighty = 0.0;
 		return contrainte;
 	}
-	
+
+	private JButton creationBoutonSauvegarder() {
+		JButton sauvegarder = new JButton(new ImageIcon("images/save.png"));
+		sauvegarder.setPreferredSize(new Dimension(25, 25));
+		sauvegarder.setBorder(null);
+		sauvegarder.setFocusPainted(false);
+		sauvegarder.setBackground(Color.WHITE);
+		sauvegarder.addMouseListener(new ControleSourisBouton(sauvegarder));
+		return sauvegarder;
+	}
+
 	private GridBagConstraints contrainteSauvegarder() {
 		GridBagConstraints contrainte = new GridBagConstraints();
 		contrainte.gridx = 1;
@@ -100,8 +103,5 @@ public class BarreActions extends JPanel {
 		contrainte.weightx = 1.0;
 		contrainte.weighty = 1.0;
 		return contrainte;
-	}
-
-	public void miseAJour(Modelisation modelisation) {
 	}
 }

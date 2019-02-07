@@ -4,9 +4,11 @@ import static javax.swing.JFileChooser.APPROVE_OPTION;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.URI;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -35,13 +37,13 @@ public class Menu extends JMenuBar {
 		this.controlleur = controlleur;
 
 		setBackground(BACKGROUNDCOLOR);
-		System.out.println(getBorder());
 		setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(180, 180, 180)));
 
 		boiteChargement = null;
 		
 		JMenu fichier = new JMenu("Fichier");
 		fichier.add(creationMenuChoisir());
+		fichier.add(creationMenuSauvegarder());
 		fichier.add(creationMenuQuitter());
 		add(fichier);
 
@@ -51,6 +53,7 @@ public class Menu extends JMenuBar {
 		add(edition);
 		
 		JMenu aide = new JMenu("Aide");
+		aide.add(creationMenuGithub());
 		add(aide);
 	}
 
@@ -79,6 +82,19 @@ public class Menu extends JMenuBar {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+	
+	private JMenuItem creationMenuSauvegarder() {
+		JMenuItem sauvegarder = new JMenuItem("<HTML>Sauvegarder</HTML>");
+		sauvegarder.setBackground(BACKGROUNDCOLOR);
+		sauvegarder.setIcon(new ImageIcon("images/save.png"));
+		sauvegarder.setActionCommand("Sauvegarder");
+		sauvegarder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		return sauvegarder;
 	}
 
 	private JMenuItem creationMenuQuitter() {
@@ -136,6 +152,24 @@ public class Menu extends JMenuBar {
 			e = SwingUtilities.getWindowAncestor(e);
 		}
 		return (JFrame) e;
+	}
+	
+	private JMenuItem creationMenuGithub() {
+		String nom = "Lien vers GitHub";
+		JMenuItem github = new JMenuItem(nom);
+		github.setBackground(BACKGROUNDCOLOR);
+		github.setIcon(new ImageIcon("images/github-logo.png"));
+		github.setActionCommand(nom);
+		github.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Desktop.getDesktop().browse(new URI("https://github.com/quentinmrzt/TriMe"));
+				} catch (Exception exception) {
+					exception.printStackTrace();
+				}
+			}
+		});
+		return github;
 	}
 
 	public void miseAJour(Modelisation modelisation) {

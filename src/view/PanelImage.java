@@ -17,6 +17,7 @@ import model.Modelisation;
 
 public class PanelImage extends JPanel {
 
+	private final Color COULEURFOND = new Color(230, 230, 230);
 	private final int LARGEURIMAGEMAX = 600;
 	private final int HAUTEURIMAGEMAX = 450;
 
@@ -32,7 +33,7 @@ public class PanelImage extends JPanel {
 
 	private void build() {
 		setLayout(new GridBagLayout());
-		setBackground(new Color(207, 207, 207));
+		setBackground(COULEURFOND);
 	}
 
 	private GridBagConstraints contrainte() {
