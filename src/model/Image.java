@@ -111,4 +111,8 @@ public class Image {
 			System.out.println(e);
 		}
 	}
+	
+	public BufferedImage getBufferedImage() {
+		return image;
+	}
 }

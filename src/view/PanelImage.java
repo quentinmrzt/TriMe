@@ -5,10 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -49,18 +46,11 @@ public class PanelImage extends JPanel {
 	}
 
 	public void miseAJour(Modelisation modelisation) {
-		String chemin = modelisation.getImage().getChemin()+"/"+modelisation.getImage().getNomFichier();
-		image.setIcon(resize(chemin));
+		//image.setIcon(new ImageIcon(modelisation.getImage().getBufferedImage()));
+		image.setIcon(resize(modelisation.getImage().getBufferedImage()));
 	}
 
-	private ImageIcon resize(String chemin) {
-		BufferedImage img = null;
-		try {
-			img = ImageIO.read(new File(chemin));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+	private ImageIcon resize(BufferedImage img) {
 		int largeur = 0;
 		int hauteur = 0;
 
