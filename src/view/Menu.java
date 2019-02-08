@@ -60,7 +60,7 @@ public class Menu extends JMenuBar {
 	private JMenuItem creationMenuChoisir() {
 		JMenuItem choisir = new JMenuItem("Choisir une image");
 		choisir.setBackground(BACKGROUNDCOLOR);
-		choisir.setIcon(new ImageIcon("images/open-archive.png"));
+		choisir.setIcon(new ImageIcon(getClass().getResource("open-archive.png")));
 		choisir.setActionCommand("Choisir une image");
 		choisir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -87,7 +87,7 @@ public class Menu extends JMenuBar {
 	private JMenuItem creationMenuSauvegarder() {
 		JMenuItem sauvegarder = new JMenuItem("<HTML>Sauvegarder</HTML>");
 		sauvegarder.setBackground(BACKGROUNDCOLOR);
-		sauvegarder.setIcon(new ImageIcon("images/save.png"));
+		sauvegarder.setIcon(new ImageIcon(getClass().getResource("save.png")));
 		sauvegarder.setActionCommand("Sauvegarder");
 		sauvegarder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -113,7 +113,7 @@ public class Menu extends JMenuBar {
 		String nom = "Supprimer pixel(s)";
 		JMenuItem suppression = new JMenuItem(nom);
 		suppression.setBackground(BACKGROUNDCOLOR);
-		suppression.setIcon(new ImageIcon("images/crop.png"));
+		suppression.setIcon(new ImageIcon(getClass().getResource("crop.png")));
 		suppression.setActionCommand(nom);
 		suppression.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -129,7 +129,7 @@ public class Menu extends JMenuBar {
 		String nom = "Supprimer/dessiner pixel(s)";
 		JMenuItem dessin = new JMenuItem(nom);
 		dessin.setBackground(BACKGROUNDCOLOR);
-		dessin.setIcon(new ImageIcon("images/pencil-edit-button.png"));
+		dessin.setIcon(new ImageIcon(getClass().getResource("pencil-edit-button.png")));
 		dessin.setActionCommand(nom);
 		dessin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -158,7 +158,7 @@ public class Menu extends JMenuBar {
 		String nom = "Lien vers GitHub";
 		JMenuItem github = new JMenuItem(nom);
 		github.setBackground(BACKGROUNDCOLOR);
-		github.setIcon(new ImageIcon("images/github-logo.png"));
+		github.setIcon(new ImageIcon(getClass().getResource("github-logo.png")));
 		github.setActionCommand(nom);
 		github.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

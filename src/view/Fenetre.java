@@ -43,7 +43,7 @@ public class Fenetre extends JFrame implements Observer {
 		setBackground(BACKGROUNDCOLOR);
 		setMinimumSize(new Dimension(500, 300));
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setIconImage(new ImageIcon("images/icon.png").getImage()); // https://www.flaticon.com/
+		setIconImage(new ImageIcon(getClass().getResource("icon.png")).getImage()); // https://www.flaticon.com/
 		setLocationRelativeTo(null);
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

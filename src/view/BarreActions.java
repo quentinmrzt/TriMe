@@ -44,7 +44,7 @@ public class BarreActions extends JPanel {
 	}
 
 	private JButton creationBoutonOuvrir() {
-		JButton ouvrir = new JButton(new ImageIcon("images/open-archive.png"));
+		JButton ouvrir = new JButton(new ImageIcon(getClass().getResource("open-archive.png")));
 		ouvrir.addMouseListener(new ControleSourisBouton(ouvrir));
 		ouvrir.setPreferredSize(new Dimension(25, 25));
 		ouvrir.setBorder(null);
@@ -84,7 +84,8 @@ public class BarreActions extends JPanel {
 	}
 
 	private JButton creationBoutonSauvegarder() {
-		JButton sauvegarder = new JButton(new ImageIcon("images/save.png"));
+		
+		JButton sauvegarder = new JButton(new ImageIcon(getClass().getResource("save.png")));
 		sauvegarder.setPreferredSize(new Dimension(25, 25));
 		sauvegarder.setBorder(null);
 		sauvegarder.setFocusPainted(false);
