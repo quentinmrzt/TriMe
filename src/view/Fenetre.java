@@ -24,7 +24,8 @@ public class Fenetre extends JFrame implements Observer {
 
 	private Modelisation modelisation;
 	private Menu menu;
-	private PanelImage zoneImage;
+	//private PanelImage zoneImage;
+	private ScrollImage scrollImage;
 	private PanelInformations zoneInformations;
 	private BarreActions barreActions;
 
@@ -95,8 +96,13 @@ public class Fenetre extends JFrame implements Observer {
 		
 		barreActions = new BarreActions(controller);
 		panel.add(barreActions, contrainteBarre());
-		zoneImage = new PanelImage();
-		panel.add(zoneImage, contrainteImage());
+		
+		/*zoneImage = new PanelImage();
+		panel.add(zoneImage, contrainteImage());*/
+		
+		scrollImage = new ScrollImage();
+		panel.add(scrollImage, contrainteImage());
+		
 		zoneInformations = new PanelInformations();
 		panel.add(zoneInformations, contrainteInformations());
 
@@ -112,7 +118,7 @@ public class Fenetre extends JFrame implements Observer {
 				setTitle(image.getNomFichier() + " - " + NOMAPPLICATION);
 
 				zoneInformations.miseAJour(modelisation);
-				zoneImage.miseAJour(modelisation);
+				scrollImage.miseAJour(modelisation);
 			}
 		} else {
 			// maj dessin

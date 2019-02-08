@@ -86,15 +86,29 @@ public class Menu extends JMenuBar {
 	
 	private JMenuItem creationMenuSauvegarder() {
 		JMenuItem sauvegarder = new JMenuItem("<HTML>Sauvegarder</HTML>");
+		sauvegarder.setEnabled(false);
 		sauvegarder.setBackground(BACKGROUNDCOLOR);
 		sauvegarder.setIcon(new ImageIcon(getClass().getResource("save.png")));
 		sauvegarder.setActionCommand("Sauvegarder");
 		sauvegarder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				sauvegarder();
 			}
 		});
 		return sauvegarder;
+	}
+	
+	private void sauvegarder() {
+		try {
+			JFileChooser jf = new JFileChooser();
+			jf.setCurrentDirectory(new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Pictures"));
+			jf.setDialogTitle("Enregistrer");
+			if (jf.showSaveDialog(getParent()) == APPROVE_OPTION) {
+				
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	private JMenuItem creationMenuQuitter() {

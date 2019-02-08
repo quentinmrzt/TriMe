@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -29,6 +30,7 @@ public class PanelImage extends JPanel {
 	}
 
 	private void build() {
+		setPreferredSize(new Dimension(2000, 2000));
 		setLayout(new GridBagLayout());
 		setBackground(COULEURFOND);
 	}
@@ -46,8 +48,8 @@ public class PanelImage extends JPanel {
 	}
 
 	public void miseAJour(Modelisation modelisation) {
-		//image.setIcon(new ImageIcon(modelisation.getImage().getBufferedImage()));
-		image.setIcon(resize(modelisation.getImage().getBufferedImage()));
+		image.setIcon(new ImageIcon(modelisation.getImage().getBufferedImage()));
+		//image.setIcon(resize(modelisation.getImage().getBufferedImage()));
 	}
 
 	private ImageIcon resize(BufferedImage img) {
