@@ -1,11 +1,8 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -16,8 +13,6 @@ import model.Modelisation;
 public class PanelImage extends JPanel {
 
 	private final Color COULEURFOND = new Color(230, 230, 230);
-	private final int LARGEURIMAGEMAX = 600;
-	private final int HAUTEURIMAGEMAX = 450;
 
 	private JLabel image;
 
@@ -26,11 +21,11 @@ public class PanelImage extends JPanel {
 		build();
 		image = new JLabel();
 		image.setIcon(null);
+		//addMouseWheelListener(new ControlSourisImage());
 		add(image, contrainte());
 	}
 
 	private void build() {
-		setPreferredSize(new Dimension(2000, 2000));
 		setLayout(new GridBagLayout());
 		setBackground(COULEURFOND);
 	}
@@ -52,9 +47,11 @@ public class PanelImage extends JPanel {
 		//image.setIcon(resize(modelisation.getImage().getBufferedImage()));
 	}
 
-	private ImageIcon resize(BufferedImage img) {
+	/*private ImageIcon resize(BufferedImage img) {
 		int largeur = 0;
 		int hauteur = 0;
+		int LARGEURIMAGEMAX = 600;
+		int HAUTEURIMAGEMAX = 450;
 
 		if (img.getWidth() > img.getHeight()) {
 			largeur = LARGEURIMAGEMAX;
@@ -65,5 +62,5 @@ public class PanelImage extends JPanel {
 		}
 
 		return new ImageIcon(img.getScaledInstance(largeur, hauteur, Image.SCALE_SMOOTH));
-	}
+	}*/
 }

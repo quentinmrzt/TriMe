@@ -3,9 +3,9 @@ package view;
 import static javax.swing.JFileChooser.APPROVE_OPTION;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -15,15 +15,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Controller;
 
 public class BarreActions extends JPanel {
 
-	private final int LARGEURPANEL = 0;
-	private final int HAUTEURPANEL = 30;
 	private final Color BACKGROUNDCOLOR = Color.WHITE;
+	private final Color BORDURECOLOR = new Color(180, 180, 180);
 
 	private Controller controlleur;
 
@@ -38,19 +38,19 @@ public class BarreActions extends JPanel {
 
 	private void build() {
 		setLayout(new GridBagLayout());
-		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(180, 180, 180)));
-		setPreferredSize(new Dimension(LARGEURPANEL, HAUTEURPANEL));
+		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, BORDURECOLOR));
 		setBackground(BACKGROUNDCOLOR);
 	}
 
 	private JButton creationBoutonOuvrir() {
 		JButton ouvrir = new JButton(new ImageIcon(getClass().getResource("open-archive.png")));
 		ouvrir.addMouseListener(new ControleSourisBouton(ouvrir));
+		ouvrir.setFocusable(false) ;
+
 		ouvrir.setToolTipText("Ouvrir");
-		ouvrir.setPreferredSize(new Dimension(25, 25));
-		ouvrir.setBorder(null);
+		ouvrir.setBorder(new LineBorder(BACKGROUNDCOLOR, 1, true));
 		ouvrir.setFocusPainted(false);
-		ouvrir.setBackground(Color.WHITE);
+		ouvrir.setBackground(BACKGROUNDCOLOR);
 		ouvrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				choisir();
@@ -79,20 +79,20 @@ public class BarreActions extends JPanel {
 		contrainte.gridy = 0;
 		contrainte.gridwidth = 1;
 		contrainte.gridheight = 1;
+		contrainte.insets = new Insets(5, 5, 5, 2);
 		contrainte.weightx = 0.0;
 		contrainte.weighty = 0.0;
 		return contrainte;
 	}
 
 	private JButton creationBoutonSauvegarder() {
-		
 		JButton sauvegarder = new JButton(new ImageIcon(getClass().getResource("save.png")));
 		sauvegarder.setEnabled(false);
 		sauvegarder.setToolTipText("Sauvegarder");
-		sauvegarder.setPreferredSize(new Dimension(25, 25));
-		sauvegarder.setBorder(null);
+		sauvegarder.setBorder(new LineBorder(BACKGROUNDCOLOR, 1, true));
 		sauvegarder.setFocusPainted(false);
-		sauvegarder.setBackground(Color.WHITE);
+		sauvegarder.setBackground(BACKGROUNDCOLOR);
+		sauvegarder.setFocusable(false) ;
 		sauvegarder.addMouseListener(new ControleSourisBouton(sauvegarder));
 		return sauvegarder;
 	}
@@ -105,6 +105,7 @@ public class BarreActions extends JPanel {
 		contrainte.gridheight = 1;
 		contrainte.anchor = GridBagConstraints.LINE_START;
 		contrainte.weightx = 1.0;
+		contrainte.insets = new Insets(5, 5, 5, 2);
 		contrainte.weighty = 1.0;
 		return contrainte;
 	}

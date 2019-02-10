@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JPanel;
 
 import model.Modelisation;
+import view.boite.BarreDeChargement;
 
 public class PanelPiedDePage extends JPanel {
 	private final int LARGEURPANEL = 0;

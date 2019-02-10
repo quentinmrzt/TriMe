@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,7 +25,6 @@ public class Fenetre extends JFrame implements Observer {
 
 	private Modelisation modelisation;
 	private Menu menu;
-	//private PanelImage zoneImage;
 	private ScrollImage scrollImage;
 	private PanelInformations zoneInformations;
 	private BarreActions barreActions;
@@ -36,6 +36,8 @@ public class Fenetre extends JFrame implements Observer {
 		setJMenuBar(menu);
 		build();
 		setContentPane(buildContentPane(controller));
+		addKeyListener(new ControleClavier());
+
 		setVisible(true);
 	}
 
@@ -48,7 +50,6 @@ public class Fenetre extends JFrame implements Observer {
 		setLocationRelativeTo(null);
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		addKeyListener(new ControleClavier());
 	}
 
 	private GridBagConstraints contrainteBarre() {
@@ -83,6 +84,7 @@ public class Fenetre extends JFrame implements Observer {
 		contrainte.gridy = 2;
 		contrainte.gridwidth = 1;
 		contrainte.gridheight = 1;
+		contrainte.insets = new Insets(5, 0, 5, 0);
 		contrainte.fill = GridBagConstraints.HORIZONTAL;
 		contrainte.anchor = GridBagConstraints.CENTER;
 		contrainte.weightx = 1;
@@ -96,10 +98,7 @@ public class Fenetre extends JFrame implements Observer {
 		
 		barreActions = new BarreActions(controller);
 		panel.add(barreActions, contrainteBarre());
-		
-		/*zoneImage = new PanelImage();
-		panel.add(zoneImage, contrainteImage());*/
-		
+				
 		scrollImage = new ScrollImage();
 		panel.add(scrollImage, contrainteImage());
 		

@@ -1,4 +1,4 @@
-package view;
+package view.boite;
 
 import java.awt.Dimension;
 

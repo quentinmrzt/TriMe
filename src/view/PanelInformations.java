@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -12,8 +11,6 @@ import model.Modelisation;
 
 public class PanelInformations extends JPanel {
 
-	private final int LARGEURPANEL = 0;
-	private final int HAUTEURPANEL = 25;
 	private final Color BACKGROUNDCOLOR = Color.WHITE;
 	
 	private JLabel chemin, dimension;
@@ -31,7 +28,6 @@ public class PanelInformations extends JPanel {
 
 	private void build() {
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(LARGEURPANEL, HAUTEURPANEL));
 		setBackground(BACKGROUNDCOLOR);
 	}
 

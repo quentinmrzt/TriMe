@@ -17,7 +17,6 @@ import javax.swing.SwingUtilities;
 
 import execution.Traitement;
 import model.Modelisation;
-import view.BarreDeChargement;
 
 public class BoiteChargement extends JDialog {
 	
