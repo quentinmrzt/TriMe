@@ -21,8 +21,8 @@ public class PanelImage extends JPanel {
 		build();
 		image = new JLabel();
 		image.setIcon(null);
-		//addMouseWheelListener(new ControlSourisImage());
 		add(image, contrainte());
+		requestFocusInWindow();
 	}
 
 	private void build() {
@@ -43,6 +43,7 @@ public class PanelImage extends JPanel {
 	}
 
 	public void miseAJour(Modelisation modelisation) {
+		System.out.println(requestFocusInWindow());
 		image.setIcon(new ImageIcon(modelisation.getImage().getBufferedImage()));
 		//image.setIcon(resize(modelisation.getImage().getBufferedImage()));
 	}

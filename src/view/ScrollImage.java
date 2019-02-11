@@ -9,8 +9,6 @@ import model.Modelisation;
 
 public class ScrollImage extends JScrollPane {
 
-	//private final int LARGEURFENETRE = 200;
-	//private final int HAUTEURFENETRE = 0;
 	private PanelImage panelImage;
 
 	public ScrollImage() {
@@ -20,17 +18,17 @@ public class ScrollImage extends JScrollPane {
 		setViewportView(panelImage);
 		setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		addMouseWheelListener(new ControlSourisImage(this));
 	}
 
-	public PanelImage getZoneInformations() {
+	public PanelImage getPanelImage() {
 		return panelImage;
 	}
 
 	private void build() {
-		//setPreferredSize(new Dimension(LARGEURFENETRE, HAUTEURFENETRE));
 		setBackground(WHITE);
 	}
-	
+
 	public void miseAJour(Modelisation modelisation) {
 		panelImage.miseAJour(modelisation);
 	}
