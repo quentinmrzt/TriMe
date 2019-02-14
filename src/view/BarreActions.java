@@ -19,6 +19,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Controller;
+import model.Modelisation;
 
 public class BarreActions extends JPanel {
 
@@ -26,6 +27,7 @@ public class BarreActions extends JPanel {
 	private final Color BORDURECOLOR = new Color(180, 180, 180);
 
 	private Controller controlleur;
+	private JButton sauvegarder;
 
 	public BarreActions(Controller controlleur) {
 		super();
@@ -86,7 +88,7 @@ public class BarreActions extends JPanel {
 	}
 
 	private JButton creationBoutonSauvegarder() {
-		JButton sauvegarder = new JButton(new ImageIcon(getClass().getResource("save.png")));
+		sauvegarder = new JButton(new ImageIcon(getClass().getResource("save.png")));
 		sauvegarder.setEnabled(false);
 		sauvegarder.setToolTipText("Sauvegarder");
 		sauvegarder.setBorder(new LineBorder(BACKGROUNDCOLOR, 1, true));
@@ -94,7 +96,28 @@ public class BarreActions extends JPanel {
 		sauvegarder.setBackground(BACKGROUNDCOLOR);
 		sauvegarder.setFocusable(false) ;
 		sauvegarder.addMouseListener(new ControleSourisBouton(sauvegarder));
+		sauvegarder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sauvegarder();
+			}
+		});
 		return sauvegarder;
+	}
+	
+	private void sauvegarder() {
+		try {
+			JFileChooser jf = new JFileChooser();
+			jf.setCurrentDirectory(new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Pictures"));
+			jf.setFileFilter(new FileNameExtensionFilter("JPEG (*.jpg)", "jpg"));
+			jf.setFileFilter(new FileNameExtensionFilter("BMP (*.bmp)", "bmp"));
+			jf.setFileFilter(new FileNameExtensionFilter("PNG (*.png)", "png"));
+			jf.setDialogTitle("Enregistrer");
+			if (jf.showSaveDialog(getParent()) == APPROVE_OPTION) {
+				controlleur.sauvegarder(jf.getSelectedFile());
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	private GridBagConstraints contrainteSauvegarder() {
@@ -108,5 +131,9 @@ public class BarreActions extends JPanel {
 		contrainte.insets = new Insets(5, 5, 5, 2);
 		contrainte.weighty = 1.0;
 		return contrainte;
+	}
+
+	public void miseAJour(Modelisation modelisation) {
+		sauvegarder.setEnabled(modelisation.getImage() != null);
 	}
 }

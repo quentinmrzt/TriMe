@@ -63,5 +63,9 @@ public class Controller {
 		}
 	}
 
+	public void sauvegarder(File selectedFile) {
+		System.out.println(selectedFile.getAbsolutePath());
+	}
+
 
 }

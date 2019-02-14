@@ -40,9 +40,10 @@ public class Menu extends JMenuBar {
 		setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(180, 180, 180)));
 
 		boiteChargement = null;
-		
+
 		JMenu fichier = new JMenu("Fichier");
 		fichier.add(creationMenuChoisir());
+		fichier.add(creationMenuFermer());
 		fichier.add(creationMenuSauvegarder());
 		fichier.add(creationMenuQuitter());
 		add(fichier);
@@ -51,17 +52,24 @@ public class Menu extends JMenuBar {
 		edition.add(creationMenuSuppresion());
 		edition.add(creationMenuDessiner());
 		add(edition);
-		
+
+		JMenu affichage = new JMenu("Affichage");
+		affichage.add(creationMenuZoomAvant());
+		affichage.add(creationMenuZoomArriere());
+		affichage.add(creationMenuAjuster());
+		affichage.add(creationMenuTailleReelle());
+		add(affichage);
+
 		JMenu aide = new JMenu("Aide");
 		aide.add(creationMenuGithub());
 		add(aide);
 	}
 
 	private JMenuItem creationMenuChoisir() {
-		JMenuItem choisir = new JMenuItem("Choisir une image");
+		JMenuItem choisir = new JMenuItem("Ouvrir...");
 		choisir.setBackground(BACKGROUNDCOLOR);
 		choisir.setIcon(new ImageIcon(getClass().getResource("open-archive.png")));
-		choisir.setActionCommand("Choisir une image");
+		choisir.setActionCommand("Ouvrir...");
 		choisir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				choisir();
@@ -83,7 +91,21 @@ public class Menu extends JMenuBar {
 			ex.printStackTrace();
 		}
 	}
-	
+
+	private JMenuItem creationMenuFermer() {
+		JMenuItem choisir = new JMenuItem("Fermer");
+		choisir.setEnabled(false);
+		choisir.setBackground(BACKGROUNDCOLOR);
+		choisir.setIcon(new ImageIcon(getClass().getResource("close-archive.png")));
+		choisir.setActionCommand("Fermer");
+		choisir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		return choisir;
+	}
+
 	private JMenuItem creationMenuSauvegarder() {
 		JMenuItem sauvegarder = new JMenuItem("<HTML>Sauvegarder</HTML>");
 		sauvegarder.setEnabled(false);
@@ -97,14 +119,14 @@ public class Menu extends JMenuBar {
 		});
 		return sauvegarder;
 	}
-	
+
 	private void sauvegarder() {
 		try {
 			JFileChooser jf = new JFileChooser();
 			jf.setCurrentDirectory(new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Pictures"));
 			jf.setDialogTitle("Enregistrer");
 			if (jf.showSaveDialog(getParent()) == APPROVE_OPTION) {
-				
+				controlleur.sauvegarder(jf.getSelectedFile());
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -167,7 +189,63 @@ public class Menu extends JMenuBar {
 		}
 		return (JFrame) e;
 	}
-	
+
+	private JMenuItem creationMenuZoomAvant() {
+		JMenuItem zoomAvant = new JMenuItem("Zoom avant");
+		zoomAvant.setEnabled(false);
+		zoomAvant.setBackground(BACKGROUNDCOLOR);
+		zoomAvant.setIcon(new ImageIcon(getClass().getResource("zoom-in.png")));
+		zoomAvant.setActionCommand("Zoom avant");
+		zoomAvant.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		return zoomAvant;
+	}
+
+	private JMenuItem creationMenuZoomArriere() {
+		JMenuItem zoomArriere = new JMenuItem("Zoom arrière");
+		zoomArriere.setEnabled(false);
+		zoomArriere.setBackground(BACKGROUNDCOLOR);
+		zoomArriere.setIcon(new ImageIcon(getClass().getResource("zoom-out.png")));
+		zoomArriere.setActionCommand("Zoom arrière");
+		zoomArriere.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		return zoomArriere;
+	}
+
+	private JMenuItem creationMenuAjuster() {
+		JMenuItem ajuster = new JMenuItem("Ajuster à la fenêtre");
+		ajuster.setEnabled(false);
+		ajuster.setBackground(BACKGROUNDCOLOR);
+		ajuster.setIcon(new ImageIcon(getClass().getResource("reduce.png")));
+		ajuster.setActionCommand("Ajuster à la fenêtre");
+		ajuster.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		return ajuster;
+	}
+
+	private JMenuItem creationMenuTailleReelle() {
+		JMenuItem tailleReelle = new JMenuItem("Taille réelle");
+		tailleReelle.setEnabled(false);
+		tailleReelle.setBackground(BACKGROUNDCOLOR);
+		tailleReelle.setIcon(new ImageIcon(getClass().getResource("resize.png")));
+		tailleReelle.setActionCommand("Taille réelle");
+		tailleReelle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		return tailleReelle;
+	}
+
 	private JMenuItem creationMenuGithub() {
 		String nom = "Lien vers GitHub";
 		JMenuItem github = new JMenuItem(nom);
