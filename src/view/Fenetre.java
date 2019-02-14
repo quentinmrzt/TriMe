@@ -36,7 +36,7 @@ public class Fenetre extends JFrame implements Observer {
 		setJMenuBar(menu);
 		build();
 		setContentPane(buildContentPane(controller));
-		addKeyListener(new ControleClavier());
+		addKeyListener(new ControleClavier(scrollImage));
 
 		setVisible(true);
 	}

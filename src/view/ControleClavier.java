@@ -5,6 +5,12 @@ import java.awt.event.KeyListener;
 
 public class ControleClavier implements KeyListener {
 
+	private ScrollImage scrollImage;
+	
+	public ControleClavier(ScrollImage si) {
+		scrollImage = si;
+	}
+	
 	private static boolean toucheControlActif, toucheShiftActif;
 	
 	public static boolean isToucheControlActif() {
@@ -25,6 +31,7 @@ public class ControleClavier implements KeyListener {
 			System.exit(0);
 			break;
 		case KeyEvent.VK_CONTROL:
+			scrollImage.setWheelScrollingEnabled(false);
 			toucheControlActif = true;
 			break;
 		case KeyEvent.VK_SHIFT:
@@ -37,6 +44,7 @@ public class ControleClavier implements KeyListener {
 	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_CONTROL:
+			scrollImage.setWheelScrollingEnabled(true);
 			toucheControlActif = false;
 			break;
 		case KeyEvent.VK_SHIFT:

@@ -9,20 +9,22 @@ import model.Modelisation;
 
 public class ScrollImage extends JScrollPane {
 
-	private PanelImage panelImage;
+	private PanelImage nouveauPanelImage;
 
 	public ScrollImage() {
 		super();
 		build();
-		panelImage = new PanelImage();
-		setViewportView(panelImage);
+		nouveauPanelImage = new PanelImage();
 		setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		addMouseWheelListener(new ControlSourisImage(this));
+		getVerticalScrollBar().setUnitIncrement(15);
+		getHorizontalScrollBar().setUnitIncrement(15);
+		addMouseWheelListener(new ControlSourisImage(nouveauPanelImage));
+		setViewportView(nouveauPanelImage);
 	}
 
 	public PanelImage getPanelImage() {
-		return panelImage;
+		return nouveauPanelImage;
 	}
 
 	private void build() {
@@ -30,6 +32,6 @@ public class ScrollImage extends JScrollPane {
 	}
 
 	public void miseAJour(Modelisation modelisation) {
-		panelImage.miseAJour(modelisation);
+		nouveauPanelImage.miseAJour(modelisation);
 	}
 }
