@@ -12,7 +12,7 @@ import model.Modelisation;
 public class PanelInformations extends JPanel {
 
 	private final Color BACKGROUNDCOLOR = Color.WHITE;
-	
+
 	private JLabel chemin, dimension;
 
 	public PanelInformations() {
@@ -45,7 +45,12 @@ public class PanelInformations extends JPanel {
 	}
 
 	public void miseAJour(Modelisation modelisation) {
-		chemin.setText("Chemin: " + modelisation.getImage().getChemin());
-		dimension.setText(modelisation.getImage().getHauteur() + "x" + modelisation.getImage().getLargeur());
+		if (modelisation.getImage() != null) {
+			chemin.setText("Chemin: " + modelisation.getImage().getChemin());
+			dimension.setText(modelisation.getImage().getHauteur() + "x" + modelisation.getImage().getLargeur());
+		} else {
+			chemin.setText("Chemin: ...");
+			dimension.setText("");
+		}
 	}
 }

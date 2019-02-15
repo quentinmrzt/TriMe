@@ -4,7 +4,7 @@ import java.awt.Dimension;
 
 import javax.swing.JProgressBar;
 
-import model.Modelisation;
+import execution.Traitement;
 
 public class BarreDeChargement extends JProgressBar {
 
@@ -23,11 +23,9 @@ public class BarreDeChargement extends JProgressBar {
 		setPreferredSize(new Dimension(LARGEUR, HAUTEUR));
 		setMinimum(0);
 		setMaximum(taille);
-		//setStringPainted(true);
 	}
 
-	public void miseAJour(Modelisation modelisation) {
-		setValue(modelisation.getTraitement().getIteration());
+	public void miseAJour(Traitement traitement) {
+		setValue(traitement.getIteration());
 	}
-
 }

@@ -7,7 +7,7 @@ public class Traitement extends Observable {
 	public final static int MINIMUM = 0, MAXIMUM = 100;
 
 	private Thread thread;
-	private Execution execution;
+	private ExecutionSuppressionPixels execution;
 	private int iteration;
 	private boolean fini;
 
@@ -18,7 +18,7 @@ public class Traitement extends Observable {
 		fini = false;
 	}
 
-	public void ajoutExecution(Execution execution) {
+	public void ajoutExecution(ExecutionSuppressionPixels execution) {
 		this.execution = execution;
 		iteration = MINIMUM;
 	}
@@ -34,7 +34,7 @@ public class Traitement extends Observable {
 		if (iteration < MAXIMUM) {
 			iteration = pourcentage;
 			setChanged();
-			notifyObservers();
+			notifyObservers("setPourcentage");
 		}
 	}
 
@@ -47,7 +47,7 @@ public class Traitement extends Observable {
 		if (fini) {
 			iteration = MAXIMUM;
 			setChanged();
-			notifyObservers();
+			notifyObservers("setFini");
 		}
 	}
 

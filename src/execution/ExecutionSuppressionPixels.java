@@ -1,5 +1,7 @@
 package execution;
 
+import java.util.Observable;
+
 import algorithme.AlgoPerso;
 import graphe.Graphe;
 import model.Chemin;
@@ -8,15 +10,25 @@ import model.Modelisation;
 import process.CreationImageAvecSuppresionUnPixel;
 import process.CreationTableauInteret;
 
-public class ExecutionSuppressionPixels extends Execution {
+public class ExecutionSuppressionPixels extends Observable implements Runnable {
 
+	private Traitement traitement;
 	private Modelisation modelisation;
 	private int nombrePixels;
 
 	public ExecutionSuppressionPixels(Modelisation modelisation, int nombrePixels) {
-		super(modelisation.getTraitement());
+		super();
+		this.traitement = modelisation.getTraitement();
 		this.modelisation = modelisation;
 		this.nombrePixels = nombrePixels;
+	}
+	
+	public void setPourcentage(int avancement, int taille) {
+		traitement.setPourcentage(calculePourcentage(avancement, taille));
+	}
+	
+	private int calculePourcentage(double avancement, double taille) {
+		return (int) ((avancement / taille) * Traitement.MAXIMUM);
 	}
 
 	@Override
@@ -28,17 +40,9 @@ public class ExecutionSuppressionPixels extends Execution {
 			Graphe graphe = new Graphe(interets);
 			Chemin chemin = AlgoPerso.executer(graphe);
 			nouvelleImage = CreationImageAvecSuppresionUnPixel.executer(nouvelleImage, chemin);
-
-			double numerateur = i;
-			double denominateur = nombrePixels;
-			int normalisation = (int) ((numerateur / denominateur) * Traitement.MAXIMUM);
-			getTraitement().setPourcentage(normalisation);
+			setPourcentage(i, nombrePixels);
 		}
-		
 		modelisation.setImage(nouvelleImage);
-
-		String cheminImage = nouvelleImage.getChemin()+ "/" + modelisation.getImage().getNom() + "_resultat_suppr" + nombrePixels + "." + modelisation.getImage().getExtension();
-		nouvelleImage.enregistrementImage(cheminImage);
-		getTraitement().setFini(true);
+		traitement.setFini(true);
 	}
 }

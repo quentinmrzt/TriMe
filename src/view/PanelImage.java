@@ -13,7 +13,8 @@ import model.Modelisation;
 
 public class PanelImage extends JPanel {
 
-	private final Color COULEURFOND = new Color(200, 200, 200);
+	private final int COULEURGRISE = 230;
+	private final Color COULEURFOND = new Color(COULEURGRISE, COULEURGRISE, COULEURGRISE);
 
 	private BufferedImage image;
 	private double echelle = 1;
@@ -74,6 +75,7 @@ public class PanelImage extends JPanel {
 			int nouvelleHauteur = (int) (image.getHeight() * echelle);
 			int x = (panelLargeur - nouvelleLargeur) / 2;
 			int y = (panelHauteur - nouvelleHauteur) / 2;
+			System.out.println(x + " / " + y);
 			g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
@@ -82,6 +84,10 @@ public class PanelImage extends JPanel {
 	}
 
 	public void miseAJour(Modelisation modelisation) {
-		setImage(modelisation.getImage().getBufferedImage());
+		if (modelisation.getImage() != null) {
+			setImage(modelisation.getImage().getBufferedImage());
+		} else {
+			setImage(null);
+		}
 	}
 }

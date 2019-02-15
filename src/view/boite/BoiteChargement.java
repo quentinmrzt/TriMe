@@ -16,40 +16,39 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import execution.Traitement;
-import model.Modelisation;
 
 public class BoiteChargement extends JDialog {
-	
+
 	private final int LARGEUR = 400;
 	private final int HAUTEUR = 120;
-	
+
 	private JLabel information;
 	private BarreDeChargement barreDeChargement;
 	private JButton annuler;
-	
-  public BoiteChargement(JFrame parent, String titre){
-    super(parent, titre, false);
-    build();
-    
-    int pourcentage = 0;
-    information = new JLabel("Suppression des pixels... "+pourcentage+"%");
-    
-    barreDeChargement = new BarreDeChargement();
-    
-    annuler = new JButton("Annuler");    
-    annuler.addActionListener(new ActionListener() {
+
+	public BoiteChargement(JFrame parent, String titre){
+		super(parent, titre, false);
+		build();
+
+		int pourcentage = 0;
+		information = new JLabel("Suppression des pixels... "+pourcentage+"%");
+
+		barreDeChargement = new BarreDeChargement();
+
+		annuler = new JButton("Annuler");    
+		annuler.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fermer((Component)e.getSource());
 			}
 		});
-    
-    add(information, contrainte(0));
-    add(barreDeChargement, contrainte(1));
-    add(annuler, contrainte(2));
-    
-    setVisible(true);
-  }
-  
+
+		add(information, contrainte(0));
+		add(barreDeChargement, contrainte(1));
+		add(annuler, contrainte(2));
+
+		setVisible(true);
+	}
+
 	private GridBagConstraints contrainte(int positionY) {
 		GridBagConstraints contrainte = new GridBagConstraints();
 		contrainte.gridx = 0;
@@ -63,24 +62,24 @@ public class BoiteChargement extends JDialog {
 		contrainte.weighty = 0.0;
 		return contrainte;
 	}
-	
+
 	private void fermer(Component component) {
 		Window window = SwingUtilities.windowForComponent(component);
 		window.dispose();
 	}
-  
-  private void build() {
+
+	private void build() {
 		setLayout(new GridBagLayout());
 		setBackground(Color.WHITE);
-  	setSize(LARGEUR, HAUTEUR);
-    setLocationRelativeTo(null);
-    setResizable(false);
-  }
-  
-  public void miseAJour(Modelisation modelisation) {
-  	information.setText("Suppression des pixels... "+modelisation.getTraitement().getIteration()+"%");
-		barreDeChargement.miseAJour(modelisation);
-		if(modelisation.getTraitement().getIteration() == Traitement.MAXIMUM) {
+		setSize(LARGEUR, HAUTEUR);
+		setLocationRelativeTo(null);
+		setResizable(false);
+	}
+
+	public void miseAJour(Traitement traitement) {
+		information.setText("Suppression des pixels... "+traitement.getIteration()+"%");
+		barreDeChargement.miseAJour(traitement);
+		if(traitement.getIteration() == Traitement.MAXIMUM) {
 			this.dispose();
 		}
 	}

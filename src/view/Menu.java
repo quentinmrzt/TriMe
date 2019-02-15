@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.URI;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -24,14 +26,17 @@ import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Controller;
+import execution.Traitement;
 import model.Modelisation;
 import view.boite.BoiteChargement;
 
-public class Menu extends JMenuBar {
+public class Menu extends JMenuBar implements Observer {
+
+	private final Color BACKGROUNDCOLOR = Color.WHITE;
 
 	private BoiteChargement boiteChargement;
 	private Controller controlleur;
-	private final Color BACKGROUNDCOLOR = Color.WHITE;
+	private JMenuItem sauvegarder, fermer;
 
 	public Menu(Controller controlleur) {
 		this.controlleur = controlleur;
@@ -93,21 +98,21 @@ public class Menu extends JMenuBar {
 	}
 
 	private JMenuItem creationMenuFermer() {
-		JMenuItem choisir = new JMenuItem("Fermer");
-		choisir.setEnabled(false);
-		choisir.setBackground(BACKGROUNDCOLOR);
-		choisir.setIcon(new ImageIcon(getClass().getResource("close-archive.png")));
-		choisir.setActionCommand("Fermer");
-		choisir.addActionListener(new ActionListener() {
+		fermer = new JMenuItem("Fermer");
+		fermer.setEnabled(false);
+		fermer.setBackground(BACKGROUNDCOLOR);
+		fermer.setIcon(new ImageIcon(getClass().getResource("close-archive.png")));
+		fermer.setActionCommand("Fermer");
+		fermer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				controlleur.fermerImage();
 			}
 		});
-		return choisir;
+		return fermer;
 	}
 
 	private JMenuItem creationMenuSauvegarder() {
-		JMenuItem sauvegarder = new JMenuItem("<HTML>Sauvegarder</HTML>");
+		sauvegarder = new JMenuItem("<HTML>Sauvegarder</HTML>");
 		sauvegarder.setEnabled(false);
 		sauvegarder.setBackground(BACKGROUNDCOLOR);
 		sauvegarder.setIcon(new ImageIcon(getClass().getResource("save.png")));
@@ -164,6 +169,7 @@ public class Menu extends JMenuBar {
 	private JMenuItem creationMenuDessiner() {
 		String nom = "Supprimer/dessiner pixel(s)";
 		JMenuItem dessin = new JMenuItem(nom);
+		dessin.setEnabled(false);
 		dessin.setBackground(BACKGROUNDCOLOR);
 		dessin.setIcon(new ImageIcon(getClass().getResource("pencil-edit-button.png")));
 		dessin.setActionCommand(nom);
@@ -264,9 +270,25 @@ public class Menu extends JMenuBar {
 		return github;
 	}
 
-	public void miseAJour(Modelisation modelisation) {
+	private void miseAJourMenu(Modelisation modelisation) {
+		sauvegarder.setEnabled(modelisation.getImage() != null);
+		fermer.setEnabled(modelisation.getImage() != null);
+	}
+
+	private void miseAJourBoite(Traitement traitement) {
 		if (boiteChargement != null) {
-			boiteChargement.miseAJour(modelisation);
+			boiteChargement.miseAJour(traitement);
+		}
+	}
+
+	@Override
+	public void update(Observable obs, Object obj) {
+		if (obs instanceof Modelisation) {
+			Modelisation modelisation = (Modelisation) obs;
+			miseAJourMenu(modelisation);
+		} else if (obs instanceof Traitement) {
+			Traitement traitement = (Traitement) obs;
+			miseAJourBoite(traitement);
 		}
 	}
 }

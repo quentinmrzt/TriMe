@@ -11,10 +11,10 @@ public class Controller {
 		this.modelisation = modelisation;
 	}
 
-	public void controleCheminImage(File image) {
-		String chemin = image.getAbsolutePath();
+	public void controleCheminImage(File fichier) {
+		String chemin = fichier.getAbsolutePath();
 		if (extensionValide(chemin)) {
-			modelisation.setImage(image);
+			modelisation.chargerImage(fichier);
 		}
 	}
 
@@ -45,15 +45,6 @@ public class Controller {
 		}
 	}
 
-	public void rotation(String nombresPixels) {
-		int nombre = nombreValide(nombresPixels);
-		if(modelisation.getImage() != null) {
-			if(nombre >= 0 && nombre <= 360) {
-				modelisation.rotation(nombre);
-			}
-		}
-	}
-
 	private int nombreValide(String nombresPixels) {
 		try {
 			return Integer.parseInt(nombresPixels);
@@ -64,8 +55,10 @@ public class Controller {
 	}
 
 	public void sauvegarder(File selectedFile) {
-		System.out.println(selectedFile.getAbsolutePath());
+		modelisation.enregistrementImage(selectedFile.getAbsolutePath());
 	}
 
-
+	public void fermerImage() {
+		modelisation.setImage(null);
+	}
 }

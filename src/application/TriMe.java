@@ -12,6 +12,5 @@ public class TriMe {
 		Fenetre fenetre = new Fenetre(modelisation, controller);
 		
 		modelisation.addObserver(fenetre);
-		modelisation.getTraitement().addObserver(fenetre);
 	}
 }

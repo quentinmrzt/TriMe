@@ -23,7 +23,6 @@ public class Fenetre extends JFrame implements Observer {
 	private final Color BACKGROUNDCOLOR = Color.WHITE;
 	private final String NOMAPPLICATION = "Trim-Me";
 
-	private Modelisation modelisation;
 	private Menu menu;
 	private ScrollImage scrollImage;
 	private PanelInformations zoneInformations;
@@ -31,7 +30,6 @@ public class Fenetre extends JFrame implements Observer {
 
 	public Fenetre(Modelisation modelisation, Controller controller) {
 		super();
-		this.modelisation = modelisation;
 		menu = new Menu(controller);
 		setJMenuBar(menu);
 		build();
@@ -64,7 +62,7 @@ public class Fenetre extends JFrame implements Observer {
 		contrainte.weighty = 0;
 		return contrainte;
 	}
-	
+
 	private GridBagConstraints contrainteImage() {
 		GridBagConstraints contrainte = new GridBagConstraints();
 		contrainte.gridx = 0;
@@ -95,34 +93,39 @@ public class Fenetre extends JFrame implements Observer {
 	private JPanel buildContentPane(Controller controller) {
 		JPanel panel = new JPanel(new GridBagLayout());
 		panel.setBackground(WHITE);
-		
+
 		barreActions = new BarreActions(controller);
 		panel.add(barreActions, contrainteBarre());
-				
+
 		scrollImage = new ScrollImage();
 		panel.add(scrollImage, contrainteImage());
-		
+
 		zoneInformations = new PanelInformations();
 		panel.add(zoneInformations, contrainteInformations());
 
 		return panel;
 	}
 
+	private void miseAJour(Modelisation modelisation) {
+		Image image = modelisation.getImage();
+		if (image != null) {
+			String indicateurModifie = modelisation.estModifie() ? "*" : "";
+			setTitle(image.getNomFichier() + indicateurModifie + " - " + NOMAPPLICATION);
+		} else {
+			setTitle(NOMAPPLICATION);
+		}
+	}
+
 	@Override
 	public void update(Observable obs, Object obj) {
+		System.out.println(obj);
 		if (obs instanceof Modelisation) {
-			// maj photo
-			if (obj instanceof Image) {
-				Image image = (Image) obj;
-				setTitle(image.getNomFichier() + " - " + NOMAPPLICATION);
-
-				zoneInformations.miseAJour(modelisation);
-				scrollImage.miseAJour(modelisation);
-				barreActions.miseAJour(modelisation);
-			}
-		} else {
-			// maj dessin
-			menu.miseAJour(modelisation);
+			Modelisation modelisation = (Modelisation) obs;
+			miseAJour(modelisation);
+			zoneInformations.miseAJour(modelisation);
+			scrollImage.miseAJour(modelisation);
+			barreActions.miseAJour(modelisation);
 		}
+		menu.update(obs, obj);
 	}
 }
