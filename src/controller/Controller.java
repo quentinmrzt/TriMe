@@ -49,7 +49,7 @@ public class Controller {
 		try {
 			return Integer.parseInt(nombresPixels);
 		} catch (Exception e) {
-			System.out.println("nombreValide(): Mauvais nombre !");
+			System.err.println("nombreValide(): Mauvais nombre !");
 			return 0;
 		}
 	}
@@ -59,6 +59,10 @@ public class Controller {
 	}
 
 	public void fermerImage() {
-		modelisation.setImage(null);
+		if (modelisation.estModifie()) {
+			
+		} else {
+			modelisation.setImage(null);
+		}
 	}
 }

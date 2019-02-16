@@ -42,6 +42,12 @@ public class BoiteChargement extends JDialog {
 			}
 		});
 
+		int milieuFenetreX = parent.getLocation().x + (parent.getWidth() / 2);
+		int milieuFenetreY = parent.getLocation().y + (parent.getHeight() / 2);
+		int moitieBoiteX = LARGEUR / 2;
+		int moitieBoiteY = HAUTEUR / 2;
+		setLocation(milieuFenetreX - moitieBoiteX, milieuFenetreY - moitieBoiteY);
+
 		add(information, contrainte(0));
 		add(barreDeChargement, contrainte(1));
 		add(annuler, contrainte(2));
@@ -77,9 +83,9 @@ public class BoiteChargement extends JDialog {
 	}
 
 	public void miseAJour(Traitement traitement) {
-		information.setText("Suppression des pixels... "+traitement.getIteration()+"%");
+		information.setText("Suppression des pixels... " + traitement.getIteration() + "%");
 		barreDeChargement.miseAJour(traitement);
-		if(traitement.getIteration() == Traitement.MAXIMUM) {
+		if (traitement.getIteration() == Traitement.MAXIMUM) {
 			this.dispose();
 		}
 	}

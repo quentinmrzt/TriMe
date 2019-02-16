@@ -29,6 +29,7 @@ import controller.Controller;
 import execution.Traitement;
 import model.Modelisation;
 import view.boite.BoiteChargement;
+import view.boite.BoiteSaisiePixels;
 
 public class Menu extends JMenuBar implements Observer {
 
@@ -36,7 +37,7 @@ public class Menu extends JMenuBar implements Observer {
 
 	private BoiteChargement boiteChargement;
 	private Controller controlleur;
-	private JMenuItem sauvegarder, fermer;
+	private JMenuItem sauvegarder, fermer, suppression;
 
 	public Menu(Controller controlleur) {
 		this.controlleur = controlleur;
@@ -98,14 +99,18 @@ public class Menu extends JMenuBar implements Observer {
 	}
 
 	private JMenuItem creationMenuFermer() {
-		fermer = new JMenuItem("Fermer");
+		String nom = "Fermer";
+		fermer = new JMenuItem(nom);
 		fermer.setEnabled(false);
 		fermer.setBackground(BACKGROUNDCOLOR);
 		fermer.setIcon(new ImageIcon(getClass().getResource("close-archive.png")));
-		fermer.setActionCommand("Fermer");
+		fermer.setActionCommand(nom);
 		fermer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controlleur.fermerImage();
+				int retour = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment fermer ?", nom, JOptionPane.YES_NO_OPTION);
+				if (retour == JOptionPane.OK_OPTION) {
+					controlleur.fermerImage();
+				}
 			}
 		});
 		return fermer;
@@ -152,15 +157,18 @@ public class Menu extends JMenuBar implements Observer {
 
 	private JMenuItem creationMenuSuppresion() {
 		String nom = "Supprimer pixel(s)";
-		JMenuItem suppression = new JMenuItem(nom);
+		suppression = new JMenuItem(nom);
+		suppression.setEnabled(false);
 		suppression.setBackground(BACKGROUNDCOLOR);
 		suppression.setIcon(new ImageIcon(getClass().getResource("crop.png")));
 		suppression.setActionCommand(nom);
 		suppression.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nombre = JOptionPane.showInputDialog(null, "Combien de pixel(s) voulez-vous supprimer ?", nom, JOptionPane.QUESTION_MESSAGE);
-				boiteChargement = new BoiteChargement(getJFrame(suppression), nom);
-				controlleur.supprimerDesPixels(nombre);
+				BoiteSaisiePixels boite = new BoiteSaisiePixels(getJFrame(suppression), nom);
+				if (boite.estValide()) {
+					boiteChargement = new BoiteChargement(getJFrame(suppression), nom);
+					controlleur.supprimerDesPixels(boite.getSaisie());
+				}
 			}
 		});
 		return suppression;
@@ -175,9 +183,11 @@ public class Menu extends JMenuBar implements Observer {
 		dessin.setActionCommand(nom);
 		dessin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nombre = JOptionPane.showInputDialog(null, "Combien de pixel(s) voulez-vous supprimer/dessiner ?", nom, JOptionPane.QUESTION_MESSAGE);
-				boiteChargement = new BoiteChargement(getJFrame(dessin), nom);
-				controlleur.dessinerDesPixels(nombre);
+				BoiteSaisiePixels boite = new BoiteSaisiePixels(getJFrame(dessin), nom);
+				if (boite.estValide()) {
+					boiteChargement = new BoiteChargement(getJFrame(dessin), nom);
+					controlleur.dessinerDesPixels(boite.getSaisie());
+				}
 			}
 		});
 		return dessin;
@@ -273,6 +283,7 @@ public class Menu extends JMenuBar implements Observer {
 	private void miseAJourMenu(Modelisation modelisation) {
 		sauvegarder.setEnabled(modelisation.getImage() != null);
 		fermer.setEnabled(modelisation.getImage() != null);
+		suppression.setEnabled(modelisation.getImage() != null);
 	}
 
 	private void miseAJourBoite(Traitement traitement) {
