@@ -3,10 +3,14 @@ package view;
 import static java.awt.Color.WHITE;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.KeyboardFocusManager;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -35,6 +39,20 @@ public class Fenetre extends JFrame implements Observer {
 		build();
 		setContentPane(buildContentPane(controller));
 		addKeyListener(new ControleClavier(scrollImage));
+
+		// Ecouteur pour débugger
+		KeyboardFocusManager focusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		focusManager.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent e) {
+				String properties = e.getPropertyName();
+				if (("focusOwner".equals(properties)) && (e.getNewValue() != null)) {
+					Component component = (Component) e.getNewValue();
+					String name = component.getName();
+
+					System.out.println(name + " a pris le focus");
+				}
+			}
+		});
 
 		setVisible(true);
 	}

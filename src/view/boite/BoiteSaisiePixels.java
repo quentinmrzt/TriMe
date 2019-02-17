@@ -1,24 +1,20 @@
 package view.boite;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 import execution.Traitement;
 
-public class BoiteSaisiePixels extends JDialog {
+public class BoiteSaisiePixels extends Boite {
 
 	private final int LARGEUR = 400;
 	private final int HAUTEUR = 130;
@@ -29,7 +25,7 @@ public class BoiteSaisiePixels extends JDialog {
 	private boolean valide;
 
 	public BoiteSaisiePixels(JFrame parent, String titre){
-		super(parent, titre, true);
+		super(parent, titre);
 		build();
 
 		valide = false;
@@ -49,6 +45,7 @@ public class BoiteSaisiePixels extends JDialog {
 		add(creerBoutonValider(), contrainteBouton(0, 3));
 		add(creerBoutonAnnuler(), contrainteBouton(1, 3));
 
+		valider.requestFocusInWindow();
 		setVisible(true);
 	}
 
@@ -92,11 +89,10 @@ public class BoiteSaisiePixels extends JDialog {
 		valider = new JButton("Valider");    
 		valider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				int nombre = conversionNombre(getSaisie());
-				valide = nombreValide(nombre);
-
+				valider();
+				
 				if (valide) {
-					fermer(event);
+					fermer();
 				} else {
 					afficherMessageErreur("Le nombre n'est pas valide !");
 				}
@@ -105,8 +101,12 @@ public class BoiteSaisiePixels extends JDialog {
 		return valider;
 	}
 	
+	public void valider() {
+		int nombre = conversionNombre(getSaisie());
+		valide = nombreValide(nombre);
+	}
+	
 	private void afficherMessageErreur(String erreur) {
-		saisie.setText("<html><p style='color:red;'>" + saisie.getText() + "</p></html>");
 		message.setText("<html><p style='color:red;'>" + erreur + "</p></html>");
 	}
 
@@ -126,17 +126,12 @@ public class BoiteSaisiePixels extends JDialog {
 		JButton annuler = new JButton("Annuler");    
 		annuler.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				fermer(event);
+				fermer();
 			}
 		});
 		return annuler;
 	}
-
-	private void fermer(ActionEvent event) {
-		Window window = SwingUtilities.windowForComponent((Component)event.getSource());
-		window.dispose();
-	}
-
+	
 	private void build() {
 		setLayout(new GridBagLayout());
 		setBackground(Color.WHITE);
@@ -147,5 +142,10 @@ public class BoiteSaisiePixels extends JDialog {
 
 	public void miseAJour(Traitement traitement) {
 
+	}
+
+	@Override
+	public void fermer() {
+		dispose();		
 	}
 }

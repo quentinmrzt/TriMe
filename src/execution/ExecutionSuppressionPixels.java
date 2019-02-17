@@ -1,7 +1,5 @@
 package execution;
 
-import java.util.Observable;
-
 import algorithme.AlgoPerso;
 import graphe.Graphe;
 import model.Chemin;
@@ -10,7 +8,7 @@ import model.Modelisation;
 import process.CreationImageAvecSuppresionUnPixel;
 import process.CreationTableauInteret;
 
-public class ExecutionSuppressionPixels extends Observable implements Runnable {
+public class ExecutionSuppressionPixels extends Thread implements Runnable {
 
 	private Traitement traitement;
 	private Modelisation modelisation;

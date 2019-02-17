@@ -58,8 +58,7 @@ public class Modelisation extends Observable {
 	}
 
 	public void suppressionDePixels(int nombrePixels) {
-		ExecutionSuppressionPixels execution = new ExecutionSuppressionPixels(this, nombrePixels);
-		traitement.ajoutExecution(execution);
+		traitement.ajoutExecution(new ExecutionSuppressionPixels(this, nombrePixels));
 		traitement.lancerExecution();
 	}
 

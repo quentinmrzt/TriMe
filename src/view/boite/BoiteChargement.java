@@ -1,23 +1,19 @@
 package view.boite;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
 
 import execution.Traitement;
 
-public class BoiteChargement extends JDialog {
+public class BoiteChargement extends Boite {
 
 	private final int LARGEUR = 400;
 	private final int HAUTEUR = 120;
@@ -27,7 +23,7 @@ public class BoiteChargement extends JDialog {
 	private JButton annuler;
 
 	public BoiteChargement(JFrame parent, String titre){
-		super(parent, titre, false);
+		super(parent, titre);
 		build();
 
 		int pourcentage = 0;
@@ -38,7 +34,7 @@ public class BoiteChargement extends JDialog {
 		annuler = new JButton("Annuler");    
 		annuler.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				fermer((Component)e.getSource());
+				fermer();
 			}
 		});
 
@@ -69,11 +65,6 @@ public class BoiteChargement extends JDialog {
 		return contrainte;
 	}
 
-	private void fermer(Component component) {
-		Window window = SwingUtilities.windowForComponent(component);
-		window.dispose();
-	}
-
 	private void build() {
 		setLayout(new GridBagLayout());
 		setBackground(Color.WHITE);
@@ -83,10 +74,16 @@ public class BoiteChargement extends JDialog {
 	}
 
 	public void miseAJour(Traitement traitement) {
+		System.out.println("BoiteChargement");
 		information.setText("Suppression des pixels... " + traitement.getIteration() + "%");
 		barreDeChargement.miseAJour(traitement);
 		if (traitement.getIteration() == Traitement.MAXIMUM) {
 			this.dispose();
 		}
+	}
+
+	@Override
+	public void fermer() {
+		dispose();
 	}
 }

@@ -41,13 +41,15 @@ public class Menu extends JMenuBar implements Observer {
 
 	public Menu(Controller controlleur) {
 		this.controlleur = controlleur;
-
+		
+		setName("Menu");
 		setBackground(BACKGROUNDCOLOR);
 		setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(180, 180, 180)));
 
 		boiteChargement = null;
 
 		JMenu fichier = new JMenu("Fichier");
+		fichier.setName("Fichier");
 		fichier.add(creationMenuChoisir());
 		fichier.add(creationMenuFermer());
 		fichier.add(creationMenuSauvegarder());
@@ -72,7 +74,10 @@ public class Menu extends JMenuBar implements Observer {
 	}
 
 	private JMenuItem creationMenuChoisir() {
-		JMenuItem choisir = new JMenuItem("Ouvrir...");
+		String nom = "Ouvrir...";
+		JMenuItem choisir = new JMenuItem(nom);
+		choisir.setName(nom);
+		choisir.setName("MenuChoisir");
 		choisir.setBackground(BACKGROUNDCOLOR);
 		choisir.setIcon(new ImageIcon(getClass().getResource("open-archive.png")));
 		choisir.setActionCommand("Ouvrir...");
@@ -101,6 +106,7 @@ public class Menu extends JMenuBar implements Observer {
 	private JMenuItem creationMenuFermer() {
 		String nom = "Fermer";
 		fermer = new JMenuItem(nom);
+		fermer.setName(nom);
 		fermer.setEnabled(false);
 		fermer.setBackground(BACKGROUNDCOLOR);
 		fermer.setIcon(new ImageIcon(getClass().getResource("close-archive.png")));
@@ -117,7 +123,9 @@ public class Menu extends JMenuBar implements Observer {
 	}
 
 	private JMenuItem creationMenuSauvegarder() {
-		sauvegarder = new JMenuItem("<HTML>Sauvegarder</HTML>");
+		String nom = "Sauvegarder";
+		sauvegarder = new JMenuItem("<HTML>"+nom+"</HTML>");
+		sauvegarder.setName(nom);
 		sauvegarder.setEnabled(false);
 		sauvegarder.setBackground(BACKGROUNDCOLOR);
 		sauvegarder.setIcon(new ImageIcon(getClass().getResource("save.png")));
@@ -144,9 +152,11 @@ public class Menu extends JMenuBar implements Observer {
 	}
 
 	private JMenuItem creationMenuQuitter() {
+		String nom = "Quitter";
 		JMenuItem quitter = new JMenuItem("<HTML><U>Q</U>uitter</HTML>");
+		quitter.setName(nom);
 		quitter.setBackground(BACKGROUNDCOLOR);
-		quitter.setActionCommand("Quitter");
+		quitter.setActionCommand(nom);
 		quitter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -166,8 +176,8 @@ public class Menu extends JMenuBar implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				BoiteSaisiePixels boite = new BoiteSaisiePixels(getJFrame(suppression), nom);
 				if (boite.estValide()) {
-					boiteChargement = new BoiteChargement(getJFrame(suppression), nom);
 					controlleur.supprimerDesPixels(boite.getSaisie());
+					boiteChargement = new BoiteChargement(getJFrame(suppression), nom);
 				}
 			}
 		});
@@ -288,18 +298,23 @@ public class Menu extends JMenuBar implements Observer {
 
 	private void miseAJourBoite(Traitement traitement) {
 		if (boiteChargement != null) {
+			System.out.print(" - != null");
 			boiteChargement.miseAJour(traitement);
 		}
 	}
 
 	@Override
 	public void update(Observable obs, Object obj) {
+		System.out.print("Menu");
 		if (obs instanceof Modelisation) {
+			System.out.print(" - Modelisation");
 			Modelisation modelisation = (Modelisation) obs;
 			miseAJourMenu(modelisation);
 		} else if (obs instanceof Traitement) {
+			System.out.print(" - Traitement");
 			Traitement traitement = (Traitement) obs;
 			miseAJourBoite(traitement);
 		}
+		System.out.println();
 	}
 }
