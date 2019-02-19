@@ -139,7 +139,6 @@ public class Fenetre extends JFrame implements Observer {
 
 	@Override
 	public void update(Observable obs, Object obj) {
-		//System.out.println(obj);
 		if (obs instanceof Modelisation) {
 			Modelisation modelisation = (Modelisation) obs;
 			miseAJour(modelisation);

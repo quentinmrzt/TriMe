@@ -76,7 +76,6 @@ public class BoiteChargement extends Boite implements Observer {
 	}
 
 	public void miseAJour(Traitement traitement) {
-		// System.out.println("BoiteChargement");
 		information.setText("Suppression des pixels... " + traitement.getIteration() + "%");
 		barreDeChargement.miseAJour(traitement);
 		if (traitement.getIteration() == Traitement.MAXIMUM) {

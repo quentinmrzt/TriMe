@@ -76,7 +76,7 @@ public class PanelImage extends JPanel {
 			int nouvelleHauteur = (int) (image.getHeight() * echelle);
 			int x = (panelLargeur - nouvelleLargeur) / 2;
 			int y = (panelHauteur - nouvelleHauteur) / 2;
-			System.out.println(x + " / " + y);
+			//System.out.println(x + " / " + y);
 			g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);

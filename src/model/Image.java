@@ -108,7 +108,7 @@ public class Image {
 		try {
 			ImageIO.write(image, extension, new File(nomComplet));
 		} catch (IOException e) {
-			System.out.println(e);
+			System.err.println(e);
 		}
 	}
 	
