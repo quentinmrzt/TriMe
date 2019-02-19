@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,7 +15,7 @@ import javax.swing.JLabel;
 
 import execution.Traitement;
 
-public class BoiteChargement extends Boite {
+public class BoiteChargement extends Boite implements Observer {
 
 	private final int LARGEUR = 400;
 	private final int HAUTEUR = 120;
@@ -22,16 +24,16 @@ public class BoiteChargement extends Boite {
 	private BarreDeChargement barreDeChargement;
 	private JButton annuler;
 
-	public BoiteChargement(JFrame parent, String titre){
+	public BoiteChargement(JFrame parent, String titre) {
 		super(parent, titre);
 		build();
 
 		int pourcentage = 0;
-		information = new JLabel("Suppression des pixels... "+pourcentage+"%");
+		information = new JLabel("Suppression des pixels... " + pourcentage + "%");
 
 		barreDeChargement = new BarreDeChargement();
 
-		annuler = new JButton("Annuler");    
+		annuler = new JButton("Annuler");
 		annuler.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fermer();
@@ -74,16 +76,29 @@ public class BoiteChargement extends Boite {
 	}
 
 	public void miseAJour(Traitement traitement) {
-		System.out.println("BoiteChargement");
+		// System.out.println("BoiteChargement");
 		information.setText("Suppression des pixels... " + traitement.getIteration() + "%");
 		barreDeChargement.miseAJour(traitement);
 		if (traitement.getIteration() == Traitement.MAXIMUM) {
-			this.dispose();
+			dispose();
 		}
 	}
 
 	@Override
 	public void fermer() {
 		dispose();
+	}
+
+	@Override
+	public void update(Observable obs, Object obj) {
+		if (obs instanceof Traitement) {
+			Traitement traitement = (Traitement) obs;
+
+			information.setText("Suppression des pixels... " + traitement.getIteration() + "%");
+			barreDeChargement.miseAJour(traitement);
+			if (traitement.getIteration() == Traitement.MAXIMUM) {
+				dispose();
+			}
+		}
 	}
 }

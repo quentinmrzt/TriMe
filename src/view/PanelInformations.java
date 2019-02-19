@@ -18,6 +18,7 @@ public class PanelInformations extends JPanel {
 	public PanelInformations() {
 		super();
 		build();
+		setName("PanelInformations");
 
 		chemin = new JLabel("Chemin: ...");
 		dimension = new JLabel("");

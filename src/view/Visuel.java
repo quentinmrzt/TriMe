@@ -11,6 +11,7 @@ public class Visuel extends JLabel {
 
 	public Visuel(String str) {
 		this.setSize(300, 300);
+		setName("Visuel");
 		
 		if (str != "") {
 		img = new ImageIcon(getClass().getResource(str)).getImage();

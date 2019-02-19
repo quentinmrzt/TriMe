@@ -22,6 +22,7 @@ public class PanelImage extends JPanel {
 	public PanelImage() {
 		super();
 		setBackground(COULEURFOND);
+		setName("PanelImage");
 	}
 
 	public double getEchelle() {

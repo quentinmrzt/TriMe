@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import controller.Controller;
 import model.Image;
 import model.Modelisation;
+import view.menu.Menu;
 
 public class Fenetre extends JFrame implements Observer {
 
@@ -34,6 +35,7 @@ public class Fenetre extends JFrame implements Observer {
 
 	public Fenetre(Modelisation modelisation, Controller controller) {
 		super();
+		setName(NOMAPPLICATION);
 		menu = new Menu(controller);
 		setJMenuBar(menu);
 		build();
@@ -48,8 +50,9 @@ public class Fenetre extends JFrame implements Observer {
 				if (("focusOwner".equals(properties)) && (e.getNewValue() != null)) {
 					Component component = (Component) e.getNewValue();
 					String name = component.getName();
-
-					System.out.println(name + " a pris le focus");
+					String tmp = component.toString();
+					
+					//System.out.println(name + " a pris le focus: "+tmp);
 				}
 			}
 		});
@@ -136,7 +139,7 @@ public class Fenetre extends JFrame implements Observer {
 
 	@Override
 	public void update(Observable obs, Object obj) {
-		System.out.println(obj);
+		//System.out.println(obj);
 		if (obs instanceof Modelisation) {
 			Modelisation modelisation = (Modelisation) obs;
 			miseAJour(modelisation);
@@ -144,6 +147,7 @@ public class Fenetre extends JFrame implements Observer {
 			scrollImage.miseAJour(modelisation);
 			barreActions.miseAJour(modelisation);
 		}
+		
 		menu.update(obs, obj);
 	}
 }

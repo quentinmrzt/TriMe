@@ -33,6 +33,7 @@ public class BarreActions extends JPanel {
 		super();
 		this.controlleur = controlleur;
 		build();
+		setName("BarreActions");
 
 		add(creationBoutonOuvrir(), contrainteOuvrir());
 		add(creationBoutonSauvegarder(), contrainteSauvegarder());

@@ -34,6 +34,7 @@ public class ExecutionSuppressionPixels extends Thread implements Runnable {
 		Image nouvelleImage = modelisation.getImage();
 
 		for (int i = 0; i < nombrePixels; i++) {
+			System.out.println(i);
 			int[][] interets = CreationTableauInteret.executer(nouvelleImage);
 			Graphe graphe = new Graphe(interets);
 			Chemin chemin = AlgoPerso.executer(graphe);

@@ -14,6 +14,7 @@ public class ScrollImage extends JScrollPane {
 	public ScrollImage() {
 		super();
 		build();
+		setName("ScrollImage");
 		nouveauPanelImage = new PanelImage();
 		setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);

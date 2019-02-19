@@ -86,7 +86,7 @@ public class BoiteSaisiePixels extends Boite {
 	}
 
 	private JButton creerBoutonValider() {
-		valider = new JButton("Valider");    
+		valider = new JButton("Valider");  
 		valider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				valider();

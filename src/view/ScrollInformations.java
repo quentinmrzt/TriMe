@@ -18,6 +18,7 @@ public class ScrollInformations extends JScrollPane {
 	public ScrollInformations() {
 		super();
 		build();
+		setName("ScrollInformations");
 		zoneInformations = new PanelInformations();
 		setViewportView(zoneInformations);
 	}
