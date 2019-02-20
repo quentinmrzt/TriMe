@@ -73,4 +73,8 @@ public class Modelisation extends Observable {
 		super.addObserver(o);
 		traitement.addObserver(o);
 	}
+
+	public void annulerTraitement() {
+		traitement.stoperExecution();
+	}
 }

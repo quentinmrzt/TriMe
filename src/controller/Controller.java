@@ -65,4 +65,8 @@ public class Controller {
 			modelisation.setImage(null);
 		}
 	}
+
+	public void annuler() {
+		modelisation.annulerTraitement();
+	}
 }

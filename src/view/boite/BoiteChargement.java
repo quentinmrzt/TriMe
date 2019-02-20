@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import controller.Controller;
 import execution.Traitement;
 
 public class BoiteChargement extends Boite implements Observer {
@@ -20,13 +21,16 @@ public class BoiteChargement extends Boite implements Observer {
 	private final int LARGEUR = 400;
 	private final int HAUTEUR = 120;
 
+	private Controller controlleur;
+	
 	private JLabel information;
 	private BarreDeChargement barreDeChargement;
 	private JButton annuler;
 
-	public BoiteChargement(JFrame parent, String titre) {
+	public BoiteChargement(JFrame parent, String titre, Controller controller) {
 		super(parent, titre);
 		build();
+		this.controlleur = controller;
 
 		int pourcentage = 0;
 		information = new JLabel("Suppression des pixels... " + pourcentage + "%");
@@ -36,6 +40,7 @@ public class BoiteChargement extends Boite implements Observer {
 		annuler = new JButton("Annuler");
 		annuler.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controlleur.annuler();
 				fermer();
 			}
 		});

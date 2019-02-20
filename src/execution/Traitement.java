@@ -51,4 +51,10 @@ public class Traitement extends Observable {
 		}
 	}
 
+	public void stoperExecution() {
+		if (execution != null) {
+			execution.stoper();
+		}
+	}
+
 }

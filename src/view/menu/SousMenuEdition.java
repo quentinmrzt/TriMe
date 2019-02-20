@@ -53,7 +53,7 @@ public class SousMenuEdition extends JMenu implements Observer {
 				BoiteSaisiePixels boite = new BoiteSaisiePixels(getJFrame(suppression), nom);
 				if (boite.estValide()) {
 					controlleur.supprimerDesPixels(boite.getSaisie());
-					boiteChargement = new BoiteChargement(getJFrame(suppression), nom);
+					new BoiteChargement(getJFrame(suppression), nom, controlleur);
 				}
 			}
 		});
@@ -72,7 +72,7 @@ public class SousMenuEdition extends JMenu implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				BoiteSaisiePixels boite = new BoiteSaisiePixels(getJFrame(dessin), nom);
 				if (boite.estValide()) {
-					boiteChargement = new BoiteChargement(getJFrame(dessin), nom);
+					new BoiteChargement(getJFrame(dessin), nom, controlleur);
 					controlleur.dessinerDesPixels(boite.getSaisie());
 				}
 			}
@@ -109,6 +109,7 @@ public class SousMenuEdition extends JMenu implements Observer {
 	}
 
 	private void miseAJourBoite(Traitement traitement) {
+		System.out.println(boiteChargement != null);
 		if (boiteChargement != null) {
 			boiteChargement.miseAJour(traitement);
 		}

@@ -3,7 +3,6 @@ package view;
 import static java.awt.Color.WHITE;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -48,11 +47,8 @@ public class Fenetre extends JFrame implements Observer {
 			public void propertyChange(PropertyChangeEvent e) {
 				String properties = e.getPropertyName();
 				if (("focusOwner".equals(properties)) && (e.getNewValue() != null)) {
-					Component component = (Component) e.getNewValue();
-					String name = component.getName();
-					String tmp = component.toString();
-					
-					//System.out.println(name + " a pris le focus: "+tmp);
+					//Component component = (Component) e.getNewValue();					
+					//System.out.println(component.getName() + " a pris le focus: " + component.toString());
 				}
 			}
 		});
