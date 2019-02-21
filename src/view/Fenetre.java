@@ -7,9 +7,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.KeyboardFocusManager;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -35,24 +32,11 @@ public class Fenetre extends JFrame implements Observer {
 	public Fenetre(Modelisation modelisation, Controller controller) {
 		super();
 		setName(NOMAPPLICATION);
-		menu = new Menu(controller);
+		menu = new Menu(modelisation, controller);
 		setJMenuBar(menu);
 		build();
 		setContentPane(buildContentPane(controller));
 		addKeyListener(new ControleClavier(scrollImage));
-
-		// Ecouteur pour débugger
-		KeyboardFocusManager focusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-		focusManager.addPropertyChangeListener(new PropertyChangeListener() {
-			public void propertyChange(PropertyChangeEvent e) {
-				String properties = e.getPropertyName();
-				if (("focusOwner".equals(properties)) && (e.getNewValue() != null)) {
-					//Component component = (Component) e.getNewValue();					
-					//System.out.println(component.getName() + " a pris le focus: " + component.toString());
-				}
-			}
-		});
-
 		setVisible(true);
 	}
 

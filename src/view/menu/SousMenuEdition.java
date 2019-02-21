@@ -29,18 +29,18 @@ public class SousMenuEdition extends JMenu implements Observer {
 	private JMenuItem suppression;
 	private BoiteChargement boiteChargement;
 
-	public SousMenuEdition(Controller controller) {
+	public SousMenuEdition(Modelisation modelisation, Controller controller) {
 		super("Edition");
 
 		this.controlleur = controller;
 		boiteChargement = null;
 
 		setName("Edition");
-		add(creationMenuSuppresion());
-		add(creationMenuDessiner());
+		add(creationMenuSuppresion(modelisation));
+		add(creationMenuDessiner(modelisation));
 	}
 
-	private JMenuItem creationMenuSuppresion() {
+	private JMenuItem creationMenuSuppresion(Modelisation modelisation) {
 		String nom = "Supprimer pixel(s)";
 		suppression = new JMenuItem(nom);
 		suppression.setName(nom);
@@ -53,14 +53,14 @@ public class SousMenuEdition extends JMenu implements Observer {
 				BoiteSaisiePixels boite = new BoiteSaisiePixels(getJFrame(suppression), nom);
 				if (boite.estValide()) {
 					controlleur.supprimerDesPixels(boite.getSaisie());
-					new BoiteChargement(getJFrame(suppression), nom, controlleur);
+					new BoiteChargement(modelisation, getJFrame(suppression), nom, controlleur);
 				}
 			}
 		});
 		return suppression;
 	}
 
-	private JMenuItem creationMenuDessiner() {
+	private JMenuItem creationMenuDessiner(Modelisation modelisation) {
 		String nom = "Supprimer/dessiner pixel(s)";
 		JMenuItem dessin = new JMenuItem(nom);
 		dessin.setName(nom);
@@ -72,7 +72,7 @@ public class SousMenuEdition extends JMenu implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				BoiteSaisiePixels boite = new BoiteSaisiePixels(getJFrame(dessin), nom);
 				if (boite.estValide()) {
-					new BoiteChargement(getJFrame(dessin), nom, controlleur);
+					new BoiteChargement(modelisation, getJFrame(dessin), nom, controlleur);
 					controlleur.dessinerDesPixels(boite.getSaisie());
 				}
 			}
@@ -109,7 +109,6 @@ public class SousMenuEdition extends JMenu implements Observer {
 	}
 
 	private void miseAJourBoite(Traitement traitement) {
-		System.out.println(boiteChargement != null);
 		if (boiteChargement != null) {
 			boiteChargement.miseAJour(traitement);
 		}

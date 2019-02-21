@@ -17,7 +17,7 @@ public class Menu extends JMenuBar implements Observer {
 	private SousMenuFichier sousMenuFichier;
 	private SousMenuEdition sousMenuEdition;
 
-	public Menu(Controller controlleur) {
+	public Menu(Modelisation modelisation, Controller controlleur) {
 		super();
 
 		setName("Menu");
@@ -25,7 +25,7 @@ public class Menu extends JMenuBar implements Observer {
 		setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(180, 180, 180)));
 
 		sousMenuFichier = new SousMenuFichier(controlleur);
-		sousMenuEdition = new SousMenuEdition(controlleur);
+		sousMenuEdition = new SousMenuEdition(modelisation, controlleur);
 
 		add(sousMenuFichier);
 		add(sousMenuEdition);

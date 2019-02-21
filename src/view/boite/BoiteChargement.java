@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 
 import controller.Controller;
 import execution.Traitement;
+import model.Modelisation;
 
 public class BoiteChargement extends Boite implements Observer {
 
@@ -27,9 +28,10 @@ public class BoiteChargement extends Boite implements Observer {
 	private BarreDeChargement barreDeChargement;
 	private JButton annuler;
 
-	public BoiteChargement(JFrame parent, String titre, Controller controller) {
+	public BoiteChargement(Modelisation modelisation, JFrame parent, String titre, Controller controller) {
 		super(parent, titre);
 		build();
+		modelisation.addObserver(this);
 		this.controlleur = controller;
 
 		int pourcentage = 0;
