@@ -15,7 +15,7 @@ public class ControleClavierBoite implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_ESCAPE:
-			boite.fermer();
+			boite.dispose();
 			break;
 		case KeyEvent.VK_ENTER:
 			break;

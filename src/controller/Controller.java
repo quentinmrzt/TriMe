@@ -66,7 +66,15 @@ public class Controller {
 		}
 	}
 
-	public void annuler() {
+	public void annulerTraitement() {
 		modelisation.annulerTraitement();
+	}
+
+	public void annuler() {
+		modelisation.annuler();
+	}
+	
+	public void retablir() {
+		modelisation.retablir();
 	}
 }

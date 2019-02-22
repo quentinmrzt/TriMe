@@ -2,7 +2,7 @@ package process;
 
 import java.awt.Color;
 
-import model.Historique;
+import model.HistoriquePixels;
 import model.Image;
 
 /**
@@ -15,7 +15,7 @@ public class CreationImageAvecDessinChemins {
 	/**
 	 * Retourne une image avec l'historique dessiné dessus.
 	 */
-	public static Image executer(Image image, Historique historique) {
+	public static Image executer(Image image, HistoriquePixels historique) {
 		int[][] tableau = copieDuTableauDepuisUneImage(image);
 		dessin(tableau, historique);
 		return new Image(image.getNom(), image.getExtension(), image.getChemin(), tableau);
@@ -31,7 +31,7 @@ public class CreationImageAvecDessinChemins {
 		return tableau;
 	}
 
-	private static void dessin(int[][] tableau, Historique historique) {
+	private static void dessin(int[][] tableau, HistoriquePixels historique) {
 		for (int y = 0; y < historique.getHauteur(); y++) {
 			for (int x : historique.getPositionsDeLaLigne(y)) {
 				tableau[x][y] = COULEURDESSIN.getRGB();

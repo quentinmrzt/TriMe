@@ -16,7 +16,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import controller.Controller;
-import execution.Traitement;
 import model.Modelisation;
 import view.boite.BoiteChargement;
 import view.boite.BoiteSaisiePixels;
@@ -26,18 +25,50 @@ public class SousMenuEdition extends JMenu implements Observer {
 	private final Color BACKGROUNDCOLOR = Color.WHITE;
 
 	private Controller controlleur;
-	private JMenuItem suppression;
-	private BoiteChargement boiteChargement;
+	private JMenuItem suppression, annuler, retablir;
 
 	public SousMenuEdition(Modelisation modelisation, Controller controller) {
 		super("Edition");
 
 		this.controlleur = controller;
-		boiteChargement = null;
 
 		setName("Edition");
+		add(creationMenuAnnuler());
+		add(creationMenuRetablir());
 		add(creationMenuSuppresion(modelisation));
-		add(creationMenuDessiner(modelisation));
+		//add(creationMenuDessiner(modelisation));
+	}
+
+	private JMenuItem creationMenuAnnuler() {
+		String nom = "Annuler";
+		annuler = new JMenuItem(nom);
+		annuler.setName(nom);
+		annuler.setEnabled(false);
+		annuler.setBackground(BACKGROUNDCOLOR);
+		annuler.setIcon(new ImageIcon(getClass().getResource("undo.png")));
+		annuler.setActionCommand(nom);
+		annuler.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlleur.annuler();
+			}
+		});
+		return annuler;
+	}
+
+	private JMenuItem creationMenuRetablir() {
+		String nom = "Rétablir";
+		retablir = new JMenuItem(nom);
+		retablir.setName(nom);
+		retablir.setEnabled(false);
+		retablir.setBackground(BACKGROUNDCOLOR);
+		retablir.setIcon(new ImageIcon(getClass().getResource("redo.png")));
+		retablir.setActionCommand(nom);
+		retablir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlleur.retablir();
+			}
+		});
+		return retablir;
 	}
 
 	private JMenuItem creationMenuSuppresion(Modelisation modelisation) {
@@ -60,7 +91,7 @@ public class SousMenuEdition extends JMenu implements Observer {
 		return suppression;
 	}
 
-	private JMenuItem creationMenuDessiner(Modelisation modelisation) {
+	/*private JMenuItem creationMenuDessiner(Modelisation modelisation) {
 		String nom = "Supprimer/dessiner pixel(s)";
 		JMenuItem dessin = new JMenuItem(nom);
 		dessin.setName(nom);
@@ -78,7 +109,7 @@ public class SousMenuEdition extends JMenu implements Observer {
 			}
 		});
 		return dessin;
-	}
+	}*/
 
 	private JFrame getJFrame(Component e) throws ClassCastException {
 		if (e instanceof JMenuItem) {
@@ -98,19 +129,12 @@ public class SousMenuEdition extends JMenu implements Observer {
 		if (obs instanceof Modelisation) {
 			Modelisation modelisation = (Modelisation) obs;
 			miseAJourMenu(modelisation);
-		} else if (obs instanceof Traitement) {
-			Traitement traitement = (Traitement) obs;
-			miseAJourBoite(traitement);
 		}
 	}
 
 	private void miseAJourMenu(Modelisation modelisation) {
 		suppression.setEnabled(modelisation.getImage() != null);
-	}
-
-	private void miseAJourBoite(Traitement traitement) {
-		if (boiteChargement != null) {
-			boiteChargement.miseAJour(traitement);
-		}
+		annuler.setEnabled(modelisation.getHistorique().peutAnnuler());
+		retablir.setEnabled(modelisation.getHistorique().peutRetablir());
 	}
 }

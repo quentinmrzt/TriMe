@@ -11,12 +11,14 @@ public class Modelisation extends Observable {
 	private Traitement traitement;
 	private Image imageOriginal, imageEnCours;
 	private boolean modifie;
+	private HistoriqueActions historique;
 
 	public Modelisation() {
 		traitement = new Traitement();
 		imageOriginal = null;
 		imageEnCours = null;
 		modifie = false;
+		historique = new HistoriqueActions();
 	}
 
 	public Image getImage() {
@@ -31,9 +33,14 @@ public class Modelisation extends Observable {
 		return traitement;
 	}
 
+	public HistoriqueActions getHistorique() {
+		return historique;
+	}
+
 	public void chargerImage(File fichier) {
 		imageOriginal = new Image(fichier);
 		imageEnCours = imageOriginal;
+		historique.ajouterImage(imageOriginal);
 		setModifie(false);
 		setChanged();
 		notifyObservers("chargerImage");
@@ -41,6 +48,7 @@ public class Modelisation extends Observable {
 
 	public void setImage(Image nouvelleImage) {
 		imageEnCours = nouvelleImage;
+		historique.ajouterImage(nouvelleImage);
 		setModifie(true);
 		setChanged();
 		notifyObservers("setImage");
@@ -76,5 +84,19 @@ public class Modelisation extends Observable {
 
 	public void annulerTraitement() {
 		traitement.stoperExecution();
+	}
+
+	public void annuler() {
+		imageEnCours = historique.annuler();
+		setModifie(true);
+		setChanged();
+		notifyObservers("annuler");
+	}
+
+	public void retablir() {
+		imageEnCours = historique.retablir();
+		setModifie(true);
+		setChanged();
+		notifyObservers("annuler");
 	}
 }

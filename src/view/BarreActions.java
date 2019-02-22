@@ -25,9 +25,10 @@ public class BarreActions extends JPanel {
 
 	private final Color BACKGROUNDCOLOR = Color.WHITE;
 	private final Color BORDURECOLOR = new Color(180, 180, 180);
+	private final int NOMBREBOUTON = 4;
 
 	private Controller controlleur;
-	private JButton sauvegarder;
+	private JButton sauvegarder, annuler, retablir;
 
 	public BarreActions(Controller controlleur) {
 		super();
@@ -35,8 +36,10 @@ public class BarreActions extends JPanel {
 		build();
 		setName("BarreActions");
 
-		add(creationBoutonOuvrir(), contrainteOuvrir());
-		add(creationBoutonSauvegarder(), contrainteSauvegarder());
+		add(creationBoutonOuvrir(), contrainte(0));
+		add(creationBoutonSauvegarder(), contrainte(1));
+		add(creationBoutonAnnuler(), contrainte(2));
+		add(creationBoutonRetablir(), contrainte(3));
 	}
 
 	private void build() {
@@ -76,22 +79,11 @@ public class BarreActions extends JPanel {
 		}
 	}
 
-	private GridBagConstraints contrainteOuvrir() {
-		GridBagConstraints contrainte = new GridBagConstraints();
-		contrainte.gridx = 0;
-		contrainte.gridy = 0;
-		contrainte.gridwidth = 1;
-		contrainte.gridheight = 1;
-		contrainte.insets = new Insets(5, 5, 5, 2);
-		contrainte.weightx = 0.0;
-		contrainte.weighty = 0.0;
-		return contrainte;
-	}
-
 	private JButton creationBoutonSauvegarder() {
+		String nom = "Sauvegarder";
 		sauvegarder = new JButton(new ImageIcon(getClass().getResource("save.png")));
 		sauvegarder.setEnabled(false);
-		sauvegarder.setToolTipText("Sauvegarder");
+		sauvegarder.setToolTipText(nom);
 		sauvegarder.setBorder(new LineBorder(BACKGROUNDCOLOR, 1, true));
 		sauvegarder.setFocusPainted(false);
 		sauvegarder.setBackground(BACKGROUNDCOLOR);
@@ -104,7 +96,25 @@ public class BarreActions extends JPanel {
 		});
 		return sauvegarder;
 	}
-	
+
+	private JButton creationBoutonAnnuler() {
+		String nom = "Annuler";
+		annuler = new JButton(new ImageIcon(getClass().getResource("undo.png")));
+		annuler.setEnabled(false);
+		annuler.setToolTipText(nom);
+		annuler.setBorder(new LineBorder(BACKGROUNDCOLOR, 1, true));
+		annuler.setFocusPainted(false);
+		annuler.setBackground(BACKGROUNDCOLOR);
+		annuler.setFocusable(false) ;
+		annuler.addMouseListener(new ControleSourisBouton(annuler));
+		annuler.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlleur.annuler();
+			}
+		});
+		return annuler;
+	}
+
 	private void sauvegarder() {
 		try {
 			JFileChooser jf = new JFileChooser();
@@ -121,20 +131,44 @@ public class BarreActions extends JPanel {
 		}
 	}
 
-	private GridBagConstraints contrainteSauvegarder() {
+	private JButton creationBoutonRetablir() {
+		String nom = "Rétablir";
+		retablir = new JButton(new ImageIcon(getClass().getResource("redo.png")));
+		retablir.setEnabled(false);
+		retablir.setToolTipText(nom);
+		retablir.setBorder(new LineBorder(BACKGROUNDCOLOR, 1, true));
+		retablir.setFocusPainted(false);
+		retablir.setBackground(BACKGROUNDCOLOR);
+		retablir.setFocusable(false) ;
+		retablir.addMouseListener(new ControleSourisBouton(retablir));
+		retablir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlleur.retablir();
+			}
+		});
+		return retablir;
+	}
+
+	private GridBagConstraints contrainte(int positionX) {
 		GridBagConstraints contrainte = new GridBagConstraints();
-		contrainte.gridx = 1;
+		contrainte.gridx = positionX;
 		contrainte.gridy = 0;
 		contrainte.gridwidth = 1;
 		contrainte.gridheight = 1;
-		contrainte.anchor = GridBagConstraints.LINE_START;
-		contrainte.weightx = 1.0;
 		contrainte.insets = new Insets(5, 5, 5, 2);
-		contrainte.weighty = 1.0;
+		if(positionX < NOMBREBOUTON-1) {
+			contrainte.weightx = 0.0;
+		} else {
+			contrainte.anchor = GridBagConstraints.LINE_START;
+			contrainte.weightx = 1.0;
+		}
+		contrainte.weighty = 0.0;
 		return contrainte;
 	}
 
 	public void miseAJour(Modelisation modelisation) {
 		sauvegarder.setEnabled(modelisation.getImage() != null);
+		annuler.setEnabled(modelisation.getHistorique().peutAnnuler());
+		retablir.setEnabled(modelisation.getHistorique().peutRetablir());
 	}
 }

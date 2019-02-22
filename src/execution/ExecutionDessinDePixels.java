@@ -3,7 +3,7 @@ package execution;
 import algorithme.AlgoPerso;
 import graphe.Graphe;
 import model.Chemin;
-import model.Historique;
+import model.HistoriquePixels;
 import model.Image;
 import process.CreationImageAvecSuppresionUnPixel;
 import process.CreationTableauInteret;
@@ -21,7 +21,7 @@ public class ExecutionDessinDePixels extends Execution {
 
 	@Override
 	public void run() {
-		Historique historique = new Historique(nombrePixels, image.getHauteur());
+		HistoriquePixels historique = new HistoriquePixels(nombrePixels, image.getHauteur());
 		Image imageReduite = image;
 
 		for (int i = 0; i < nombrePixels; i++) {

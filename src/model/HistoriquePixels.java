@@ -3,12 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Historique {
+public class HistoriquePixels {
 
 	private int nombrePixelSupprime, hauteur, iteration;
 	private int position[][];
 
-	public Historique(int nombrePixelSupprime, int hauteur) {
+	public HistoriquePixels(int nombrePixelSupprime, int hauteur) {
 		this.iteration = 0;
 		this.nombrePixelSupprime = nombrePixelSupprime;
 		this.hauteur = hauteur;

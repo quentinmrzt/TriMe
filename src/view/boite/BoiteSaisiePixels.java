@@ -6,8 +6,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -17,9 +20,9 @@ import execution.Traitement;
 public class BoiteSaisiePixels extends Boite {
 
 	private final int LARGEUR = 400;
-	private final int HAUTEUR = 130;
+	private final int HAUTEUR = 120;
 
-	private JLabel information, message;
+	private JLabel information;
 	private JTextField saisie;
 	private JButton valider;
 	private boolean valide;
@@ -30,20 +33,13 @@ public class BoiteSaisiePixels extends Boite {
 
 		valide = false;
 		information = new JLabel("Combien de pixel(s) voulez-vous supprimer ?");
-		message = new JLabel(" ");
-		saisie = new JTextField();
 
-		int milieuFenetreX = parent.getLocation().x + (parent.getWidth() / 2);
-		int milieuFenetreY = parent.getLocation().y + (parent.getHeight() / 2);
-		int moitieBoiteX = LARGEUR / 2;
-		int moitieBoiteY = HAUTEUR / 2;
-		setLocation(milieuFenetreX - moitieBoiteX, milieuFenetreY - moitieBoiteY);
+		saisie = new JFormattedTextField(NumberFormat.getInstance());
 
 		add(information, contrainte(0));
 		add(saisie, contrainte(1));
-		add(message, contrainte(2));
-		add(creerBoutonValider(), contrainteBouton(0, 3));
-		add(creerBoutonAnnuler(), contrainteBouton(1, 3));
+		add(creerBoutonValider(), contrainteBouton(0, 2));
+		add(creerBoutonAnnuler(), contrainteBouton(1, 2));
 
 		valider.requestFocusInWindow();
 		setVisible(true);
@@ -90,24 +86,20 @@ public class BoiteSaisiePixels extends Boite {
 		valider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				valider();
-				
+
 				if (valide) {
-					fermer();
+					dispose();
 				} else {
-					afficherMessageErreur("Le nombre n'est pas valide !");
+					saisie.setBorder(BorderFactory.createLineBorder(Color.RED));
 				}
 			}
 		});
 		return valider;
 	}
-	
+
 	public void valider() {
 		int nombre = conversionNombre(getSaisie());
 		valide = nombreValide(nombre);
-	}
-	
-	private void afficherMessageErreur(String erreur) {
-		message.setText("<html><p style='color:red;'>" + erreur + "</p></html>");
 	}
 
 	private int conversionNombre(String nombre) {
@@ -126,15 +118,14 @@ public class BoiteSaisiePixels extends Boite {
 		JButton annuler = new JButton("Annuler");    
 		annuler.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				fermer();
+				dispose();
 			}
 		});
 		return annuler;
 	}
-	
+
 	private void build() {
 		setLayout(new GridBagLayout());
-		setBackground(Color.WHITE);
 		setSize(LARGEUR, HAUTEUR);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -145,7 +136,12 @@ public class BoiteSaisiePixels extends Boite {
 	}
 
 	@Override
-	public void fermer() {
-		dispose();		
+	public int getLargeur() {
+		return LARGEUR;
+	}
+
+	@Override
+	public int getHauteur() {
+		return HAUTEUR;
 	}
 }

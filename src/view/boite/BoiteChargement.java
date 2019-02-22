@@ -30,28 +30,24 @@ public class BoiteChargement extends Boite implements Observer {
 
 	public BoiteChargement(Modelisation modelisation, JFrame parent, String titre, Controller controller) {
 		super(parent, titre);
-		build();
+		
 		modelisation.addObserver(this);
 		this.controlleur = controller;
 
-		int pourcentage = 0;
-		information = new JLabel("Suppression des pixels... " + pourcentage + "%");
+		build();
 
+		information = new JLabel("Suppression des pixels... 0%");
+		information.setBackground(Color.WHITE);
+		
 		barreDeChargement = new BarreDeChargement();
 
 		annuler = new JButton("Annuler");
 		annuler.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controlleur.annuler();
-				fermer();
+				controlleur.annulerTraitement();
+				dispose();
 			}
 		});
-
-		int milieuFenetreX = parent.getLocation().x + (parent.getWidth() / 2);
-		int milieuFenetreY = parent.getLocation().y + (parent.getHeight() / 2);
-		int moitieBoiteX = LARGEUR / 2;
-		int moitieBoiteY = HAUTEUR / 2;
-		setLocation(milieuFenetreX - moitieBoiteX, milieuFenetreY - moitieBoiteY);
 
 		add(information, contrainte(0));
 		add(barreDeChargement, contrainte(1));
@@ -76,7 +72,6 @@ public class BoiteChargement extends Boite implements Observer {
 
 	private void build() {
 		setLayout(new GridBagLayout());
-		setBackground(Color.WHITE);
 		setSize(LARGEUR, HAUTEUR);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -91,11 +86,6 @@ public class BoiteChargement extends Boite implements Observer {
 	}
 
 	@Override
-	public void fermer() {
-		dispose();
-	}
-
-	@Override
 	public void update(Observable obs, Object obj) {
 		if (obs instanceof Traitement) {
 			Traitement traitement = (Traitement) obs;
@@ -106,5 +96,15 @@ public class BoiteChargement extends Boite implements Observer {
 				dispose();
 			}
 		}
+	}
+
+	@Override
+	public int getLargeur() {
+		return LARGEUR;
+	}
+
+	@Override
+	public int getHauteur() {
+		return HAUTEUR;
 	}
 }
