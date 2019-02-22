@@ -8,10 +8,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Modelisation;
+import view.utils.CouleursConstantes;
 
 public class PanelInformations extends JPanel {
-
-	private final Color BACKGROUNDCOLOR = Color.WHITE;
 
 	private JLabel chemin, dimension;
 
@@ -29,7 +28,7 @@ public class PanelInformations extends JPanel {
 
 	private void build() {
 		setLayout(new GridBagLayout());
-		setBackground(BACKGROUNDCOLOR);
+		setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 	}
 
 	private GridBagConstraints contrainte(int positionX) {

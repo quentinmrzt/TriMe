@@ -1,6 +1,5 @@
 package view.menu;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,10 +18,9 @@ import controller.Controller;
 import model.Modelisation;
 import view.boite.BoiteChargement;
 import view.boite.BoiteSaisiePixels;
+import view.utils.CouleursConstantes;
 
 public class SousMenuEdition extends JMenu implements Observer {
-
-	private final Color BACKGROUNDCOLOR = Color.WHITE;
 
 	private Controller controlleur;
 	private JMenuItem suppression, annuler, retablir;
@@ -44,7 +42,7 @@ public class SousMenuEdition extends JMenu implements Observer {
 		annuler = new JMenuItem(nom);
 		annuler.setName(nom);
 		annuler.setEnabled(false);
-		annuler.setBackground(BACKGROUNDCOLOR);
+		annuler.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		annuler.setIcon(new ImageIcon(getClass().getResource("undo.png")));
 		annuler.setActionCommand(nom);
 		annuler.addActionListener(new ActionListener() {
@@ -60,7 +58,7 @@ public class SousMenuEdition extends JMenu implements Observer {
 		retablir = new JMenuItem(nom);
 		retablir.setName(nom);
 		retablir.setEnabled(false);
-		retablir.setBackground(BACKGROUNDCOLOR);
+		retablir.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		retablir.setIcon(new ImageIcon(getClass().getResource("redo.png")));
 		retablir.setActionCommand(nom);
 		retablir.addActionListener(new ActionListener() {
@@ -76,7 +74,7 @@ public class SousMenuEdition extends JMenu implements Observer {
 		suppression = new JMenuItem(nom);
 		suppression.setName(nom);
 		suppression.setEnabled(false);
-		suppression.setBackground(BACKGROUNDCOLOR);
+		suppression.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		suppression.setIcon(new ImageIcon(getClass().getResource("crop.png")));
 		suppression.setActionCommand(nom);
 		suppression.addActionListener(new ActionListener() {

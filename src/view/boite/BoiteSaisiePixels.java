@@ -30,7 +30,6 @@ public class BoiteSaisiePixels extends Boite {
 	public BoiteSaisiePixels(JFrame parent, String titre){
 		super(parent, titre);
 		build();
-
 		valide = false;
 		information = new JLabel("Combien de pixel(s) voulez-vous supprimer ?");
 
@@ -127,7 +126,6 @@ public class BoiteSaisiePixels extends Boite {
 	private void build() {
 		setLayout(new GridBagLayout());
 		setSize(LARGEUR, HAUTEUR);
-		setLocationRelativeTo(null);
 		setResizable(false);
 	}
 

@@ -7,11 +7,12 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 
+import view.utils.CouleursConstantes;
+
 public class ControleSourisBouton implements MouseListener {
 
 	private final Color COULEURBORDURESELECTION = new Color(180, 180, 180);
 	private final Color COULEURFONDSELECTION = new Color(230, 230, 230);
-	private final Color COULEURFOND = Color.WHITE;
 
 	private JButton bouton;
 
@@ -34,8 +35,8 @@ public class ControleSourisBouton implements MouseListener {
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		bouton.setBorder(new LineBorder(COULEURFOND, 1, true));
-		bouton.setBackground(COULEURFOND);
+		bouton.setBorder(new LineBorder(CouleursConstantes.BACKGROUNDCOLOR, 1, true));
+		bouton.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 	}
 
 	@Override

@@ -20,10 +20,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Controller;
 import model.Modelisation;
+import view.utils.CouleursConstantes;
 
 public class BarreActions extends JPanel {
 
-	private final Color BACKGROUNDCOLOR = Color.WHITE;
 	private final Color BORDURECOLOR = new Color(180, 180, 180);
 	private final int NOMBREBOUTON = 4;
 
@@ -45,7 +45,7 @@ public class BarreActions extends JPanel {
 	private void build() {
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, BORDURECOLOR));
-		setBackground(BACKGROUNDCOLOR);
+		setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 	}
 
 	private JButton creationBoutonOuvrir() {
@@ -54,9 +54,9 @@ public class BarreActions extends JPanel {
 		ouvrir.setFocusable(false) ;
 
 		ouvrir.setToolTipText("Ouvrir");
-		ouvrir.setBorder(new LineBorder(BACKGROUNDCOLOR, 1, true));
+		ouvrir.setBorder(new LineBorder(CouleursConstantes.BACKGROUNDCOLOR, 1, true));
 		ouvrir.setFocusPainted(false);
-		ouvrir.setBackground(BACKGROUNDCOLOR);
+		ouvrir.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		ouvrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				choisir();
@@ -84,9 +84,9 @@ public class BarreActions extends JPanel {
 		sauvegarder = new JButton(new ImageIcon(getClass().getResource("save.png")));
 		sauvegarder.setEnabled(false);
 		sauvegarder.setToolTipText(nom);
-		sauvegarder.setBorder(new LineBorder(BACKGROUNDCOLOR, 1, true));
+		sauvegarder.setBorder(new LineBorder(CouleursConstantes.BACKGROUNDCOLOR, 1, true));
 		sauvegarder.setFocusPainted(false);
-		sauvegarder.setBackground(BACKGROUNDCOLOR);
+		sauvegarder.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		sauvegarder.setFocusable(false) ;
 		sauvegarder.addMouseListener(new ControleSourisBouton(sauvegarder));
 		sauvegarder.addActionListener(new ActionListener() {
@@ -102,9 +102,9 @@ public class BarreActions extends JPanel {
 		annuler = new JButton(new ImageIcon(getClass().getResource("undo.png")));
 		annuler.setEnabled(false);
 		annuler.setToolTipText(nom);
-		annuler.setBorder(new LineBorder(BACKGROUNDCOLOR, 1, true));
+		annuler.setBorder(new LineBorder(CouleursConstantes.BACKGROUNDCOLOR, 1, true));
 		annuler.setFocusPainted(false);
-		annuler.setBackground(BACKGROUNDCOLOR);
+		annuler.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		annuler.setFocusable(false) ;
 		annuler.addMouseListener(new ControleSourisBouton(annuler));
 		annuler.addActionListener(new ActionListener() {
@@ -136,9 +136,9 @@ public class BarreActions extends JPanel {
 		retablir = new JButton(new ImageIcon(getClass().getResource("redo.png")));
 		retablir.setEnabled(false);
 		retablir.setToolTipText(nom);
-		retablir.setBorder(new LineBorder(BACKGROUNDCOLOR, 1, true));
+		retablir.setBorder(new LineBorder(CouleursConstantes.BACKGROUNDCOLOR, 1, true));
 		retablir.setFocusPainted(false);
-		retablir.setBackground(BACKGROUNDCOLOR);
+		retablir.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		retablir.setFocusable(false) ;
 		retablir.addMouseListener(new ControleSourisBouton(retablir));
 		retablir.addActionListener(new ActionListener() {

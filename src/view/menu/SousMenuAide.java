@@ -1,6 +1,5 @@
 package view.menu;
 
-import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,9 +9,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-public class SousMenuAide extends JMenu {
+import view.utils.CouleursConstantes;
 
-	private final Color BACKGROUNDCOLOR = Color.WHITE;
+public class SousMenuAide extends JMenu {
 
 	public SousMenuAide() {
 		super("Aide");
@@ -24,7 +23,7 @@ public class SousMenuAide extends JMenu {
 		String nom = "Lien vers GitHub";
 		JMenuItem github = new JMenuItem(nom);
 		github.setName(nom);
-		github.setBackground(BACKGROUNDCOLOR);
+		github.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		github.setIcon(new ImageIcon(getClass().getResource("github-logo.png")));
 		github.setActionCommand(nom);
 		github.addActionListener(new ActionListener() {

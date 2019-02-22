@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,18 +9,19 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import model.Modelisation;
+import view.utils.CouleursConstantes;
 
 public class PanelImage extends JPanel {
 
-	private final int COULEURGRISE = 230;
-	private final Color COULEURFOND = new Color(COULEURGRISE, COULEURGRISE, COULEURGRISE);
+	//private final int COULEURGRISE = 230;
+	//private final Color COULEURFOND = new Color(COULEURGRISE, COULEURGRISE, COULEURGRISE);
 
 	private BufferedImage image;
 	private double echelle = 1;
 
 	public PanelImage() {
 		super();
-		setBackground(COULEURFOND);
+		setBackground(CouleursConstantes.ZONEIMAGECOLOR);
 		setName("PanelImage");
 	}
 

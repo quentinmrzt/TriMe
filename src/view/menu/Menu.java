@@ -9,10 +9,9 @@ import javax.swing.JMenuBar;
 
 import controller.Controller;
 import model.Modelisation;
+import view.utils.CouleursConstantes;
 
 public class Menu extends JMenuBar implements Observer {
-
-	private final Color BACKGROUNDCOLOR = Color.WHITE;
 
 	private SousMenuFichier sousMenuFichier;
 	private SousMenuEdition sousMenuEdition;
@@ -21,7 +20,7 @@ public class Menu extends JMenuBar implements Observer {
 		super();
 
 		setName("Menu");
-		setBackground(BACKGROUNDCOLOR);
+		setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(180, 180, 180)));
 
 		sousMenuFichier = new SousMenuFichier(controlleur);

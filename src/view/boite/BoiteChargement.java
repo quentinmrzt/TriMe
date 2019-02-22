@@ -1,6 +1,5 @@
 package view.boite;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -16,6 +15,7 @@ import javax.swing.JLabel;
 import controller.Controller;
 import execution.Traitement;
 import model.Modelisation;
+import view.utils.CouleursConstantes;
 
 public class BoiteChargement extends Boite implements Observer {
 
@@ -23,22 +23,22 @@ public class BoiteChargement extends Boite implements Observer {
 	private final int HAUTEUR = 120;
 
 	private Controller controlleur;
-	
+
 	private JLabel information;
 	private BarreDeChargement barreDeChargement;
 	private JButton annuler;
 
 	public BoiteChargement(Modelisation modelisation, JFrame parent, String titre, Controller controller) {
 		super(parent, titre);
-		
+
 		modelisation.addObserver(this);
 		this.controlleur = controller;
 
 		build();
 
 		information = new JLabel("Suppression des pixels... 0%");
-		information.setBackground(Color.WHITE);
-		
+		information.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
+
 		barreDeChargement = new BarreDeChargement();
 
 		annuler = new JButton("Annuler");
@@ -73,7 +73,6 @@ public class BoiteChargement extends Boite implements Observer {
 	private void build() {
 		setLayout(new GridBagLayout());
 		setSize(LARGEUR, HAUTEUR);
-		setLocationRelativeTo(null);
 		setResizable(false);
 	}
 

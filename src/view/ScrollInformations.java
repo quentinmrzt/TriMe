@@ -1,13 +1,12 @@
 package view;
 
-import static java.awt.Color.WHITE;
-
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 
 import model.Modelisation;
+import view.utils.CouleursConstantes;
 
 public class ScrollInformations extends JScrollPane {
 
@@ -30,7 +29,7 @@ public class ScrollInformations extends JScrollPane {
 	private void build() {
 		setBorder(BorderFactory.createTitledBorder("Informations"));
 		setPreferredSize(new Dimension(LARGEURFENETRE, HAUTEURFENETRE));
-		setBackground(WHITE);
+		setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 	}
 	
 	public void miseAJour(Modelisation modelisation) {

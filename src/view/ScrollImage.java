@@ -1,11 +1,10 @@
 package view;
 
-import static java.awt.Color.WHITE;
-
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import model.Modelisation;
+import view.utils.CouleursConstantes;
 
 public class ScrollImage extends JScrollPane {
 
@@ -29,7 +28,7 @@ public class ScrollImage extends JScrollPane {
 	}
 
 	private void build() {
-		setBackground(WHITE);
+		setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 	}
 
 	public void miseAJour(Modelisation modelisation) {

@@ -1,8 +1,5 @@
 package view;
 
-import static java.awt.Color.WHITE;
-
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,10 +15,10 @@ import controller.Controller;
 import model.Image;
 import model.Modelisation;
 import view.menu.Menu;
+import view.utils.CouleursConstantes;
 
 public class Fenetre extends JFrame implements Observer {
 
-	private final Color BACKGROUNDCOLOR = Color.WHITE;
 	private final String NOMAPPLICATION = "Trim-Me";
 
 	private Menu menu;
@@ -42,7 +39,6 @@ public class Fenetre extends JFrame implements Observer {
 
 	private void build() {
 		setTitle(NOMAPPLICATION);
-		setBackground(BACKGROUNDCOLOR);
 		setMinimumSize(new Dimension(500, 300));
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setIconImage(new ImageIcon(getClass().getResource("icon.png")).getImage()); // https://www.flaticon.com/
@@ -93,7 +89,7 @@ public class Fenetre extends JFrame implements Observer {
 
 	private JPanel buildContentPane(Controller controller) {
 		JPanel panel = new JPanel(new GridBagLayout());
-		panel.setBackground(WHITE);
+		panel.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 
 		barreActions = new BarreActions(controller);
 		panel.add(barreActions, contrainteBarre());
@@ -126,7 +122,7 @@ public class Fenetre extends JFrame implements Observer {
 			scrollImage.miseAJour(modelisation);
 			barreActions.miseAJour(modelisation);
 		}
-		
+
 		menu.update(obs, obj);
 	}
 }

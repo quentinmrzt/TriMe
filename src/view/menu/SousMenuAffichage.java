@@ -8,10 +8,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import view.utils.CouleursConstantes;
+
 public class SousMenuAffichage extends JMenu {
-	
-	private final Color BACKGROUNDCOLOR = Color.WHITE;
-	
+		
 	public SousMenuAffichage() {
 		super("Affichage");
 				
@@ -28,7 +28,7 @@ public class SousMenuAffichage extends JMenu {
 		JMenuItem zoomAvant = new JMenuItem(nom);
 		zoomAvant.setName(nom);
 		zoomAvant.setEnabled(false);
-		zoomAvant.setBackground(BACKGROUNDCOLOR);
+		zoomAvant.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		zoomAvant.setIcon(new ImageIcon(getClass().getResource("zoom-in.png")));
 		zoomAvant.setActionCommand("Zoom avant");
 		zoomAvant.addActionListener(new ActionListener() {
@@ -44,7 +44,7 @@ public class SousMenuAffichage extends JMenu {
 		JMenuItem zoomArriere = new JMenuItem(nom);
 		zoomArriere.setName(nom);
 		zoomArriere.setEnabled(false);
-		zoomArriere.setBackground(BACKGROUNDCOLOR);
+		zoomArriere.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		zoomArriere.setIcon(new ImageIcon(getClass().getResource("zoom-out.png")));
 		zoomArriere.setActionCommand("Zoom arrière");
 		zoomArriere.addActionListener(new ActionListener() {
@@ -60,7 +60,7 @@ public class SousMenuAffichage extends JMenu {
 		JMenuItem ajuster = new JMenuItem(nom);
 		ajuster.setName(nom);
 		ajuster.setEnabled(false);
-		ajuster.setBackground(BACKGROUNDCOLOR);
+		ajuster.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		ajuster.setIcon(new ImageIcon(getClass().getResource("reduce.png")));
 		ajuster.setActionCommand("Ajuster à la fenêtre");
 		ajuster.addActionListener(new ActionListener() {
@@ -76,7 +76,7 @@ public class SousMenuAffichage extends JMenu {
 		JMenuItem tailleReelle = new JMenuItem(nom);
 		tailleReelle.setName(nom);
 		tailleReelle.setEnabled(false);
-		tailleReelle.setBackground(BACKGROUNDCOLOR);
+		tailleReelle.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		tailleReelle.setIcon(new ImageIcon(getClass().getResource("resize.png")));
 		tailleReelle.setActionCommand("Taille réelle");
 		tailleReelle.addActionListener(new ActionListener() {

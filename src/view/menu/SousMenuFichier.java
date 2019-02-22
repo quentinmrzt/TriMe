@@ -2,7 +2,6 @@ package view.menu;
 
 import static javax.swing.JFileChooser.APPROVE_OPTION;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -16,10 +15,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Controller;
 import model.Modelisation;
+import view.utils.CouleursConstantes;
 
 public class SousMenuFichier extends JMenu {
-
-	private final Color BACKGROUNDCOLOR = Color.WHITE;
 
 	private Controller controlleur;
 	private JMenuItem sauvegarder, fermer;
@@ -41,7 +39,7 @@ public class SousMenuFichier extends JMenu {
 		JMenuItem choisir = new JMenuItem(nom);
 		choisir.setName(nom);
 		choisir.setName("MenuChoisir");
-		choisir.setBackground(BACKGROUNDCOLOR);
+		choisir.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		choisir.setIcon(new ImageIcon(getClass().getResource("open-archive.png")));
 		choisir.setActionCommand("Ouvrir...");
 		choisir.addActionListener(new ActionListener() {
@@ -71,7 +69,7 @@ public class SousMenuFichier extends JMenu {
 		fermer = new JMenuItem(nom);
 		fermer.setName(nom);
 		fermer.setEnabled(false);
-		fermer.setBackground(BACKGROUNDCOLOR);
+		fermer.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		fermer.setIcon(new ImageIcon(getClass().getResource("close-archive.png")));
 		fermer.setActionCommand(nom);
 		fermer.addActionListener(new ActionListener() {
@@ -87,10 +85,10 @@ public class SousMenuFichier extends JMenu {
 
 	private JMenuItem creationMenuSauvegarder() {
 		String nom = "Sauvegarder";
-		sauvegarder = new JMenuItem("<HTML>"+nom+"</HTML>");
+		sauvegarder = new JMenuItem("<HTML>" + nom + "</HTML>");
 		sauvegarder.setName(nom);
 		sauvegarder.setEnabled(false);
-		sauvegarder.setBackground(BACKGROUNDCOLOR);
+		sauvegarder.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		sauvegarder.setIcon(new ImageIcon(getClass().getResource("save.png")));
 		sauvegarder.setActionCommand("Sauvegarder");
 		sauvegarder.addActionListener(new ActionListener() {
@@ -118,7 +116,7 @@ public class SousMenuFichier extends JMenu {
 		String nom = "Quitter";
 		JMenuItem quitter = new JMenuItem("<HTML><U>Q</U>uitter</HTML>");
 		quitter.setName(nom);
-		quitter.setBackground(BACKGROUNDCOLOR);
+		quitter.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		quitter.setActionCommand(nom);
 		quitter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -127,7 +125,7 @@ public class SousMenuFichier extends JMenu {
 		});
 		return quitter;
 	}
-	
+
 	public void miseAJour(Modelisation modelisation) {
 		sauvegarder.setEnabled(modelisation.getImage() != null);
 		fermer.setEnabled(modelisation.getImage() != null);
