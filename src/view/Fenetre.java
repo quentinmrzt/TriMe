@@ -36,6 +36,10 @@ public class Fenetre extends JFrame implements Observer {
 		addKeyListener(new ControleClavier(scrollImage));
 		setVisible(true);
 	}
+	
+	public PanelImage getPanelImage() {
+		return scrollImage.getPanelImage();
+	}
 
 	private void build() {
 		setTitle(NOMAPPLICATION);

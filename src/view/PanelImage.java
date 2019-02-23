@@ -38,7 +38,7 @@ public class PanelImage extends JPanel {
 	}
 
 	public void setEchelle(double valeur) {
-		if (valeur >= 0.1 && valeur <= 10) {
+		if (valeur >= 0.0001 && valeur <= 10) {
 			echelle = valeur;
 			recalculDeLaTaille();
 			repaint();
@@ -49,6 +49,14 @@ public class PanelImage extends JPanel {
 		this.image = image;
 		recalculDeLaTaille();
 		repaint();
+	}
+
+	public void zoom() {
+		setEchelle(getEchelle()+0.1);
+	}
+
+	public void dezoom() {
+		setEchelle(getEchelle()-0.1);
 	}
 
 	private void recalculDeLaTaille() {
@@ -90,5 +98,22 @@ public class PanelImage extends JPanel {
 		} else {
 			setImage(null);
 		}
+	}
+
+	public void ajuster() {
+		double valeur;
+		int diffX = Math.abs(image.getWidth() - getWidth());
+		int diffY = Math.abs(image.getHeight() - getHeight());
+		if (diffX >= diffY) {
+			valeur = (double) getParent().getHeight() / (double) image.getHeight();
+		} else {
+			valeur = (double) getParent().getWidth() / (double) image.getWidth();
+		}
+		System.out.println(valeur);
+		setEchelle(valeur);
+	}
+
+	public void tailleReelle() {
+		setEchelle(1);
 	}
 }

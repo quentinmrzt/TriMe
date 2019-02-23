@@ -5,10 +5,10 @@ import java.awt.event.MouseWheelListener;
 
 public class ControlSourisImage implements MouseWheelListener {
 		
-	private PanelImage map;
+	private PanelImage panelImage;
 	
 	public ControlSourisImage(PanelImage map) {
-		this.map = map;
+		this.panelImage = map;
 	}
 	
 	@Override
@@ -16,9 +16,9 @@ public class ControlSourisImage implements MouseWheelListener {
 		boolean zoom = event.getWheelRotation() < 0;
 		if (ControleClavier.isToucheControlActif()) {
 			if (zoom) {
-				map.setEchelle(map.getEchelle()+0.1);
+				panelImage.setEchelle(panelImage.getEchelle()+0.1);
 			} else {
-				map.setEchelle(map.getEchelle()-0.1);
+				panelImage.setEchelle(panelImage.getEchelle()-0.1);
 			}
 		}
 	}

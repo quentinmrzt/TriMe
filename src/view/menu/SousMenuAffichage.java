@@ -1,20 +1,31 @@
 package view.menu;
 
-import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
+import model.Modelisation;
+import view.Fenetre;
 import view.utils.CouleursConstantes;
 
 public class SousMenuAffichage extends JMenu {
-		
+
+	JMenuItem zoomAvant, zoomArriere, ajuster, tailleReelle;
+
 	public SousMenuAffichage() {
 		super("Affichage");
-				
+
+		zoomAvant = null;
+		zoomArriere = null;
+
 		setName("Affichage");
 		add(creationMenuZoomAvant());
 		add(creationMenuZoomArriere());
@@ -25,7 +36,7 @@ public class SousMenuAffichage extends JMenu {
 
 	private JMenuItem creationMenuZoomAvant() {
 		String nom = "Zoom avant";
-		JMenuItem zoomAvant = new JMenuItem(nom);
+		zoomAvant = new JMenuItem(nom);
 		zoomAvant.setName(nom);
 		zoomAvant.setEnabled(false);
 		zoomAvant.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
@@ -33,7 +44,7 @@ public class SousMenuAffichage extends JMenu {
 		zoomAvant.setActionCommand("Zoom avant");
 		zoomAvant.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				getJFrame(zoomAvant).getPanelImage().zoom();
 			}
 		});
 		return zoomAvant;
@@ -41,7 +52,7 @@ public class SousMenuAffichage extends JMenu {
 
 	private JMenuItem creationMenuZoomArriere() {
 		String nom = "Zoom arrière";
-		JMenuItem zoomArriere = new JMenuItem(nom);
+		zoomArriere = new JMenuItem(nom);
 		zoomArriere.setName(nom);
 		zoomArriere.setEnabled(false);
 		zoomArriere.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
@@ -49,7 +60,7 @@ public class SousMenuAffichage extends JMenu {
 		zoomArriere.setActionCommand("Zoom arrière");
 		zoomArriere.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				getJFrame(zoomArriere).getPanelImage().dezoom();
 			}
 		});
 		return zoomArriere;
@@ -57,7 +68,7 @@ public class SousMenuAffichage extends JMenu {
 
 	private JMenuItem creationMenuAjuster() {
 		String nom = "Ajuster à la fenêtre";
-		JMenuItem ajuster = new JMenuItem(nom);
+		ajuster = new JMenuItem(nom);
 		ajuster.setName(nom);
 		ajuster.setEnabled(false);
 		ajuster.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
@@ -65,7 +76,7 @@ public class SousMenuAffichage extends JMenu {
 		ajuster.setActionCommand("Ajuster à la fenêtre");
 		ajuster.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				getJFrame(zoomArriere).getPanelImage().ajuster();
 			}
 		});
 		return ajuster;
@@ -73,7 +84,7 @@ public class SousMenuAffichage extends JMenu {
 
 	private JMenuItem creationMenuTailleReelle() {
 		String nom = "Taille réelle";
-		JMenuItem tailleReelle = new JMenuItem(nom);
+		tailleReelle = new JMenuItem(nom);
 		tailleReelle.setName(nom);
 		tailleReelle.setEnabled(false);
 		tailleReelle.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
@@ -81,9 +92,29 @@ public class SousMenuAffichage extends JMenu {
 		tailleReelle.setActionCommand("Taille réelle");
 		tailleReelle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				getJFrame(zoomArriere).getPanelImage().tailleReelle();
 			}
 		});
 		return tailleReelle;
+	}
+
+	private Fenetre getJFrame(Component e) throws ClassCastException {
+		if (e instanceof JMenuItem) {
+			while (null != e && !(e instanceof JFrame))
+				if (e instanceof JPopupMenu)
+					e = ((JPopupMenu) e).getInvoker();
+				else
+					e = ((JComponent) e).getParent();
+		} else {
+			e = SwingUtilities.getWindowAncestor(e);
+		}
+		return (Fenetre) e;
+	}
+
+	public void miseAJour(Modelisation modelisation) {
+		zoomAvant.setEnabled(modelisation.getImage() != null);
+		zoomArriere.setEnabled(modelisation.getImage() != null);
+		ajuster.setEnabled(modelisation.getImage() != null);
+		tailleReelle.setEnabled(modelisation.getImage() != null);
 	}
 }

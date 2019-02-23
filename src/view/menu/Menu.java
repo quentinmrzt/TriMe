@@ -15,6 +15,7 @@ public class Menu extends JMenuBar implements Observer {
 
 	private SousMenuFichier sousMenuFichier;
 	private SousMenuEdition sousMenuEdition;
+	private SousMenuAffichage sousMenuAffichage;
 
 	public Menu(Modelisation modelisation, Controller controlleur) {
 		super();
@@ -25,10 +26,11 @@ public class Menu extends JMenuBar implements Observer {
 
 		sousMenuFichier = new SousMenuFichier(controlleur);
 		sousMenuEdition = new SousMenuEdition(modelisation, controlleur);
+		sousMenuAffichage = new SousMenuAffichage();
 
 		add(sousMenuFichier);
 		add(sousMenuEdition);
-		add(new SousMenuAffichage());
+		add(sousMenuAffichage);
 		add(new SousMenuAide());
 	}
 
@@ -37,6 +39,7 @@ public class Menu extends JMenuBar implements Observer {
 		if (obs instanceof Modelisation) {
 			Modelisation modelisation = (Modelisation) obs;
 			sousMenuFichier.miseAJour(modelisation);
+			sousMenuAffichage.miseAJour(modelisation);
 		}
 		sousMenuEdition.update(obs, obj);
 	}
