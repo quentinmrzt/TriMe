@@ -24,9 +24,8 @@ public class SousMenuFichier extends JMenu {
 
 	public SousMenuFichier(Controller controlleur) {
 		super("Fichier");
-
+		setForeground(CouleursConstantes.TEXTECOLOR);
 		this.controlleur = controlleur;
-
 		setName("Fichier");
 		add(creationMenuChoisir());
 		add(creationMenuFermer());
@@ -37,6 +36,7 @@ public class SousMenuFichier extends JMenu {
 	private JMenuItem creationMenuChoisir() {
 		String nom = "Ouvrir...";
 		JMenuItem choisir = new JMenuItem(nom);
+		choisir.setForeground(CouleursConstantes.TEXTECOLOR);
 		choisir.setName(nom);
 		choisir.setName("MenuChoisir");
 		choisir.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
@@ -67,6 +67,7 @@ public class SousMenuFichier extends JMenu {
 	private JMenuItem creationMenuFermer() {
 		String nom = "Fermer";
 		fermer = new JMenuItem(nom);
+		fermer.setForeground(CouleursConstantes.TEXTECOLOR);
 		fermer.setName(nom);
 		fermer.setEnabled(false);
 		fermer.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
@@ -86,6 +87,7 @@ public class SousMenuFichier extends JMenu {
 	private JMenuItem creationMenuSauvegarder() {
 		String nom = "Sauvegarder";
 		sauvegarder = new JMenuItem("<HTML>" + nom + "</HTML>");
+		sauvegarder.setForeground(CouleursConstantes.TEXTECOLOR);
 		sauvegarder.setName(nom);
 		sauvegarder.setEnabled(false);
 		sauvegarder.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
@@ -115,6 +117,7 @@ public class SousMenuFichier extends JMenu {
 	private JMenuItem creationMenuQuitter() {
 		String nom = "Quitter";
 		JMenuItem quitter = new JMenuItem("<HTML><U>Q</U>uitter</HTML>");
+		quitter.setForeground(CouleursConstantes.TEXTECOLOR);
 		quitter.setName(nom);
 		quitter.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		quitter.setActionCommand(nom);

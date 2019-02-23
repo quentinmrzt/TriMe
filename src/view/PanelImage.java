@@ -5,58 +5,34 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 
 import model.Modelisation;
 import view.utils.CouleursConstantes;
 
-public class PanelImage extends JPanel {
-
-	//private final int COULEURGRISE = 230;
-	//private final Color COULEURFOND = new Color(COULEURGRISE, COULEURGRISE, COULEURGRISE);
+public class PanelImage extends JPanel implements Observer {
 
 	private BufferedImage image;
 	private double echelle = 1;
 
-	public PanelImage() {
+	public PanelImage(GestionPositionSouris gestionPositionSouris) {
 		super();
 		setBackground(CouleursConstantes.ZONEIMAGECOLOR);
+		addMouseMotionListener(new ControleSourisImage(this, gestionPositionSouris));
 		setName("PanelImage");
-	}
-
-	public double getEchelle() {
-		return echelle;
 	}
 
 	public BufferedImage getImage() {
 		return image;
 	}
 
-	public int getPourcentage() {
-		return (int) (echelle * 100);
-	}
-
-	public void setEchelle(double valeur) {
-		if (valeur >= 0.0001 && valeur <= 10) {
-			echelle = valeur;
-			recalculDeLaTaille();
-			repaint();
-		}
-	}
-
 	public void setImage(BufferedImage image) {
 		this.image = image;
 		recalculDeLaTaille();
 		repaint();
-	}
-
-	public void zoom() {
-		setEchelle(getEchelle()+0.1);
-	}
-
-	public void dezoom() {
-		setEchelle(getEchelle()-0.1);
 	}
 
 	private void recalculDeLaTaille() {
@@ -84,7 +60,7 @@ public class PanelImage extends JPanel {
 			int nouvelleHauteur = (int) (image.getHeight() * echelle);
 			int x = (panelLargeur - nouvelleLargeur) / 2;
 			int y = (panelHauteur - nouvelleHauteur) / 2;
-			//System.out.println(x + " / " + y);
+			// System.out.println(x + " / " + y);
 			g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
@@ -100,20 +76,13 @@ public class PanelImage extends JPanel {
 		}
 	}
 
-	public void ajuster() {
-		double valeur;
-		int diffX = Math.abs(image.getWidth() - getWidth());
-		int diffY = Math.abs(image.getHeight() - getHeight());
-		if (diffX >= diffY) {
-			valeur = (double) getParent().getHeight() / (double) image.getHeight();
-		} else {
-			valeur = (double) getParent().getWidth() / (double) image.getWidth();
+	@Override
+	public void update(Observable obs, Object obj) {
+		if (obs instanceof GestionEchelleImage) {
+			GestionEchelleImage gestionEchelleImage = (GestionEchelleImage) obs;
+			echelle = gestionEchelleImage.getEchelle();
+			recalculDeLaTaille();
+			repaint();
 		}
-		System.out.println(valeur);
-		setEchelle(valeur);
-	}
-
-	public void tailleReelle() {
-		setEchelle(1);
 	}
 }

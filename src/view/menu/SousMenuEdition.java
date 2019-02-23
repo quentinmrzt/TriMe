@@ -27,9 +27,8 @@ public class SousMenuEdition extends JMenu implements Observer {
 
 	public SousMenuEdition(Modelisation modelisation, Controller controller) {
 		super("Edition");
-
+		setForeground(CouleursConstantes.TEXTECOLOR);
 		this.controlleur = controller;
-
 		setName("Edition");
 		add(creationMenuAnnuler());
 		add(creationMenuRetablir());
@@ -40,6 +39,7 @@ public class SousMenuEdition extends JMenu implements Observer {
 	private JMenuItem creationMenuAnnuler() {
 		String nom = "Annuler";
 		annuler = new JMenuItem(nom);
+		annuler.setForeground(CouleursConstantes.TEXTECOLOR);
 		annuler.setName(nom);
 		annuler.setEnabled(false);
 		annuler.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
@@ -56,6 +56,7 @@ public class SousMenuEdition extends JMenu implements Observer {
 	private JMenuItem creationMenuRetablir() {
 		String nom = "Rétablir";
 		retablir = new JMenuItem(nom);
+		retablir.setForeground(CouleursConstantes.TEXTECOLOR);
 		retablir.setName(nom);
 		retablir.setEnabled(false);
 		retablir.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
@@ -72,6 +73,7 @@ public class SousMenuEdition extends JMenu implements Observer {
 	private JMenuItem creationMenuSuppresion(Modelisation modelisation) {
 		String nom = "Supprimer pixel(s)";
 		suppression = new JMenuItem(nom);
+		suppression.setForeground(CouleursConstantes.TEXTECOLOR);
 		suppression.setName(nom);
 		suppression.setEnabled(false);
 		suppression.setBackground(CouleursConstantes.BACKGROUNDCOLOR);

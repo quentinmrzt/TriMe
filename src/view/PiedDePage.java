@@ -9,20 +9,27 @@ import javax.swing.JPanel;
 import model.Modelisation;
 import view.utils.CouleursConstantes;
 
-public class PanelInformations extends JPanel {
+public class PiedDePage extends JPanel {
 
-	private JLabel chemin, dimension;
+	private JLabel chemin;
+	private InformationsImage informations;
 
-	public PanelInformations() {
+	public PiedDePage() {
 		super();
 		build();
 		setName("PanelInformations");
 
 		chemin = new JLabel("Chemin: ...");
-		dimension = new JLabel("");
+		chemin.setForeground(CouleursConstantes.TEXTECOLOR);
+
+		informations = new InformationsImage();
 
 		add(chemin, contrainte(0));
-		add(dimension, contrainte(1));
+		add(informations, contrainte(1));
+	}
+
+	public InformationsImage getInformationsImage() {
+		return informations;
 	}
 
 	private void build() {
@@ -46,10 +53,9 @@ public class PanelInformations extends JPanel {
 	public void miseAJour(Modelisation modelisation) {
 		if (modelisation.getImage() != null) {
 			chemin.setText("Chemin: " + modelisation.getImage().getChemin());
-			dimension.setText(modelisation.getImage().getHauteur() + "x" + modelisation.getImage().getLargeur());
 		} else {
 			chemin.setText("Chemin: ...");
-			dimension.setText("");
 		}
+		informations.miseAJour(modelisation);
 	}
 }

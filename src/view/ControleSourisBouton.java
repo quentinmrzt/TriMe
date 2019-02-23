@@ -27,7 +27,7 @@ public class ControleSourisBouton implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		if(bouton.isEnabled()) {
+		if (bouton.isEnabled()) {
 			bouton.setBorder(new LineBorder(COULEURBORDURESELECTION, 1, true));
 			bouton.setBackground(COULEURFONDSELECTION);
 		}

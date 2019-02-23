@@ -10,16 +10,16 @@ public class ScrollImage extends JScrollPane {
 
 	private PanelImage nouveauPanelImage;
 
-	public ScrollImage() {
+	public ScrollImage(GestionEchelleImage gestionEchelleImage, GestionPositionSouris gestionPositionSouris) {
 		super();
 		build();
 		setName("ScrollImage");
-		nouveauPanelImage = new PanelImage();
+		nouveauPanelImage = new PanelImage(gestionPositionSouris);
 		setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		getVerticalScrollBar().setUnitIncrement(15);
 		getHorizontalScrollBar().setUnitIncrement(15);
-		addMouseWheelListener(new ControlSourisImage(nouveauPanelImage));
+		addMouseWheelListener(new ControleRouletteSourisImage(gestionEchelleImage));
 		setViewportView(nouveauPanelImage);
 	}
 

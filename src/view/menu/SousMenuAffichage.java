@@ -1,42 +1,37 @@
 package view.menu;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
 
 import model.Modelisation;
-import view.Fenetre;
+import view.GestionEchelleImage;
 import view.utils.CouleursConstantes;
 
 public class SousMenuAffichage extends JMenu {
 
 	JMenuItem zoomAvant, zoomArriere, ajuster, tailleReelle;
 
-	public SousMenuAffichage() {
+	public SousMenuAffichage(GestionEchelleImage gestionEchelleImage) {
 		super("Affichage");
-
+		setForeground(CouleursConstantes.TEXTECOLOR);
 		zoomAvant = null;
 		zoomArriere = null;
 
 		setName("Affichage");
-		add(creationMenuZoomAvant());
-		add(creationMenuZoomArriere());
-		add(creationMenuAjuster());
-		add(creationMenuTailleReelle());
+		add(creationMenuZoomAvant(gestionEchelleImage));
+		add(creationMenuZoomArriere(gestionEchelleImage));
+		add(creationMenuAjuster(gestionEchelleImage));
+		add(creationMenuTailleReelle(gestionEchelleImage));
 	}
 
-
-	private JMenuItem creationMenuZoomAvant() {
+	private JMenuItem creationMenuZoomAvant(GestionEchelleImage gestionEchelleImage) {
 		String nom = "Zoom avant";
 		zoomAvant = new JMenuItem(nom);
+		zoomAvant.setForeground(CouleursConstantes.TEXTECOLOR);
 		zoomAvant.setName(nom);
 		zoomAvant.setEnabled(false);
 		zoomAvant.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
@@ -44,15 +39,16 @@ public class SousMenuAffichage extends JMenu {
 		zoomAvant.setActionCommand("Zoom avant");
 		zoomAvant.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getJFrame(zoomAvant).getPanelImage().zoom();
+				gestionEchelleImage.zoom();
 			}
 		});
 		return zoomAvant;
 	}
 
-	private JMenuItem creationMenuZoomArriere() {
+	private JMenuItem creationMenuZoomArriere(GestionEchelleImage gestionEchelleImage) {
 		String nom = "Zoom arrière";
 		zoomArriere = new JMenuItem(nom);
+		zoomArriere.setForeground(CouleursConstantes.TEXTECOLOR);
 		zoomArriere.setName(nom);
 		zoomArriere.setEnabled(false);
 		zoomArriere.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
@@ -60,15 +56,16 @@ public class SousMenuAffichage extends JMenu {
 		zoomArriere.setActionCommand("Zoom arrière");
 		zoomArriere.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getJFrame(zoomArriere).getPanelImage().dezoom();
+				gestionEchelleImage.dezoom();
 			}
 		});
 		return zoomArriere;
 	}
 
-	private JMenuItem creationMenuAjuster() {
+	private JMenuItem creationMenuAjuster(GestionEchelleImage gestionEchelleImage) {
 		String nom = "Ajuster à la fenêtre";
 		ajuster = new JMenuItem(nom);
+		ajuster.setForeground(CouleursConstantes.TEXTECOLOR);
 		ajuster.setName(nom);
 		ajuster.setEnabled(false);
 		ajuster.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
@@ -76,15 +73,16 @@ public class SousMenuAffichage extends JMenu {
 		ajuster.setActionCommand("Ajuster à la fenêtre");
 		ajuster.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getJFrame(zoomArriere).getPanelImage().ajuster();
+				//gestionEchelleImage.ajuster();
 			}
 		});
 		return ajuster;
 	}
 
-	private JMenuItem creationMenuTailleReelle() {
+	private JMenuItem creationMenuTailleReelle(GestionEchelleImage gestionEchelleImage) {
 		String nom = "Taille réelle";
 		tailleReelle = new JMenuItem(nom);
+		tailleReelle.setForeground(CouleursConstantes.TEXTECOLOR);
 		tailleReelle.setName(nom);
 		tailleReelle.setEnabled(false);
 		tailleReelle.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
@@ -92,29 +90,15 @@ public class SousMenuAffichage extends JMenu {
 		tailleReelle.setActionCommand("Taille réelle");
 		tailleReelle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getJFrame(zoomArriere).getPanelImage().tailleReelle();
+				gestionEchelleImage.tailleReelle();
 			}
 		});
 		return tailleReelle;
 	}
 
-	private Fenetre getJFrame(Component e) throws ClassCastException {
-		if (e instanceof JMenuItem) {
-			while (null != e && !(e instanceof JFrame))
-				if (e instanceof JPopupMenu)
-					e = ((JPopupMenu) e).getInvoker();
-				else
-					e = ((JComponent) e).getParent();
-		} else {
-			e = SwingUtilities.getWindowAncestor(e);
-		}
-		return (Fenetre) e;
-	}
-
 	public void miseAJour(Modelisation modelisation) {
 		zoomAvant.setEnabled(modelisation.getImage() != null);
 		zoomArriere.setEnabled(modelisation.getImage() != null);
-		ajuster.setEnabled(modelisation.getImage() != null);
 		tailleReelle.setEnabled(modelisation.getImage() != null);
 	}
 }

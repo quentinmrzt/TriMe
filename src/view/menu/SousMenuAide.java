@@ -15,13 +15,14 @@ public class SousMenuAide extends JMenu {
 
 	public SousMenuAide() {
 		super("Aide");
-
+		setForeground(CouleursConstantes.TEXTECOLOR);
 		add(creationMenuGithub());
 	}
 
 	private JMenuItem creationMenuGithub() {
 		String nom = "Lien vers GitHub";
 		JMenuItem github = new JMenuItem(nom);
+		github.setForeground(CouleursConstantes.TEXTECOLOR);
 		github.setName(nom);
 		github.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		github.setIcon(new ImageIcon(getClass().getResource("github-logo.png")));

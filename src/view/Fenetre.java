@@ -23,32 +23,61 @@ public class Fenetre extends JFrame implements Observer {
 
 	private Menu menu;
 	private ScrollImage scrollImage;
-	private PanelInformations zoneInformations;
+	private PiedDePage piedDePage;
 	private BarreActions barreActions;
+
+	public GestionEchelleImage gestionEchelleImage;
+	public GestionPositionSouris gestionPositionSouris;
 
 	public Fenetre(Modelisation modelisation, Controller controller) {
 		super();
-		setName(NOMAPPLICATION);
-		menu = new Menu(modelisation, controller);
-		setJMenuBar(menu);
 		build();
-		setContentPane(buildContentPane(controller));
+
+		gestionEchelleImage = new GestionEchelleImage();
+		gestionPositionSouris = new GestionPositionSouris();
+
+		creationMenu(modelisation, controller);
+		creationContenu(controller);
+
+		gestionEchelleImage.addObserver(scrollImage.getPanelImage());
+		gestionEchelleImage.addObserver(piedDePage.getInformationsImage());
+		gestionPositionSouris.addObserver(piedDePage.getInformationsImage());
+
 		addKeyListener(new ControleClavier(scrollImage));
 		setVisible(true);
 	}
-	
+
 	public PanelImage getPanelImage() {
 		return scrollImage.getPanelImage();
 	}
 
 	private void build() {
 		setTitle(NOMAPPLICATION);
+		setName(NOMAPPLICATION);
+		setBackground(CouleursConstantes.BACKGROUNDCOLOR);
 		setMinimumSize(new Dimension(500, 300));
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setIconImage(new ImageIcon(getClass().getResource("icon.png")).getImage()); // https://www.flaticon.com/
 		setLocationRelativeTo(null);
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+	private void creationMenu(Modelisation modelisation, Controller controller) {
+		menu = new Menu(modelisation, controller, gestionEchelleImage);
+		setJMenuBar(menu);
+	}
+
+	private void creationContenu(Controller controller) {
+		JPanel panel = new JPanel(new GridBagLayout());
+		panel.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
+		barreActions = new BarreActions(controller);
+		scrollImage = new ScrollImage(gestionEchelleImage, gestionPositionSouris);
+		piedDePage = new PiedDePage();
+		panel.add(barreActions, contrainteBarre());
+		panel.add(scrollImage, contrainteImage());
+		panel.add(piedDePage, contrainteInformations());
+		setContentPane(panel);
 	}
 
 	private GridBagConstraints contrainteBarre() {
@@ -91,22 +120,6 @@ public class Fenetre extends JFrame implements Observer {
 		return contrainte;
 	}
 
-	private JPanel buildContentPane(Controller controller) {
-		JPanel panel = new JPanel(new GridBagLayout());
-		panel.setBackground(CouleursConstantes.BACKGROUNDCOLOR);
-
-		barreActions = new BarreActions(controller);
-		panel.add(barreActions, contrainteBarre());
-
-		scrollImage = new ScrollImage();
-		panel.add(scrollImage, contrainteImage());
-
-		zoneInformations = new PanelInformations();
-		panel.add(zoneInformations, contrainteInformations());
-
-		return panel;
-	}
-
 	private void miseAJour(Modelisation modelisation) {
 		Image image = modelisation.getImage();
 		if (image != null) {
@@ -122,11 +135,13 @@ public class Fenetre extends JFrame implements Observer {
 		if (obs instanceof Modelisation) {
 			Modelisation modelisation = (Modelisation) obs;
 			miseAJour(modelisation);
-			zoneInformations.miseAJour(modelisation);
+			piedDePage.miseAJour(modelisation);
 			scrollImage.miseAJour(modelisation);
 			barreActions.miseAJour(modelisation);
+			if (obj.equals("chargerImage")) {
+				gestionEchelleImage.tailleReelle();
+			}
 		}
-
 		menu.update(obs, obj);
 	}
 }
